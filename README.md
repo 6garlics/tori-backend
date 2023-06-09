@@ -10,7 +10,7 @@
 3. Username, Full name, Email, Password를 입력하여 계정을 생성합니다.
 4. Dashboard 화면에서 'sbbboard' 프로젝트를 클릭합니다.
 5. 왼쪽 사이드메뉴에서 '지금 빌드'를 클릭합니다.
-6. github Clone, build, deploy가 차례로 이루어집니다.
+6. github Clone, build, deploy가 차례로 이루어집니다.(약 40초 소요)
 7. [프로젝트를 배포한 IP 주소](http://43.201.184.127/)를 클릭합니다.
 8. 잘 배포된 것을 확인할 수 있습니다.  
   
