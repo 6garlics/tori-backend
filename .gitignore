@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### AWS ###
-application.yml
+/src/main/resources/application.yml
