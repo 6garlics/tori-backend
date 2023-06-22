@@ -2,7 +2,10 @@ package com.site.bemystory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller
 public class MemberController {
@@ -17,5 +20,11 @@ public class MemberController {
         member.setName(form.getName());
         memberService.join(member);
         return member;
+    }
+
+    @GetMapping(value = "/members")
+    public List<Member> list(){
+        List<Member> members = memberService.findMembers();
+        return members;
     }
 }
