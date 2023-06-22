@@ -12,10 +12,10 @@ public class MemberController {
         this.memberService = memberService;
     }
     @PostMapping(value = "/members/new")
-    public String create(MemberForm form) {
+    public Member create(MemberForm form) {
         Member member = new Member();
         member.setName(form.getName());
         memberService.join(member);
-        return "redirect:/";
+        return member;
     }
 }
