@@ -26,9 +26,8 @@ public class DiaryController {
      * return을 뭘로 해야할까? 일단 StoryBook으로 함
      *
      */
-    @ResponseBody   //json 형식으로 response 보낸다
     @PostMapping("/diary-form")
-    public Diary create(@RequestBody DiaryForm diaryForm){
+    public String create(@RequestBody DiaryForm diaryForm){
         //DB 저장
         System.out.println(diaryForm.getSubject());
         Diary diary = new Diary();
@@ -37,7 +36,7 @@ public class DiaryController {
         diary.setContents(diaryForm.getContents());
         diary.setStory_type(diaryForm.getStoryType());
         diaryService.save(diary);
-        return diary;
+        return "redirect:/diary-to-story?id="+diary.getId();
         /*
         //fastapi로 넘기기
         StoryBook storyBook = diaryService.passToAI(diary);

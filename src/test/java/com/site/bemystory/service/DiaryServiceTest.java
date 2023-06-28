@@ -2,8 +2,11 @@ package com.site.bemystory.service;
 
 import com.site.bemystory.domain.Diary;
 import com.site.bemystory.repository.MemoryDiaryRepository;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -16,9 +19,23 @@ import static org.junit.jupiter.api.Assertions.*;
 class DiaryServiceTest {
     DiaryService diaryService;
     MemoryDiaryRepository diaryRepository;
+    WebClient webClient;
+
+    @BeforeEach
+    public void beforeEach(){
+        diaryRepository=new MemoryDiaryRepository();
+        webClient = WebClient.builder().baseUrl("https://nkk4y3gpizy3q2h25fiae7e4ma0fezqg.lambda-url.eu-north-1.on.aws").build();
+        diaryService = new DiaryService(diaryRepository);
+    }
+
+    @AfterEach
+    public void afterEach(){
+        diaryRepository.clearStore();
+    }
 
     @Test
     void save() {
+
     }
 
     @Test
@@ -43,7 +60,7 @@ class DiaryServiceTest {
 
         diaryService.save(diary);
         //when
-        diaryService.passToAI(diary);
+        //diaryService.passToAI(diary);
         //then
     }
 }

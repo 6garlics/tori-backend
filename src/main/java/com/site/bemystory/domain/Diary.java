@@ -1,5 +1,7 @@
 package com.site.bemystory.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDate;
 
 public class Diary {
@@ -11,6 +13,7 @@ public class Diary {
 
     private String story_type;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     public LocalDate getDate() {

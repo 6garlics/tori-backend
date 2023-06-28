@@ -16,11 +16,9 @@ import java.util.Optional;
 @Service
 public class DiaryService {
     private final MemoryDiaryRepository diaryRepository;
-    private final WebClient webClient;
 
-    public DiaryService(MemoryDiaryRepository diaryRepository, WebClient webClient) {
+    public DiaryService(MemoryDiaryRepository diaryRepository) {
         this.diaryRepository = diaryRepository;
-        this.webClient = webClient;
     }
 
     /**
@@ -44,19 +42,5 @@ public class DiaryService {
     public List<Diary> findDiaries(){
         return diaryRepository.findAll();
     }
-
-    /**
-     * 일기를 chatGPT에게 넘겨주고 StoryBook 받아옴
-     */
-    public StoryBook passToAI(Diary diary){
-        // request api
-        return webClient.post()
-                .uri("/storybook")
-                .bodyValue(diary)
-                .retrieve()
-                .bodyToMono(StoryBook.class)
-                .block();
-    }
-
 
 }

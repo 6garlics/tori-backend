@@ -1,17 +1,17 @@
 package com.site.bemystory.domain;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class StoryBook {
     private Long id;
     private String subject;
     private List<String> paragraphs;
-    private List<String> img_urls;
+    private List<String> image_urls;
 
     private String story_type;
 
-    private Date date;
+    private LocalDate date;
 
     public String getStory_type() {
         return story_type;
@@ -21,11 +21,11 @@ public class StoryBook {
         this.story_type = story_type;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -53,11 +53,11 @@ public class StoryBook {
         this.paragraphs = paragraphs;
     }
 
-    public List<String> getImg_urls() {
-        return img_urls;
+    public List<String> getImage_urls() {
+        return image_urls;
     }
 
-    public void setImg_urls(List<String> img_urls) {
-        this.img_urls = img_urls;
+    public void setImage_urls(List<String> image_urls) {
+        this.image_urls = image_urls;
     }
 }
