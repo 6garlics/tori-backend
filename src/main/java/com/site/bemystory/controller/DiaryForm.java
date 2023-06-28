@@ -2,7 +2,7 @@ package com.site.bemystory.controller;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class DiaryForm {
     private String subject;
@@ -12,7 +12,7 @@ public class DiaryForm {
     private String storyType;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date date;
+    private LocalDate date;
 
     public String getSubject() {
         return subject;
@@ -38,11 +38,11 @@ public class DiaryForm {
         this.storyType = storyType;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 }

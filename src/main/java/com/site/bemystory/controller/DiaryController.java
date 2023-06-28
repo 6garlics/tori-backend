@@ -1,6 +1,7 @@
 package com.site.bemystory.controller;
 
 import com.site.bemystory.domain.Diary;
+import com.site.bemystory.domain.StoryBook;
 import com.site.bemystory.service.DiaryService;
 import com.site.bemystory.service.StoryBookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class DiaryController {
      * return을 뭘로 해야할까? 일단 StoryBook으로 함
      *
      */
-    @ResponseBody
+    @ResponseBody   //json 형식으로 response 보낸다
     @PostMapping("/diary-form")
     public Diary create(@RequestBody DiaryForm diaryForm){
         //DB 저장
@@ -36,14 +37,16 @@ public class DiaryController {
         diary.setContents(diaryForm.getContents());
         diary.setStory_type(diaryForm.getStoryType());
         diaryService.save(diary);
+        return diary;
         /*
         //fastapi로 넘기기
         StoryBook storyBook = diaryService.passToAI(diary);
         //동화책 저장
         storyBookService.saveBook(storyBook);
         return storyBook;
-        */
-        return diary;
+
+
+         */
 
     }
 }

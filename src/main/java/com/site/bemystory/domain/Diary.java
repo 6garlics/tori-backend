@@ -1,7 +1,6 @@
 package com.site.bemystory.domain;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Diary {
     private Long id;
@@ -12,13 +11,13 @@ public class Diary {
 
     private String story_type;
 
-    private Date date;
+    private LocalDate date;
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
