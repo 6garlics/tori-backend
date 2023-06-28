@@ -1,23 +1,20 @@
 package com.site.bemystory.service;
 
 import com.site.bemystory.domain.Diary;
-import com.site.bemystory.domain.StoryBook;
-import com.site.bemystory.repository.MemoryDiaryRepository;
+import com.site.bemystory.repository.JpaDiaryRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.io.InputStream;
+
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-
+@Transactional
 @Service
 public class DiaryService {
-    private final MemoryDiaryRepository diaryRepository;
+    private final JpaDiaryRepository diaryRepository;
 
-    public DiaryService(MemoryDiaryRepository diaryRepository) {
+    public DiaryService(JpaDiaryRepository diaryRepository) {
         this.diaryRepository = diaryRepository;
     }
 

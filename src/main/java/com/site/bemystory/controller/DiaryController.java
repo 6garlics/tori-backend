@@ -36,16 +36,9 @@ public class DiaryController {
         diary.setContents(diaryForm.getContents());
         diary.setStory_type(diaryForm.getStoryType());
         diaryService.save(diary);
-        return "redirect:/diary-to-story?id="+diary.getId();
-        /*
-        //fastapi로 넘기기
-        StoryBook storyBook = diaryService.passToAI(diary);
-        //동화책 저장
-        storyBookService.saveBook(storyBook);
-        return storyBook;
+        return "wow";
+        //return "redirect:/diary-to-story?id="+diary.getId();
 
-
-         */
 
     }
 }

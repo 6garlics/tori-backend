@@ -1,10 +1,13 @@
 package com.site.bemystory.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
+@Entity
 public class Diary {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String subject;
