@@ -31,6 +31,9 @@ public class StoryBookController {
         this.storyBookRepository = storyBookRepository;
     }
 
+    /**
+     * 동화 생성
+     */
     @ResponseBody
     @GetMapping ("/diary-to-story")
     public StoryBook writeStory(@RequestParam("id") Long id){
