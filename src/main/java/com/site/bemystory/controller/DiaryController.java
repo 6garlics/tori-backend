@@ -26,7 +26,7 @@ public class DiaryController {
      * return을 뭘로 해야할까? 일단 StoryBook으로 함
      *
      */
-    @PostMapping("/diary-form")
+    @PostMapping("/books")
     public String create(@RequestBody DiaryForm diaryForm){
         //DB 저장
         System.out.println(diaryForm.getSubject());
@@ -36,8 +36,7 @@ public class DiaryController {
         diary.setContents(diaryForm.getContents());
         diary.setStory_type(diaryForm.getStoryType());
         diaryService.save(diary);
-        return "wow";
-        //return "redirect:/diary-to-story?id="+diary.getId();
+        return "redirect:/diary-to-story?id="+diary.getId();
 
 
     }

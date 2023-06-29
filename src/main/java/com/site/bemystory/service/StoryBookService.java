@@ -3,9 +3,11 @@ package com.site.bemystory.service;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.site.bemystory.domain.Diary;
 import com.site.bemystory.domain.StoryBook;
+import com.site.bemystory.repository.JpaStoryBookRepository;
 import com.site.bemystory.repository.MemoryStoryRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.IOException;
@@ -13,13 +15,14 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
 
+@Transactional
 @Service
 public class StoryBookService {
-    private final MemoryStoryRepository storyRepository;
+    private final JpaStoryBookRepository storyRepository;
     private final WebClient webClient;
     private final AmazonS3Client amazonS3Client;
 
-    public StoryBookService(MemoryStoryRepository storyRepository, WebClient webClient, AmazonS3Client amazonS3Client) {
+    public StoryBookService(JpaStoryBookRepository storyRepository, WebClient webClient, AmazonS3Client amazonS3Client) {
         this.storyRepository = storyRepository;
         this.webClient = webClient;
         this.amazonS3Client = amazonS3Client;

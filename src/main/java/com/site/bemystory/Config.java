@@ -1,9 +1,6 @@
 package com.site.bemystory;
 
-import com.site.bemystory.repository.DiaryRepository;
-import com.site.bemystory.repository.JpaDiaryRepository;
-import com.site.bemystory.repository.MemoryDiaryRepository;
-import com.site.bemystory.repository.MemoryStoryRepository;
+import com.site.bemystory.repository.*;
 import jakarta.persistence.EntityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,8 +24,8 @@ public class Config {
     }
 
     @Bean
-    public MemoryStoryRepository memoryStoryRepository(){
-        return new MemoryStoryRepository();
+    public JpaStoryBookRepository storyRepository(){
+        return new JpaStoryBookRepository(em);
     }
 
     @Bean
