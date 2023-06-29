@@ -11,7 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("**")
                 .allowedOrigins("https://be-my-story.vercel.app/", "http://localhost:3000")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
-                .allowCredentials(true)
+                .allowCredentials(false)
                 .maxAge(3000);
     }
 }
