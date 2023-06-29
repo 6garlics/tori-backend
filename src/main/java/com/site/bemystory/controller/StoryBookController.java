@@ -44,6 +44,7 @@ public class StoryBookController {
         return storyBookService.findOne(sbId).get();
     }
 
+    //StoryBook Jpa test
     @GetMapping("/test")
     public StoryBook store(){
         StoryBook storyBook = new StoryBook();
