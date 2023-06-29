@@ -32,7 +32,7 @@ public class StoryBookController {
     }
 
     /**
-     * 동화 생성
+     * 동화 생성 - fastapi
      */
     @ResponseBody
     @GetMapping ("/diary-to-story")
