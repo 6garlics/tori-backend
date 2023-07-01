@@ -10,7 +10,7 @@ public class MemoryStoryRepository implements StoryBookRepository{
     private static long sequence = 0L;
     @Override
     public StoryBook save(StoryBook storyBook) {
-        storyBook.setId(++sequence);
+        storyBook.setBookId(++sequence);;
         st.put(sequence, storyBook);
         return storyBook;
     }

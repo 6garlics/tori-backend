@@ -2,6 +2,7 @@ package com.site.bemystory.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.site.bemystory.domain.Diary;
+import com.site.bemystory.domain.Page;
 import com.site.bemystory.domain.StoryBook;
 import com.site.bemystory.repository.JpaStoryBookRepository;
 import com.site.bemystory.repository.MemoryStoryRepository;
@@ -39,7 +40,7 @@ public class StoryBookService {
     public Long saveBook(StoryBook storyBook){
         this.setImages(storyBook);
         storyRepository.save(storyBook);
-        return storyBook.getId();
+        return storyBook.getBookId();
     }
 
     /**
@@ -60,7 +61,7 @@ public class StoryBookService {
      * 동화 text 수정
      */
     public void revise(StoryBook revisedBook){
-        StoryBook storyBook = this.findOne(revisedBook.getId()).get();
+        StoryBook storyBook = this.findOne(revisedBook.getBookId()).get();
 
     }
 
@@ -106,7 +107,7 @@ public class StoryBookService {
      */
     public void setImages(StoryBook storyBook){
         String subject = storyBook.getSubject();
-        List<String> img = storyBook.getImage_urls();
+        List<String> img = storyBook.getPages().stream().map(Page::getImg_url).toList();
         int seq = 0;
         for(String tmp_url : img){
             // 이미지 url s3로 바꿈

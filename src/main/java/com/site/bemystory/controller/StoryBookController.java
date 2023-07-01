@@ -1,6 +1,7 @@
 package com.site.bemystory.controller;
 
 import com.site.bemystory.domain.Diary;
+import com.site.bemystory.domain.Page;
 import com.site.bemystory.domain.StoryBook;
 import com.site.bemystory.repository.JpaStoryBookRepository;
 import com.site.bemystory.service.DiaryService;
@@ -48,20 +49,22 @@ public class StoryBookController {
     }
 
     //StoryBook Jpa test
+    @ResponseBody
     @GetMapping("/test")
     public StoryBook store(){
         StoryBook storyBook = new StoryBook();
         storyBook.setSubject("spring");
-        List<String> para = new ArrayList<>();
-        para.add("abc");
-        para.add("def");
-        List<String> urls = new ArrayList<>();
-        urls.add("naver.com");
-        urls.add("daum.com");
-        storyBook.setParagraphs(para);
+        List<Page> pages = new ArrayList<>();
+        Page p0=new Page();
+        p0.setPageId(123L);
+        p0.setNumber(0);
+        p0.setText("그 아이는 행복했답니다.");
+        p0.setImg_url("naver.com");
+        pages.add(p0);
+        storyBook.setPages(pages);
         storyBook.setDate(LocalDate.now());
         storyBook.setStory_type("framework");
-        storyBook.setImage_urls(urls);
+
         storyBookRepository.save(storyBook);
         return storyBook;
     }
