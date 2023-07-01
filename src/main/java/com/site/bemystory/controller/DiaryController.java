@@ -36,7 +36,7 @@ public class DiaryController {
         diary.setContents(diaryForm.getContents());
         diary.setStory_type(diaryForm.getStoryType());
         diaryService.save(diary);
-        return "redirect:/diary-to-story?id="+diary.getId();
+        return "redirect:/story?id="+diary.getId();
 
 
     }

@@ -35,7 +35,7 @@ public class StoryBookController {
      * 동화 생성 - fastapi
      */
     @ResponseBody
-    @GetMapping ("/diary-to-story")
+    @GetMapping ("/story")
     public StoryBook writeStory(@RequestParam("id") Long id){
         Diary diary = diaryService.findOne(id).get();
         StoryBook storyBook = storyBookService.passToAI(diary);
@@ -44,10 +44,11 @@ public class StoryBookController {
         storyBook.setSubject(diary.getSubject());
         storyBook.setDate(diary.getDate());
         Long sbId = storyBookService.saveBook(storyBook);
-        return storyBookService.findOne(sbId).get();
+        return storyBook;
     }
 
     //StoryBook Jpa test
+    @ResponseBody
     @GetMapping("/test")
     public StoryBook store(){
         StoryBook storyBook = new StoryBook();
