@@ -7,9 +7,13 @@ import jakarta.persistence.*;
 public class Page {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pageId;
-    private int number; //동화책 내에서 페이지 번호
+    private int index; //동화책 내에서 페이지 번호
     private String img_url;
     private String text;
+
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    private StoryBook storyBook;
 
     public Long getPageId() {
         return pageId;
@@ -19,12 +23,12 @@ public class Page {
         this.pageId = pageId;
     }
 
-    public int getNumber() {
-        return number;
+    public int getIndex() {
+        return index;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public String getImg_url() {
@@ -41,5 +45,13 @@ public class Page {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public StoryBook getStoryBook() {
+        return storyBook;
+    }
+
+    public void setStoryBook(StoryBook storyBook) {
+        this.storyBook = storyBook;
     }
 }

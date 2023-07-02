@@ -12,8 +12,7 @@ public class StoryBook {
     private Long bookId;
     private String subject;
 
-    @ElementCollection
-    @CollectionTable(name = "pages", joinColumns = @JoinColumn(name = "bookId"))
+    @OneToMany(mappedBy = "storyBook", fetch = FetchType.LAZY)
     private List<Page> pages = new ArrayList<>();
     /*private List<String> paragraphs;
     private List<String> image_urls;*/
@@ -38,14 +37,6 @@ public class StoryBook {
         this.subject = subject;
     }
 
-    public List<Page> getPages() {
-        return pages;
-    }
-
-    public void setPages(List<Page> pages) {
-        this.pages = pages;
-    }
-
     public String getStory_type() {
         return story_type;
     }
@@ -60,5 +51,17 @@ public class StoryBook {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public List<Page> getPages() {
+        return pages;
+    }
+
+    public void setPages(List<Page> pages) {
+        this.pages = pages;
+    }
+
+    public void addPage(Page page){
+        this.pages.add(page);
     }
 }

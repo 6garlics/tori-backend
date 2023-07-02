@@ -1,11 +1,11 @@
 package com.site.bemystory.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.site.bemystory.domain.BookForm;
 import com.site.bemystory.domain.Diary;
 import com.site.bemystory.domain.Page;
 import com.site.bemystory.domain.StoryBook;
 import com.site.bemystory.repository.JpaStoryBookRepository;
-import com.site.bemystory.repository.MemoryStoryRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,16 +68,31 @@ public class StoryBookService {
     /**
      * 일기를 chatGPT에게 넘겨주고 StoryBook 받아옴
      */
-    public StoryBook passToAI(Diary diary){
+    public BookForm passToAI(Diary diary){
         // request api
         return webClient.post()
                 .uri("/storybook")
                 .bodyValue(diary)
                 .retrieve()
-                .bodyToMono(StoryBook.class)
+                .bodyToMono(BookForm.class)
                 .block();
     }
 
+    /**
+     * BookForm->StoryBook 만들 때, page 생성
+     */
+    public void makePages(BookForm bookForm, StoryBook storyBook){
+        int index = bookForm.getContents().size();
+        for(int i=0 ; i<index ; i++){
+            Page p = new Page();
+            p.setIndex(i);
+            p.setText(bookForm.getContents().get(i));
+            p.setImg_url(bookForm.getImg_urls().get(i));
+            p.setStoryBook(storyBook);
+            storyRepository.savePage(p);
+            storyBook.addPage(p);
+        }
+    }
 
     /**
      * fastapi에게 받은 이미지 url S3에 업로드

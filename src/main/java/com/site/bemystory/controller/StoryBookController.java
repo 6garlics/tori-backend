@@ -1,5 +1,6 @@
 package com.site.bemystory.controller;
 
+import com.site.bemystory.domain.BookForm;
 import com.site.bemystory.domain.Diary;
 import com.site.bemystory.domain.Page;
 import com.site.bemystory.domain.StoryBook;
@@ -38,34 +39,18 @@ public class StoryBookController {
     @ResponseBody
     @GetMapping ("/diary-to-story")
     public StoryBook writeStory(@RequestParam("id") Long id){
+        //diary id로 동화로 바꾸려는 일기 조회
         Diary diary = diaryService.findOne(id).get();
-        StoryBook storyBook = storyBookService.passToAI(diary);
-        storyBook.setStory_type(diary.getStory_type());
-        // Todo: chat GPT가 제목도 넘겨주면 이 코드 없애도 됨
-        storyBook.setSubject(diary.getSubject());
-        storyBook.setDate(diary.getDate());
+        //fastapi로 보내서 BookForm 받아옴
+        BookForm bookForm = storyBookService.passToAI(diary);
+        //동화책 만들기
+        StoryBook storyBook = new StoryBook();
+        storyBook.setStory_type(bookForm.getStory_type());
+        storyBook.setSubject(bookForm.getSubject());
+        storyBook.setDate(bookForm.getDate());
         Long sbId = storyBookService.saveBook(storyBook);
+        storyBookService.makePages(bookForm, storyBook);
         return storyBookService.findOne(sbId).get();
     }
 
-    //StoryBook Jpa test
-    @ResponseBody
-    @GetMapping("/test")
-    public StoryBook store(){
-        StoryBook storyBook = new StoryBook();
-        storyBook.setSubject("spring");
-        List<Page> pages = new ArrayList<>();
-        Page p0=new Page();
-        p0.setPageId(123L);
-        p0.setNumber(0);
-        p0.setText("그 아이는 행복했답니다.");
-        p0.setImg_url("naver.com");
-        pages.add(p0);
-        storyBook.setPages(pages);
-        storyBook.setDate(LocalDate.now());
-        storyBook.setStory_type("framework");
-
-        storyBookRepository.save(storyBook);
-        return storyBook;
-    }
 }
