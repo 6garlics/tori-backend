@@ -5,10 +5,12 @@ import com.site.bemystory.domain.StoryBook;
 import com.site.bemystory.service.DiaryService;
 import com.site.bemystory.service.StoryBookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
 public class DiaryController {
@@ -27,9 +29,9 @@ public class DiaryController {
      *
      */
     @PostMapping("/books")
+    @ResponseStatus(value = HttpStatus.OK)
     public String create(@RequestBody DiaryForm diaryForm){
         //DB 저장
-        System.out.println(diaryForm.getSubject());
         Diary diary = new Diary();
         diary.setDate(diaryForm.getDate());
         diary.setSubject(diaryForm.getSubject());

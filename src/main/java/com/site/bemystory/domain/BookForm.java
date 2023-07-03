@@ -1,14 +1,12 @@
 package com.site.bemystory.domain;
 
-import org.apache.catalina.LifecycleState;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 
 public class BookForm {
     private String subject;
-    private List<String> contents = new ArrayList<>();
+    private List<String> paragraphs = new ArrayList<>();
     private List<String> img_urls = new ArrayList<>();
     private String story_type;
     private LocalDate date;
@@ -22,12 +20,12 @@ public class BookForm {
         this.subject = subject;
     }
 
-    public List<String> getContents() {
-        return contents;
+    public List<String> getParagraphs() {
+        return paragraphs;
     }
 
-    public void setContents(List<String> contents) {
-        this.contents = contents;
+    public void setParagraphs(List<String> paragraphs) {
+        this.paragraphs = paragraphs;
     }
 
     public List<String> getImg_urls() {

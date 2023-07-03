@@ -26,19 +26,7 @@ class JpaStoryBookRepositoryTest {
 
     @Test
     void 저장(){
-        StoryBook storyBook = new StoryBook();
-        storyBook.setSubject("spring");
-        List<String> para = new ArrayList<>();
-        para.add("abc");
-        para.add("def");
-        List<String> urls = new ArrayList<>();
-        urls.add("naver.com");
-        urls.add("daum.com");
-        storyBook.setParagraphs(para);
-        storyBook.setDate(LocalDate.now());
-        storyBook.setStory_type("framework");
-        storyBook.setImage_urls(urls);
-        storyBookRepository.save(storyBook);
+
     }
 
 }

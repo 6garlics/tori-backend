@@ -82,11 +82,11 @@ public class StoryBookService {
      * BookForm->StoryBook 만들 때, page 생성
      */
     public void makePages(BookForm bookForm, StoryBook storyBook){
-        int index = bookForm.getContents().size();
+        int index = bookForm.getParagraphs().size();
         for(int i=0 ; i<index ; i++){
             Page p = new Page();
-            p.setIndex(i);
-            p.setText(bookForm.getContents().get(i));
+            p.setIdx(i);
+            p.setText(bookForm.getParagraphs().get(i));
             p.setImg_url(bookForm.getImg_urls().get(i));
             p.setStoryBook(storyBook);
             storyRepository.savePage(p);

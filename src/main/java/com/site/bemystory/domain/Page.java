@@ -3,11 +3,10 @@ package com.site.bemystory.domain;
 import jakarta.persistence.*;
 
 @Entity
-@Embeddable
 public class Page {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pageId;
-    private int index; //동화책 내에서 페이지 번호
+    private int idx; //동화책 내에서 페이지 번호
     private String img_url;
     private String text;
 
@@ -23,12 +22,12 @@ public class Page {
         this.pageId = pageId;
     }
 
-    public int getIndex() {
-        return index;
+    public int getIdx() {
+        return idx;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setIdx(int idx) {
+        this.idx = idx;
     }
 
     public String getImg_url() {

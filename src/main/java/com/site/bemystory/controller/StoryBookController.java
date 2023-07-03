@@ -43,6 +43,7 @@ public class StoryBookController {
         Diary diary = diaryService.findOne(id).get();
         //fastapi로 보내서 BookForm 받아옴
         BookForm bookForm = storyBookService.passToAI(diary);
+        System.out.println(bookForm.getParagraphs());
         //동화책 만들기
         StoryBook storyBook = new StoryBook();
         storyBook.setStory_type(bookForm.getStory_type());
