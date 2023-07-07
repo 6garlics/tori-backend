@@ -41,6 +41,7 @@ public class DiaryController {
     }
 
 
+    @ResponseBody
     @PostMapping("/test")
     public ResponseEntity<DiaryForm> corse(@RequestBody DiaryForm diaryForm){
         return ResponseEntity.ok(diaryForm);

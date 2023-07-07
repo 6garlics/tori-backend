@@ -19,9 +19,9 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedMethods("PUT")
                 .allowedMethods("DELETE")
                 .allowedMethods("OPTIONS")
-                .allowedHeaders("*")
+                //.allowedHeaders("*")
                 .allowedHeaders("refresh-token")
-                .allowCredentials(false)
+                .allowCredentials(true)
                 ;
     }
 }
