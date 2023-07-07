@@ -41,6 +41,7 @@ public class DiaryController {
     }
 
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/test")
     public ResponseEntity corse(@RequestBody DiaryForm diaryForm){
         return new ResponseEntity<>(HttpStatus.OK);
