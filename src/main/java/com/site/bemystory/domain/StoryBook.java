@@ -1,24 +1,44 @@
 package com.site.bemystory.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class StoryBook {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long bookId;
     private String subject;
-    private List<String> paragraphs;
-    private List<String> image_urls;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "storyBook", fetch = FetchType.LAZY)
+    private List<Page> pages = new ArrayList<>();
+    /*private List<String> paragraphs;
+    private List<String> image_urls;*/
 
     private String story_type;
 
     private LocalDate date;
+
+    public Long getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(Long bookId) {
+        this.bookId = bookId;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
     public String getStory_type() {
         return story_type;
@@ -36,35 +56,15 @@ public class StoryBook {
         this.date = date;
     }
 
-    public String getSubject() {
-        return subject;
+    public List<Page> getPages() {
+        return pages;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setPages(List<Page> pages) {
+        this.pages = pages;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public List<String> getParagraphs() {
-        return paragraphs;
-    }
-
-    public void setParagraphs(List<String> paragraphs) {
-        this.paragraphs = paragraphs;
-    }
-
-    public List<String> getImage_urls() {
-        return image_urls;
-    }
-
-    public void setImage_urls(List<String> image_urls) {
-        this.image_urls = image_urls;
+    public void addPage(Page page){
+        this.pages.add(page);
     }
 }

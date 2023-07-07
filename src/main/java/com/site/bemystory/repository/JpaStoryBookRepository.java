@@ -1,6 +1,7 @@
 package com.site.bemystory.repository;
 
 import com.site.bemystory.domain.Diary;
+import com.site.bemystory.domain.Page;
 import com.site.bemystory.domain.StoryBook;
 import jakarta.persistence.EntityManager;
 
@@ -15,10 +16,16 @@ public class JpaStoryBookRepository implements StoryBookRepository{
         this.em = em;
     }
 
+
     @Override
     public StoryBook save(StoryBook storyBook) {
         em.persist(storyBook);
         return storyBook;
+    }
+
+    public Page savePage(Page page){
+        em.persist(page);
+        return page;
     }
 
     @Override
@@ -40,4 +47,6 @@ public class JpaStoryBookRepository implements StoryBookRepository{
         return em.createQuery("select s from StoryBook s", StoryBook.class)
                 .getResultList();
     }
+
+
 }

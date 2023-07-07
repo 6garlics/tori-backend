@@ -1,5 +1,6 @@
 package com.site.bemystory;
 
+import com.amazonaws.HttpMethod;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -8,10 +9,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("**")
-                .allowedOrigins("https://be-my-story.vercel.app/", "http://localhost:3000")
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:3000")
+                .allowedOrigins("")
+                .allowedOrigins("")
+                .allowedMethods(HttpMethod.GET.name())
+                .allowedMethods(HttpMethod.POST.name())
+                .allowedMethods(HttpMethod.PUT.name())
+                .allowedMethods(HttpMethod.DELETE.name())
+                .allowedHeaders("Authorization")
+                .allowedHeaders("refresh-token")
                 .allowCredentials(false)
-                .maxAge(3000);
+                ;
     }
 }

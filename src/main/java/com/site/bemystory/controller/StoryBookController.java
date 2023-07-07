@@ -1,17 +1,19 @@
 package com.site.bemystory.controller;
 
+import com.site.bemystory.domain.BookForm;
 import com.site.bemystory.domain.Diary;
+import com.site.bemystory.domain.Page;
 import com.site.bemystory.domain.StoryBook;
 import com.site.bemystory.repository.JpaStoryBookRepository;
 import com.site.bemystory.service.DiaryService;
 import com.site.bemystory.service.StoryBookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Book;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,35 +37,36 @@ public class StoryBookController {
      * 동화 생성 - fastapi
      */
     @ResponseBody
-    @GetMapping ("/story")
+    @GetMapping ("/diary-to-story")
     public StoryBook writeStory(@RequestParam("id") Long id){
+        //diary id로 동화로 바꾸려는 일기 조회
         Diary diary = diaryService.findOne(id).get();
-        StoryBook storyBook = storyBookService.passToAI(diary);
-        storyBook.setStory_type(diary.getStory_type());
-        // Todo: chat GPT가 제목도 넘겨주면 이 코드 없애도 됨
-        storyBook.setSubject(diary.getSubject());
-        storyBook.setDate(diary.getDate());
+        //fastapi로 보내서 BookForm 받아옴
+        BookForm bookForm = storyBookService.passToAI(diary);
+        System.out.println(bookForm.getParagraphs());
+        System.out.println(bookForm.getImg_urls());
+        //동화책 만들기
+        StoryBook storyBook = new StoryBook();
+        storyBook.setStory_type(bookForm.getStory_type());
+        storyBook.setSubject(bookForm.getSubject());
+        storyBook.setDate(bookForm.getDate());
         Long sbId = storyBookService.saveBook(storyBook);
-        return storyBook;
+        storyBookService.makePages(bookForm, storyBook);
+        return storyBookService.findOne(sbId).get();
     }
 
-    //StoryBook Jpa test
     @ResponseBody
-    @GetMapping("/test")
-    public StoryBook store(){
+    @PostMapping("diary-to-story")
+    public ResponseEntity<StoryBook> test(@RequestBody BookForm bookForm){
+        //동화책 만들기
         StoryBook storyBook = new StoryBook();
-        storyBook.setSubject("spring");
-        List<String> para = new ArrayList<>();
-        para.add("abc");
-        para.add("def");
-        List<String> urls = new ArrayList<>();
-        urls.add("naver.com");
-        urls.add("daum.com");
-        storyBook.setParagraphs(para);
-        storyBook.setDate(LocalDate.now());
-        storyBook.setStory_type("framework");
-        storyBook.setImage_urls(urls);
-        storyBookRepository.save(storyBook);
-        return storyBook;
+        System.out.println(bookForm.getStory_type());
+        storyBook.setStory_type(bookForm.getStory_type());
+        storyBook.setSubject(bookForm.getSubject());
+        storyBook.setDate(bookForm.getDate());
+        Long sbId = storyBookService.saveBook(storyBook);
+        storyBookService.makePages(bookForm, storyBook);
+        return ResponseEntity.ok(storyBook);
     }
+
 }

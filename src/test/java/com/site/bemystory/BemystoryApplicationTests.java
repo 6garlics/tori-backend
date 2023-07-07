@@ -9,14 +9,6 @@ import java.io.IOException;
 @SpringBootTest
 class BemystoryApplicationTests {
 
-    @Autowired
-    private WebClientService webClientService;
-    @Autowired
-    private FileUploadController fileUploadController;
-    @Test
-    void post() throws IOException {
-        webClientService.post();
-        fileUploadController.uploadFile();
-    }
+
 
 }
