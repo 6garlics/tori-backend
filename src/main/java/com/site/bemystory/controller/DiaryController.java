@@ -42,8 +42,8 @@ public class DiaryController {
 
 
     @PostMapping("/test")
-    public ResponseEntity corse(@RequestBody DiaryForm diaryForm){
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<DiaryForm> corse(@RequestBody DiaryForm diaryForm){
+        return ResponseEntity.ok(diaryForm);
     }
 
     @GetMapping("/test1")
