@@ -37,7 +37,7 @@ public class StoryBookController {
      * 동화 생성 - fastapi
      */
     @ResponseBody
-    @GetMapping ("/diary-to-story")
+    @GetMapping ("/story")
     public StoryBook writeStory(@RequestParam("id") Long id){
         //diary id로 동화로 바꾸려는 일기 조회
         Diary diary = diaryService.findOne(id).get();

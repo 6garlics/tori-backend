@@ -6,6 +6,7 @@ import com.site.bemystory.service.DiaryService;
 import com.site.bemystory.service.StoryBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,5 +42,10 @@ public class DiaryController {
         return "redirect:/story?id="+diary.getId();
 
 
+    }
+
+    @PostMapping("/test")
+    public ResponseEntity corse(@RequestBody DiaryForm diaryForm){
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

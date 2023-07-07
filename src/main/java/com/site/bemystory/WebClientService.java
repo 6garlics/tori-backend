@@ -29,7 +29,7 @@ public class WebClientService {
         bodyMap.put("contents", "오늘 장마가 시작됐다. 후덥지근하고 짜증난다.");
 
         //webClient 기본설정
-        WebClient webClient = WebClient.builder().baseUrl("https://nkk4y3gpizy3q2h25fiae7e4ma0fezqg.lambda-url.eu-north-1.on.aws").build();
+        WebClient webClient = WebClient.builder().baseUrl("https://yc2bgtwjbosyjziwdos7kbbvma0cdaql.lambda-url.eu-north-1.on.aws/").build();
 
         //api 요청
         Map<String, Object> response=webClient.post()
