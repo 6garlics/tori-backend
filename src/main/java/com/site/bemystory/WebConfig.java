@@ -20,7 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedMethods(HttpMethod.DELETE.name())
                 .allowedMethods("OPTIONS")
                 .allowedHeaders("*")
-                //.allowedHeaders("refresh-token")
+                .allowedHeaders("refresh-token")
                 .allowCredentials(false)
                 ;
     }
