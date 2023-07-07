@@ -9,7 +9,7 @@ public class DiaryForm {
 
     private String contents;
 
-    private String storyType;
+    private String story_type;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate date;
@@ -30,12 +30,12 @@ public class DiaryForm {
         this.contents = contents;
     }
 
-    public String getStoryType() {
-        return storyType;
+    public String getStory_type() {
+        return story_type;
     }
 
-    public void setStoryType(String storyType) {
-        this.storyType = storyType;
+    public void setStory_type(String story_type) {
+        this.story_type = story_type;
     }
 
     public LocalDate getDate() {

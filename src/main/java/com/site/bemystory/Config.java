@@ -31,7 +31,7 @@ public class Config {
     @Bean
     public WebClient webClient(){
         return WebClient.builder()
-                .baseUrl("https://nkk4y3gpizy3q2h25fiae7e4ma0fezqg.lambda-url.eu-north-1.on.aws")
+                .baseUrl("https://yc2bgtwjbosyjziwdos7kbbvma0cdaql.lambda-url.eu-north-1.on.aws")
                 .build();
     }
 }

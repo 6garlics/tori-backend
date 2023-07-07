@@ -37,10 +37,11 @@ public class StoryBookController {
      * 동화 생성 - fastapi
      */
     @ResponseBody
-    @GetMapping ("/story")
-    public StoryBook writeStory(@RequestParam("id") Long id){
+    @GetMapping ("/storybook")
+    public ResponseEntity<StoryBook> writeStory(@RequestParam("id") Long id){
         //diary id로 동화로 바꾸려는 일기 조회
         Diary diary = diaryService.findOne(id).get();
+        System.out.println(diary.getId());
         //fastapi로 보내서 BookForm 받아옴
         BookForm bookForm = storyBookService.passToAI(diary);
         System.out.println(bookForm.getParagraphs());
@@ -52,7 +53,7 @@ public class StoryBookController {
         storyBook.setDate(bookForm.getDate());
         Long sbId = storyBookService.saveBook(storyBook);
         storyBookService.makePages(bookForm, storyBook);
-        return storyBookService.findOne(sbId).get();
+        return ResponseEntity.ok(storyBookService.findOne(sbId).get());
     }
 
     @ResponseBody
