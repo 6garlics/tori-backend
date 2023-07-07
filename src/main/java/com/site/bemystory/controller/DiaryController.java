@@ -25,6 +25,7 @@ public class DiaryController {
      * return을 뭘로 해야할까? 일단 StoryBook으로 함
      *
      */
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/books")
     public String create(@RequestBody DiaryForm diaryForm){
         //DB 저장
