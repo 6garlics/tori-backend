@@ -38,7 +38,7 @@ public class StoryBookService {
      * 동화책 저장
      */
     public Long saveBook(StoryBook storyBook){
-        this.setImages(storyBook);
+        //this.setImages(storyBook);
         storyRepository.save(storyBook);
         return storyBook.getBookId();
     }
@@ -82,12 +82,14 @@ public class StoryBookService {
      * BookForm->StoryBook 만들 때, page 생성
      */
     public void makePages(BookForm bookForm, StoryBook storyBook){
-        int index = bookForm.getParagraphs().size();
+        List<String> para = bookForm.getParagraphs();
+        List<String> urls = bookForm.getImg_urls();
+        int index = para.size();
         for(int i=0 ; i<index ; i++){
             Page p = new Page();
             p.setIdx(i);
-            p.setText(bookForm.getParagraphs().get(i));
-            p.setImg_url(bookForm.getImg_urls().get(i));
+            p.setText(para.get(i));
+            p.setImg_url(urls.get(i));
             p.setStoryBook(storyBook);
             storyRepository.savePage(p);
             storyBook.addPage(p);

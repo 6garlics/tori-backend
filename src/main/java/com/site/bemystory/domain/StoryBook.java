@@ -1,5 +1,7 @@
 package com.site.bemystory.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -12,6 +14,7 @@ public class StoryBook {
     private Long bookId;
     private String subject;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "storyBook", fetch = FetchType.LAZY)
     private List<Page> pages = new ArrayList<>();
     /*private List<String> paragraphs;

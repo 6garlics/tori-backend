@@ -29,7 +29,7 @@ public class DiaryController {
      *
      */
     @PostMapping("/books")
-    @ResponseStatus(value = HttpStatus.OK)
+    //@ResponseStatus(value = HttpStatus.OK)
     public String create(@RequestBody DiaryForm diaryForm){
         //DB 저장
         Diary diary = new Diary();
