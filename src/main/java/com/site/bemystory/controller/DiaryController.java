@@ -49,8 +49,8 @@ public class DiaryController {
 
     @ResponseBody
     @GetMapping("/test1")
-    public ResponseEntity<String> test(){
+    public String test(){
         String st = "안녕하세요";
-        return ResponseEntity.ok(st);
+        return st;
     }
 }
