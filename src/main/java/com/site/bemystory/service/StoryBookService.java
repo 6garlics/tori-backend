@@ -37,10 +37,10 @@ public class StoryBookService {
     /**
      * 동화책 저장
      */
-    public Long saveBook(StoryBook storyBook){
-        //this.setImages(storyBook);
+    public StoryBook saveBook(StoryBook storyBook){
+        this.setImages(storyBook);
         storyRepository.save(storyBook);
-        return storyBook.getBookId();
+        return storyBook;
     }
 
     /**
@@ -100,8 +100,9 @@ public class StoryBookService {
      * fastapi에게 받은 이미지 url S3에 업로드
      */
     //Todo : 나중에 이미지 upload함수들 private으로 바꾸기
-    public String uploadImage(int seq, String subject, String tmp_url) {
-        String fileName = subject + "_" + seq + ".jpg";
+
+    public String uploadImage(String tmp_url) {
+        String fileName = UUID.randomUUID().toString()+".jpg";
         String fileUrl = "https://" + bucket + ".s3." + region +
                 ".amazonaws.com/"+fileName;
 
@@ -122,15 +123,19 @@ public class StoryBookService {
     /**
      * S3 이미지 URL insert
      */
+    @Transactional
     public void setImages(StoryBook storyBook){
-        String subject = storyBook.getSubject();
-        List<String> img = storyBook.getPages().stream().map(Page::getImg_url).toList();
-        int seq = 0;
-        for(String tmp_url : img){
+        List<Page> pages = storyRepository.findPages(storyBook);
+        for(Page p : pages){
             // 이미지 url s3로 바꿈
-            img.set(seq, uploadImage(seq, subject, tmp_url));
-            seq++;
+            p.setImg_url(uploadImage(p.getImg_url()));
         }
     }
 
+    /**
+     * page 찾기
+     */
+    public List<Page> findPage(StoryBook storyBook){
+        return storyRepository.findPages(storyBook);
+    }
 }

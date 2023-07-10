@@ -1,9 +1,6 @@
 package com.site.bemystory.controller;
 
-import com.site.bemystory.domain.BookForm;
-import com.site.bemystory.domain.Diary;
-import com.site.bemystory.domain.Page;
-import com.site.bemystory.domain.StoryBook;
+import com.site.bemystory.domain.*;
 import com.site.bemystory.repository.JpaStoryBookRepository;
 import com.site.bemystory.service.DiaryService;
 import com.site.bemystory.service.StoryBookService;
@@ -13,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Book;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +34,7 @@ public class StoryBookController {
      */
     @ResponseBody
     @GetMapping ("/storybook")
-    public ResponseEntity<StoryBook> writeStory(@RequestParam("id") Long id){
+    public ResponseEntity writeStory(@RequestParam("id") Long id){
         //diary id로 동화로 바꾸려는 일기 조회
         Diary diary = diaryService.findOne(id).get();
         System.out.println(diary.getId());
@@ -51,23 +47,21 @@ public class StoryBookController {
         storyBook.setStory_type(bookForm.getStory_type());
         storyBook.setSubject(bookForm.getSubject());
         storyBook.setDate(bookForm.getDate());
-        Long sbId = storyBookService.saveBook(storyBook);
         storyBookService.makePages(bookForm, storyBook);
-        return ResponseEntity.ok(storyBookService.findOne(sbId).get());
+        storyBookService.saveBook(storyBook);
+        return ResponseEntity.ok().build();
     }
 
+
+
     @ResponseBody
-    @PostMapping("diary-to-story")
-    public ResponseEntity<StoryBook> test(@RequestBody BookForm bookForm){
-        //동화책 만들기
-        StoryBook storyBook = new StoryBook();
-        System.out.println(bookForm.getStory_type());
-        storyBook.setStory_type(bookForm.getStory_type());
-        storyBook.setSubject(bookForm.getSubject());
-        storyBook.setDate(bookForm.getDate());
-        Long sbId = storyBookService.saveBook(storyBook);
-        storyBookService.makePages(bookForm, storyBook);
-        return ResponseEntity.ok(storyBook);
+    @GetMapping("/pagetest")
+    public ResponseEntity<Book> page(){
+        StoryBook storyBook = storyBookService.findOne(1L).get();
+        Book book = new Book();
+        book.setStoryBook(storyBook);
+        book.setPages(storyBookService.findPage(storyBook));
+        return ResponseEntity.ok(book);
     }
 
 }

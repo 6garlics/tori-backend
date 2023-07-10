@@ -1,0 +1,3 @@
+create table diary (id bigint not null auto_increment, contents varchar(800), date varchar(50), story_type varchar(50), subject varchar(255), primary key (id)) engine=InnoDB
+create table page (idx integer not null, book_id bigint, page_id bigint not null auto_increment, img_url varchar(500), text varchar(500), primary key (page_id)) engine=InnoDB
+create table story_book (book_id bigint not null auto_increment, date varchar(50), story_type varchar(50), subject varchar(255), primary key (book_id)) engine=InnoDB

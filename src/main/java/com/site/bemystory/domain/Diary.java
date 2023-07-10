@@ -1,22 +1,25 @@
 package com.site.bemystory.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 
 @Entity
 public class Diary {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "subject")
     private String subject;
 
+    @Column(name = "contents")
     private String contents;
 
+    @Column(name = "story_type")
     private String story_type;
 
     //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @Column(name = "date")
     private String date;
 
     public String getDate() {
