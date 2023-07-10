@@ -26,6 +26,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedHeaders("Content-Type")
                 //.allowedHeaders("refresh-token")
                 .allowCredentials(true)
+                .maxAge(3000)
                 ;
     }
 }
