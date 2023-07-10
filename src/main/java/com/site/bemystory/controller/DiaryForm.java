@@ -1,10 +1,12 @@
 package com.site.bemystory.controller;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
+@NoArgsConstructor
 public class DiaryForm {
     private String subject;
 
