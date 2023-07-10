@@ -21,7 +21,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedMethods("OPTIONS")
                 .allowedHeaders("Content-Type")
                 //.allowedHeaders("refresh-token")
-                .allowCredentials(true)
+                .allowCredentials(false)
                 ;
     }
 }
