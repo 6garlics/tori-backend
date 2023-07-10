@@ -9,7 +9,7 @@ public class BookForm {
     private List<String> paragraphs = new ArrayList<>();
     private List<String> img_urls = new ArrayList<>();
     private String story_type;
-    private LocalDate date;
+    private String date;
 
 
     public String getSubject() {
@@ -44,11 +44,11 @@ public class BookForm {
         this.story_type = story_type;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }

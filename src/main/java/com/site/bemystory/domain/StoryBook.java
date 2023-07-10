@@ -22,7 +22,7 @@ public class StoryBook {
 
     private String story_type;
 
-    private LocalDate date;
+    private String date;
 
     public Long getBookId() {
         return bookId;
@@ -48,11 +48,11 @@ public class StoryBook {
         this.story_type = story_type;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

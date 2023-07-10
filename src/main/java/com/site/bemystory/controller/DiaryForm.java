@@ -14,9 +14,9 @@ public class DiaryForm {
 
     private String story_type;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    //@DateTimeFormat(pattern = "yyyy-MM-dd")
     //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate date;
+    private String date;
 
     public String getSubject() {
         return subject;
@@ -42,11 +42,11 @@ public class DiaryForm {
         this.story_type = story_type;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }
