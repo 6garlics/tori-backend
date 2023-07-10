@@ -14,14 +14,18 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("https://be-my-story.vercel.app")
                 .allowedOrigins("")
                 .allowedOrigins("")
-                .allowedMethods("GET")
-                .allowedMethods("POST")
-                .allowedMethods("PUT")
-                .allowedMethods("DELETE")
-                .allowedMethods("OPTIONS")
+                .allowedMethods("")
+                .allowedMethods(
+                        HttpMethod.GET.name(),
+                        HttpMethod.HEAD.name(),
+                        HttpMethod.POST.name(),
+                        HttpMethod.PUT.name(),
+                        HttpMethod.DELETE.name(),
+                        "OPTIONS"
+                )
                 .allowedHeaders("Content-Type")
                 //.allowedHeaders("refresh-token")
-                .allowCredentials(false)
+                .allowCredentials(true)
                 ;
     }
 }
