@@ -38,8 +38,8 @@ public class StoryBookService {
      * 동화책 저장
      */
     public StoryBook saveBook(StoryBook storyBook){
-        this.setImages(storyBook);
         storyRepository.save(storyBook);
+        this.setImages(storyBook);
         return storyBook;
     }
 

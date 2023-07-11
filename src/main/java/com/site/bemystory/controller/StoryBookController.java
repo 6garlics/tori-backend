@@ -34,7 +34,7 @@ public class StoryBookController {
      */
     @ResponseBody
     @GetMapping ("/storybook")
-    public ResponseEntity writeStory(@RequestParam("id") Long id){
+    public ResponseEntity<Book> writeStory(@RequestParam("id") Long id){
         //diary id로 동화로 바꾸려는 일기 조회
         Diary diary = diaryService.findOne(id).get();
         System.out.println(diary.getId());
@@ -49,7 +49,10 @@ public class StoryBookController {
         storyBook.setDate(bookForm.getDate());
         storyBookService.makePages(bookForm, storyBook);
         storyBookService.saveBook(storyBook);
-        return ResponseEntity.ok().build();
+        Book book = new Book();
+        book.setStoryBook(storyBook);
+        book.setPages(storyBookService.findPage(storyBook));
+        return ResponseEntity.ok(book);
     }
 
 
