@@ -1,7 +1,7 @@
 package com.site.bemystory.service;
 
 import com.site.bemystory.domain.Diary;
-import com.site.bemystory.repository.JpaDiaryRepository;
+import com.site.bemystory.repository.DiaryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,9 +12,9 @@ import java.util.Optional;
 @Transactional
 @Service
 public class DiaryService {
-    private final JpaDiaryRepository diaryRepository;
+    private final DiaryRepository diaryRepository;
 
-    public DiaryService(JpaDiaryRepository diaryRepository) {
+    public DiaryService(DiaryRepository diaryRepository) {
         this.diaryRepository = diaryRepository;
     }
 

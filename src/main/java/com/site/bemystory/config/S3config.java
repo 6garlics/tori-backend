@@ -1,4 +1,4 @@
-package com.site.bemystory;
+package com.site.bemystory.config;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;

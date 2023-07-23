@@ -1,10 +1,10 @@
 package com.site.bemystory.controller;
 
 import com.site.bemystory.domain.Diary;
+import com.site.bemystory.dto.DiaryDTO;
 import com.site.bemystory.service.DiaryService;
-import com.site.bemystory.service.StoryBookService;
+import com.site.bemystory.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -12,45 +12,32 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class DiaryController {
     private final DiaryService diaryService;
-    private final StoryBookService storyBookService;
+    private final BookService bookService;
 
     @Autowired
-    public DiaryController(DiaryService diaryService, StoryBookService storyBookService) {
+    public DiaryController(DiaryService diaryService, BookService bookService) {
         this.diaryService = diaryService;
-        this.storyBookService = storyBookService;
+        this.bookService = bookService;
     }
 
     /**
      * 일기 저장하고 fastapi로 넘겨줌
-     * return을 뭘로 해야할까? 일단 StoryBook으로 함
-     *
      */
-
     @PostMapping("/books")
-    public String create(@RequestBody DiaryForm diaryForm){
+    public String create(@RequestBody DiaryDTO.Request request){
         //DB 저장
-        Diary diary = new Diary();
-        diary.setDate(diaryForm.getDate());
-        diary.setSubject(diaryForm.getSubject());
-        diary.setContents(diaryForm.getContents());
-        diary.setStory_type(diaryForm.getStory_type());
+        Diary diary = request.toEntity();
         diaryService.save(diary);
-        return "redirect:/storybook?id="+diary.getId();
-
+        return "redirect:/book?id="+diary.getId();
 
     }
 
-
-    @ResponseBody
-    @PostMapping("/test")
-    public ResponseEntity<DiaryForm> corse(@RequestBody DiaryForm diaryForm){
-        return ResponseEntity.ok(diaryForm);
+    @PostMapping("/diarytest")
+    public String test(@RequestBody DiaryDTO.Request request){
+        Diary diary = request.toEntity();
+        System.out.println("와우"+diary.getDate());
+        diaryService.save(diary);
+        return "redirect:/booktest?id="+diary.getId();
     }
 
-    @ResponseBody
-    @GetMapping("/test1")
-    public ResponseEntity<String> test(){
-        String st = "안녕하세요";
-        return ResponseEntity.ok(st);
-    }
 }
