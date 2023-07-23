@@ -5,6 +5,7 @@ import com.site.bemystory.domain.Text;
 import jakarta.persistence.EntityManager;
 
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -23,13 +24,17 @@ public class BookRepository {
         return book;
     }
 
-    public List<Text> findTexts(Book book){
+    public List<String> findTexts(Book book){
         Long bookId = book.getBookId();
         List<Text> texts = em.createQuery("select t from Text t where t.book.bookId = :bookId", Text.class)
                 .setParameter("bookId", bookId)
                 .getResultList();
         Collections.sort(texts, (t1, t2)->t1.getIndex() - t2.getIndex());
-        return texts;
+        List<String> textList = new ArrayList<>();
+        for(Text text : texts){
+            textList.add(text.getText());
+        }
+        return textList;
     }
 
 

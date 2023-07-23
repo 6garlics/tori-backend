@@ -37,4 +37,8 @@ public class RepositoryConfig {
         return new ImageRepository(em);
     }
 
+    @Bean
+    public CoverRepository coverRepository(){
+        return new CoverRepository(em);
+    }
 }

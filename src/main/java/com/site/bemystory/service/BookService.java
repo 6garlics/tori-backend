@@ -2,11 +2,14 @@ package com.site.bemystory.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.site.bemystory.domain.Book;
+import com.site.bemystory.domain.Cover;
 import com.site.bemystory.domain.Diary;
 import com.site.bemystory.domain.Text;
 import com.site.bemystory.dto.BookDTO;
+import com.site.bemystory.dto.CoverDTO;
 import com.site.bemystory.dto.DiaryDTO;
 import com.site.bemystory.repository.BookRepository;
+import com.site.bemystory.repository.CoverRepository;
 import com.site.bemystory.repository.TextRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,12 +25,15 @@ import java.util.*;
 @Service
 public class BookService {
     private final TextRepository textRepository;
+
+    private final CoverRepository coverRepository;
     private final BookRepository bookRepository;
     private final WebClient webClient;
     private final AmazonS3Client amazonS3Client;
 
-    public BookService(TextRepository textRepository, BookRepository bookRepository, WebClient webClient, AmazonS3Client amazonS3Client) {
+    public BookService(TextRepository textRepository, CoverRepository coverRepository, BookRepository bookRepository, WebClient webClient, AmazonS3Client amazonS3Client) {
         this.textRepository = textRepository;
+        this.coverRepository = coverRepository;
         this.bookRepository = bookRepository;
         this.webClient = webClient;
         this.amazonS3Client = amazonS3Client;
@@ -41,7 +47,7 @@ public class BookService {
     /**
      * 동화책 저장
      */
-    public BookDTO.OnlyText saveBook(BookDTO.AIResponse response, Diary diary){
+    public BookDTO.OnlyText saveBook(BookDTO.ForAI response, Diary diary){
         Book book = response.toEntity();
         book.setDate(diary.getDate());
         book.setGenre(diary.getGenre());
@@ -71,6 +77,15 @@ public class BookService {
         return bookRepository.findById(id);
     }
 
+    public Optional<BookDTO.ForAI> findOneForAI(Long id){
+        Book book = bookRepository.findById(id).get();
+        List<String> texts = bookRepository.findTexts(book);
+        return Optional.ofNullable(BookDTO.ForAI.builder()
+                .title(book.getTitle())
+                .textList(texts)
+                .build());
+    }
+
     /**
      * 동화 조회 - 모두
      */
@@ -84,14 +99,28 @@ public class BookService {
     /**
      * 일기를 chatGPT에게 넘겨주고 Text 받아옴
      */
-    public BookDTO.AIResponse passToAI(DiaryDTO.AIRequest request){
+    public BookDTO.ForAI getText(DiaryDTO.AIRequest request){
         // request api
         return webClient.post()
                 .uri("/diaryToStory")
                 .bodyValue(request)
                 .retrieve()
-                .bodyToMono(BookDTO.AIResponse.class)
+                .bodyToMono(BookDTO.ForAI.class)
                 .block();
+    }
+
+    public String  getCover(BookDTO.ForAI request, Long bookId){
+        Cover cover = webClient.post()
+                .uri("/cover")
+                .bodyValue(request)
+                .retrieve()
+                .bodyToMono(CoverDTO.class)
+                .block()
+                .toEntity();
+        cover.setCoverUrl(uploadImage(cover.getCoverUrl()));
+        cover.setBook(findOne(bookId).get());
+        coverRepository.save(cover);
+        return cover.getCoverUrl();
     }
 
 

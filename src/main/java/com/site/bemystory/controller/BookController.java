@@ -37,7 +37,7 @@ public class BookController {
         System.out.println(diary.getId());
 
         //fastapi로 보내서 Text만 존재하는 동화책
-        BookDTO.AIResponse response = bookService.passToAI(diary.toDTO());
+        BookDTO.ForAI response = bookService.getText(diary.toDTO());
         return ResponseEntity.ok(bookService.saveBook(response, diary));
 
 
@@ -52,6 +52,12 @@ public class BookController {
         book.setStoryBook(storyBook);
         book.setPages(bookService.findPage(storyBook));
         return ResponseEntity.ok(book);*/
+    }
+
+    @ResponseBody
+    @GetMapping("/books/{bookId}/cover")
+    public ResponseEntity<String> cover(@PathVariable Long bookId){
+        return ResponseEntity.ok(bookService.getCover(bookService.findOneForAI(bookId).get(), bookId));
     }
 
     @ResponseBody

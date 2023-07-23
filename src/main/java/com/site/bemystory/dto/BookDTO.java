@@ -5,7 +5,6 @@ import com.site.bemystory.domain.Image;
 import com.site.bemystory.domain.Text;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -13,9 +12,15 @@ import java.util.ArrayList;
 
 public class BookDTO {
     @Data
-    public static class AIResponse{
+    public static class ForAI {
         private String title;
         private List<String> textList = new ArrayList<>();
+
+        @Builder
+        public ForAI(String title, List<String> textList) {
+            this.title = title;
+            this.textList = textList;
+        }
 
         public Book toEntity(){
             return Book.builder()
