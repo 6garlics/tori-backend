@@ -2,6 +2,7 @@ package com.site.bemystory.controller;
 
 import com.site.bemystory.domain.*;
 import com.site.bemystory.dto.BookDTO;
+import com.site.bemystory.dto.ImageDTO;
 import com.site.bemystory.repository.BookRepository;
 import com.site.bemystory.service.DiaryService;
 import com.site.bemystory.service.BookService;
@@ -58,8 +59,8 @@ public class BookController {
      */
     @ResponseBody
     @GetMapping("/books/{bookId}/pages/{pageNum}")
-    public ResponseEntity<String> page(@PathVariable Long bookId, @PathVariable int pageNum){
-        return ResponseEntity.ok(bookService.getIllust(bookId, pageNum));
+    public ResponseEntity<ImageDTO.Response> page(@PathVariable Long bookId, @PathVariable int pageNum){
+        return ResponseEntity.ok(bookService.getIllust(bookId, pageNum).toDTO());
     }
 
     @ResponseBody

@@ -136,20 +136,19 @@ public class BookService {
     }
 
 
-    public String getIllust(Long bookId, int index){
+    public Image getIllust(Long bookId, int index){
 
         Image image = webClient.post()
                 .uri("/textToImage")
                 .bodyValue(bookRepository.findText(bookId, index))
                 .retrieve()
-                .bodyToMono(ImageDTO.class)
+                .bodyToMono(ImageDTO.OnlyUrl.class)
                 .block()
                 .toEntity();
         image.setIndex(index);
         image.setBook(findOne(bookId).get());
         image.setImgUrl(uploadImage(image.getImgUrl()));
-        imageRepository.save(image);
-        return image.getImgUrl();
+        return imageRepository.save(image);
     }
 
 

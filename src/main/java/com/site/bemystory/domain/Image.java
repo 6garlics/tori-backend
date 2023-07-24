@@ -1,5 +1,6 @@
 package com.site.bemystory.domain;
 
+import com.site.bemystory.dto.ImageDTO;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,5 +29,9 @@ public class Image {
     @Builder
     public Image(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public ImageDTO.Response toDTO(){
+        return ImageDTO.Response.builder().index(this.index).imgUrl(this.imgUrl).build();
     }
 }
