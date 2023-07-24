@@ -3,8 +3,7 @@ package com.site.bemystory.dto;
 import com.site.bemystory.domain.Book;
 import com.site.bemystory.domain.Image;
 import com.site.bemystory.domain.Text;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -12,15 +11,13 @@ import java.util.ArrayList;
 
 public class BookDTO {
     @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
     public static class ForAI {
         private String title;
-        private List<String> textList = new ArrayList<>();
+        private List<String> texts = new ArrayList<>();
 
-        @Builder
-        public ForAI(String title, List<String> textList) {
-            this.title = title;
-            this.textList = textList;
-        }
 
         public Book toEntity(){
             return Book.builder()
@@ -48,17 +45,15 @@ public class BookDTO {
     }
 
     @Data
-    public static class Info{
+    public static class BookShelf{
+        private Long bookId;
         private String title;
-        private String genre;
-        private String date;
-        private List<Text> texts = new ArrayList<>();
-        private List<Image> images = new ArrayList<>();
+        private String coverUrl;
 
         @Builder
-        public Info(String title, List<Text> texts) {
+        public BookShelf(Long bookId, String title) {
+            this.bookId = bookId;
             this.title = title;
-            this.texts = texts;
         }
     }
 }

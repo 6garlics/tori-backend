@@ -1,15 +1,14 @@
 package com.site.bemystory.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.site.bemystory.domain.Book;
-import com.site.bemystory.domain.Cover;
-import com.site.bemystory.domain.Diary;
-import com.site.bemystory.domain.Text;
+import com.site.bemystory.domain.*;
 import com.site.bemystory.dto.BookDTO;
 import com.site.bemystory.dto.CoverDTO;
 import com.site.bemystory.dto.DiaryDTO;
+import com.site.bemystory.dto.ImageDTO;
 import com.site.bemystory.repository.BookRepository;
 import com.site.bemystory.repository.CoverRepository;
+import com.site.bemystory.repository.ImageRepository;
 import com.site.bemystory.repository.TextRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,13 +25,15 @@ import java.util.*;
 public class BookService {
     private final TextRepository textRepository;
 
+    private final ImageRepository imageRepository;
     private final CoverRepository coverRepository;
     private final BookRepository bookRepository;
     private final WebClient webClient;
     private final AmazonS3Client amazonS3Client;
 
-    public BookService(TextRepository textRepository, CoverRepository coverRepository, BookRepository bookRepository, WebClient webClient, AmazonS3Client amazonS3Client) {
+    public BookService(TextRepository textRepository, ImageRepository imageRepository, CoverRepository coverRepository, BookRepository bookRepository, WebClient webClient, AmazonS3Client amazonS3Client) {
         this.textRepository = textRepository;
+        this.imageRepository = imageRepository;
         this.coverRepository = coverRepository;
         this.bookRepository = bookRepository;
         this.webClient = webClient;
@@ -51,22 +52,22 @@ public class BookService {
         Book book = response.toEntity();
         book.setDate(diary.getDate());
         book.setGenre(diary.getGenre());
+        book.setDiary(diary);
+        bookRepository.save(book);
         int i=0;
-        for(String text : response.getTextList()){
-            textRepository.save(
-                    Text.builder()
+        for(String text : response.getTexts()){
+            textRepository.save(Text.builder()
                     .index(i++)
                     .text(text)
                     .book(book).build());
 
         }
-        bookRepository.save(book);
         return BookDTO.OnlyText.builder()
                 .bookId(book.getBookId())
                 .title(book.getTitle())
                 .genre(book.getGenre())
                 .date(book.getDate())
-                .textList(response.getTextList())
+                .textList(response.getTexts())
                 .build();
     }
 
@@ -79,10 +80,10 @@ public class BookService {
 
     public Optional<BookDTO.ForAI> findOneForAI(Long id){
         Book book = bookRepository.findById(id).get();
-        List<String> texts = bookRepository.findTexts(book);
+        List<String> texts = bookRepository.findTexts(id);
         return Optional.ofNullable(BookDTO.ForAI.builder()
                 .title(book.getTitle())
-                .textList(texts)
+                .texts(texts)
                 .build());
     }
 
@@ -109,6 +110,9 @@ public class BookService {
                 .block();
     }
 
+    /**
+     * Cover fastapi에 요청하고 저장
+     */
     public String  getCover(BookDTO.ForAI request, Long bookId){
         Cover cover = webClient.post()
                 .uri("/cover")
@@ -123,6 +127,30 @@ public class BookService {
         return cover.getCoverUrl();
     }
 
+    /**
+     * find cover
+     */
+    public String findCover(Book book){
+        Cover cover = coverRepository.findByBook(book).get();
+        return cover.getCoverUrl();
+    }
+
+
+    public String getIllust(Long bookId, int index){
+
+        Image image = webClient.post()
+                .uri("/textToImage")
+                .bodyValue(bookRepository.findText(bookId, index))
+                .retrieve()
+                .bodyToMono(ImageDTO.class)
+                .block()
+                .toEntity();
+        image.setIndex(index);
+        image.setBook(findOne(bookId).get());
+        image.setImgUrl(uploadImage(image.getImgUrl()));
+        imageRepository.save(image);
+        return image.getImgUrl();
+    }
 
 
 
@@ -150,17 +178,7 @@ public class BookService {
         return fileUrl;
     }
 
-    /**
-     * S3 이미지 URL insert
-     */
-    /*@Transactional
-    public void setImages(StoryBook storyBook){
-        List<Page> pages = bookRepository.findPages(storyBook);
-        for(Page p : pages){
-            // 이미지 url s3로 바꿈
-            p.setImg_url(uploadImage(p.getImg_url()));
-        }
-    }*/
+
 
 
 }

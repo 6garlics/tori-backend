@@ -1,11 +1,14 @@
 package com.site.bemystory.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 public class Image {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,4 +24,9 @@ public class Image {
 
     @Column(name = "img_url")
     private String imgUrl;
+
+    @Builder
+    public Image(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 }

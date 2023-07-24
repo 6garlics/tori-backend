@@ -9,7 +9,7 @@ public class WebConfig {
     @Bean
     public WebClient webClient(){
         return WebClient.builder()
-                .baseUrl("https://yc2bgtwjbosyjziwdos7kbbvma0cdaql.lambda-url.eu-north-1.on.aws/ ")
+                .baseUrl("https://yc2bgtwjbosyjziwdos7kbbvma0cdaql.lambda-url.eu-north-1.on.aws")
                 .build();
     }
 }

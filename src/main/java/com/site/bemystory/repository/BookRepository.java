@@ -2,13 +2,11 @@ package com.site.bemystory.repository;
 
 import com.site.bemystory.domain.Book;
 import com.site.bemystory.domain.Text;
+import com.site.bemystory.dto.TextDTO;
 import jakarta.persistence.EntityManager;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class BookRepository {
 
@@ -24,17 +22,25 @@ public class BookRepository {
         return book;
     }
 
-    public List<String> findTexts(Book book){
-        Long bookId = book.getBookId();
+    public List<Text> findTextList(Long bookId){
         List<Text> texts = em.createQuery("select t from Text t where t.book.bookId = :bookId", Text.class)
                 .setParameter("bookId", bookId)
                 .getResultList();
-        Collections.sort(texts, (t1, t2)->t1.getIndex() - t2.getIndex());
+        Collections.sort(texts, Comparator.comparingInt(Text::getIndex));
+        return texts;
+    }
+
+    public List<String> findTexts(Long bookId){
         List<String> textList = new ArrayList<>();
-        for(Text text : texts){
+        for(Text text : findTextList(bookId)){
             textList.add(text.getText());
         }
         return textList;
+    }
+
+    public TextDTO findText(Long bookId, int index){
+        Text text = findTextList(bookId).get(index);
+        return TextDTO.builder().text(text.getText()).build();
     }
 
 

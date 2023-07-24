@@ -46,4 +46,11 @@ public class Book {
         this.title = title;
     }
 
+    public BookDTO.BookShelf toDTO(){
+        return BookDTO.BookShelf.builder()
+                .bookId(getBookId())
+                .title(getTitle())
+                .build();
+    }
+
 }

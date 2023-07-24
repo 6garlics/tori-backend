@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class BookController {
@@ -40,25 +42,40 @@ public class BookController {
         BookDTO.ForAI response = bookService.getText(diary.toDTO());
         return ResponseEntity.ok(bookService.saveBook(response, diary));
 
-
-        /*//동화책 만들기
-        StoryBook storyBook = new StoryBook();
-        storyBook.setStory_type(bookForm.getStory_type());
-        storyBook.setSubject(bookForm.getSubject());
-        storyBook.setDate(bookForm.getDate());
-        bookService.makePages(bookForm, storyBook);
-        bookService.saveBook(storyBook);
-        Book book = new Book();
-        book.setStoryBook(storyBook);
-        book.setPages(bookService.findPage(storyBook));
-        return ResponseEntity.ok(book);*/
     }
 
+    /**
+     * Cover 생성
+     */
     @ResponseBody
     @GetMapping("/books/{bookId}/cover")
     public ResponseEntity<String> cover(@PathVariable Long bookId){
         return ResponseEntity.ok(bookService.getCover(bookService.findOneForAI(bookId).get(), bookId));
     }
+
+    /**
+     * 일러스트 1개 생성
+     */
+    @ResponseBody
+    @GetMapping("/books/{bookId}/pages/{pageNum}")
+    public ResponseEntity<String> page(@PathVariable Long bookId, @PathVariable int pageNum){
+        return ResponseEntity.ok(bookService.getIllust(bookId, pageNum));
+    }
+
+    @ResponseBody
+    @GetMapping("/users/{userId}/books")
+    public ResponseEntity<List<BookDTO.BookShelf>> showBooks(@PathVariable Long userId){
+        //TODO: userID 구현, 현재 반영 안한 상태
+        List<BookDTO.BookShelf> books = new ArrayList<>();
+        int i = 0;
+        for(Book book : bookService.findBooks()){
+            books.add(book.toDTO());
+            books.get(i++).setCoverUrl(bookService.findCover(book));
+        }
+        return ResponseEntity.ok(books);
+    }
+
+
 
     @ResponseBody
     @GetMapping("/booktest")
