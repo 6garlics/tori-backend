@@ -48,8 +48,8 @@ public class Book {
 
     public BookDTO.BookShelf toDTO(){
         return BookDTO.BookShelf.builder()
-                .bookId(getBookId())
-                .title(getTitle())
+                .bookId(this.bookId)
+                .title(this.title)
                 .build();
     }
 

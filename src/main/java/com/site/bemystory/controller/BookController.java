@@ -69,9 +69,14 @@ public class BookController {
         //TODO: userID 구현, 현재 반영 안한 상태
         List<BookDTO.BookShelf> books = new ArrayList<>();
         int i = 0;
-        for(Book book : bookService.findBooks()){
+        List<Book> fbooks = bookService.findBooks();
+        System.out.println(fbooks.size());
+        for(Book book : fbooks){
+            BookDTO.BookShelf b = book.toDTO();
+            System.out.println(b.getTitle());
             books.add(book.toDTO());
             books.get(i++).setCoverUrl(bookService.findCover(book));
+            System.out.println(i);
         }
         return ResponseEntity.ok(books);
     }
