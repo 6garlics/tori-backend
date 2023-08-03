@@ -1,6 +1,8 @@
 package com.site.bemystory.service;
 
 import com.site.bemystory.domain.User;
+import com.site.bemystory.exception.AppException;
+import com.site.bemystory.exception.ErrorCode;
 import com.site.bemystory.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,11 +12,12 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
-    public String join(String userName, String password, String email){
+
+    public String join(String userName, String password, String email) {
         //username 중복 CHECK
         userRepository.findByUserName(userName)
                 .ifPresent(user -> {
-                    throw new RuntimeException(userName + "는 이미 있습니다");
+                    throw new AppException(ErrorCode.USERNAME_DUPLICATED, userName + "는 이미 있습니다");
                 });
 
         // 저장
