@@ -5,6 +5,7 @@ import com.site.bemystory.exception.AppException;
 import com.site.bemystory.exception.ErrorCode;
 import com.site.bemystory.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder encoder;
 
     public String join(String userName, String password, String email) {
         //username 중복 CHECK
@@ -23,7 +25,7 @@ public class UserService {
         // 저장
         User user = User.builder()
                 .userName(userName)
-                .password(password)
+                .password(encoder.encode(password))
                 .email(email)
                 .build();
         userRepository.save(user);
