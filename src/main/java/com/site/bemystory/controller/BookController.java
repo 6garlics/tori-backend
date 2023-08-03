@@ -6,6 +6,7 @@ import com.site.bemystory.dto.ImageDTO;
 import com.site.bemystory.repository.BookRepository;
 import com.site.bemystory.service.DiaryService;
 import com.site.bemystory.service.BookService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,19 +16,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
+@RequiredArgsConstructor
 public class BookController {
 
     private final BookService bookService;
     private final DiaryService diaryService;
-
-    private final BookRepository bookRepository;
-    @Autowired
-    public BookController(BookService bookService, DiaryService diaryService, BookRepository bookRepository) {
-        this.bookService = bookService;
-        this.diaryService = diaryService;
-        this.bookRepository = bookRepository;
-    }
 
     /**
      * 동화 text 생성 - fastapi

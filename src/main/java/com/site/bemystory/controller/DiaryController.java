@@ -4,21 +4,17 @@ import com.site.bemystory.domain.Diary;
 import com.site.bemystory.dto.DiaryDTO;
 import com.site.bemystory.service.DiaryService;
 import com.site.bemystory.service.BookService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
+@RequiredArgsConstructor
 public class DiaryController {
     private final DiaryService diaryService;
-    private final BookService bookService;
 
-    @Autowired
-    public DiaryController(DiaryService diaryService, BookService bookService) {
-        this.diaryService = diaryService;
-        this.bookService = bookService;
-    }
 
     /**
      * 일기 저장하고 fastapi로 넘겨줌

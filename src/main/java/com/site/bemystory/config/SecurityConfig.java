@@ -30,9 +30,9 @@ public class SecurityConfig {
                 .anyRequest().authenticated())
                 .httpBasic(httpBasic-> httpBasic.disable())
                 .csrf(csrf-> csrf.disable())
-                .formLogin((form)->form
+                /*.formLogin((form)->form
                         .loginPage("/users/login")
-                        .permitAll())
+                        .permitAll())*/
                 .sessionManagement((session)->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .logout((logout)->logout.permitAll())
                 .build();

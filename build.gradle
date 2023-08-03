@@ -17,6 +17,7 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version:'0.9.1'
     compileOnly 'org.projectlombok:lombok:1.18.26'
     annotationProcessor 'org.projectlombok:lombok:1.18.26'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -31,6 +32,13 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.0'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     implementation "org.springframework.boot:spring-boot-starter-security"
+    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-test
+    testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '6.0.0'
+    // com.sun.xml.bind
+    implementation 'com.sun.xml.bind:jaxb-impl:4.0.1'
+    implementation 'com.sun.xml.bind:jaxb-core:4.0.1'
+    // javax.xml.bind
+    implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
 }
 
 tasks.named('test') {

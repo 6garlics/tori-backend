@@ -1,6 +1,7 @@
 package com.site.bemystory.controller;
 
 import com.site.bemystory.dto.UserJoinRequest;
+import com.site.bemystory.dto.UserLoginRequest;
 import com.site.bemystory.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,5 +22,11 @@ public class UserController {
 
         userService.join(dto.getUserName(), dto.getPassword(), dto.getEmail());
         return ResponseEntity.ok().body("회원가입 성공했습니다.");
+    }
+
+    @PostMapping("/users/login")
+    public ResponseEntity<String> login(@RequestBody UserLoginRequest dto){
+        String token = userService.login(dto.getUserName(), dto.getPassword());
+        return ResponseEntity.ok().body(token);
     }
 }
