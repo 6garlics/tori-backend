@@ -152,7 +152,6 @@ public class BookService {
     }
 
 
-
     /**
      * fastapi에게 받은 이미지 url S3에 업로드
      */
