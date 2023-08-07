@@ -1,6 +1,7 @@
 package com.site.bemystory.dto;
 
 import com.site.bemystory.domain.Diary;
+import com.site.bemystory.domain.User;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Setter;
@@ -17,15 +18,17 @@ public class DiaryDTO {
         private String contents;
         private String genre;
         private String date;
+        private User user;
 
 
-        public Diary toEntity(){
+        public Diary toEntity(User user){
             System.out.println("왜"+this.title);
             return Diary.builder()
                     .title(this.title)
                     .contents(this.contents)
                     .genre(this.genre)
                     .date(this.date)
+                    .user(user)
                     .build();
         }
     }

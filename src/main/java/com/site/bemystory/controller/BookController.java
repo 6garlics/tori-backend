@@ -7,6 +7,7 @@ import com.site.bemystory.repository.BookRepository;
 import com.site.bemystory.service.DiaryService;
 import com.site.bemystory.service.BookService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class BookController {
 
     private final BookService bookService;
@@ -31,7 +33,7 @@ public class BookController {
     public ResponseEntity<BookDTO.OnlyText> makeText(@RequestParam("id") Long id){
         //diary id로 동화로 바꾸려는 일기 조회
         Diary diary = diaryService.findOne(id).get();
-        System.out.println(diary.getId());
+        log.info("diary id : {}", diary.getId());
 
         //fastapi로 보내서 Text만 존재하는 동화책
         BookDTO.ForAI response = bookService.getText(diary.toDTO());

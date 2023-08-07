@@ -41,6 +41,10 @@ public class Book {
     @OneToOne(mappedBy = "book", fetch = FetchType.LAZY)
     private Cover cover;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Builder
     public Book(String title) {
         this.title = title;

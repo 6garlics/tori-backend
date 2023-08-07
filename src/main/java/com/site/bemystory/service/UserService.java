@@ -50,4 +50,8 @@ public class UserService {
         //error 없으면 token 발행
         return token;
     }
+
+    public User findUserId(String userName){
+        return userRepository.findByUserName(userName).orElseThrow();
+    }
 }

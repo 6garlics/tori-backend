@@ -30,13 +30,18 @@ public class Diary {
     @OneToOne(mappedBy = "diary", fetch = FetchType.LAZY)
     private Book book;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
     @Builder
-    public Diary(String title, String contents, String genre, String date) {
+    public Diary(String title, String contents, String genre, String date, User user) {
         this.title = title;
         this.contents = contents;
         this.genre = genre;
         this.date = date;
+        this.user = user;
     }
 
     public DiaryDTO.AIRequest toDTO(){

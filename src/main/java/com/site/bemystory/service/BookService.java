@@ -53,6 +53,7 @@ public class BookService {
         book.setDate(diary.getDate());
         book.setGenre(diary.getGenre());
         book.setDiary(diary);
+        book.setUser(diary.getUser());
         bookRepository.save(book);
         int i=0;
         for(String text : response.getTexts()){
