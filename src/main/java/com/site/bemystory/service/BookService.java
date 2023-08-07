@@ -1,15 +1,20 @@
 package com.site.bemystory.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.site.bemystory.domain.*;
 import com.site.bemystory.dto.BookDTO;
 import com.site.bemystory.dto.CoverDTO;
 import com.site.bemystory.dto.DiaryDTO;
 import com.site.bemystory.dto.ImageDTO;
+import com.site.bemystory.exception.ErrorCode;
+import com.site.bemystory.exception.ImageException;
 import com.site.bemystory.repository.BookRepository;
 import com.site.bemystory.repository.CoverRepository;
 import com.site.bemystory.repository.ImageRepository;
 import com.site.bemystory.repository.TextRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +27,7 @@ import java.util.*;
 
 @Transactional
 @Service
+@Slf4j
 public class BookService {
     private final TextRepository textRepository;
 
@@ -91,8 +97,8 @@ public class BookService {
     /**
      * 동화 조회 - 모두
      */
-    public List<Book> findBooks(){
-        return bookRepository.findAll();
+    public List<Book> findBooks(Long userId){
+        return bookRepository.findAll(userId);
     }
 
     //TODO: 동화책 수정
@@ -114,7 +120,7 @@ public class BookService {
     /**
      * Cover fastapi에 요청하고 저장
      */
-    public String  getCover(BookDTO.ForAI request, Long bookId){
+    public String  getCover(BookDTO.ForAI request, Long bookId) throws IOException {
         Cover cover = webClient.post()
                 .uri("/cover")
                 .bodyValue(request)
@@ -137,7 +143,7 @@ public class BookService {
     }
 
 
-    public Image getIllust(Long bookId, int index){
+    public Image getIllust(Long bookId, int index) throws IOException {
 
         Image image = webClient.post()
                 .uri("/textToImage")
@@ -158,21 +164,21 @@ public class BookService {
      */
     //Todo : 나중에 이미지 upload함수들 private으로 바꾸기
 
-    public String uploadImage(String tmp_url) {
+    public String uploadImage(String tmp_url){
         String fileName = UUID.randomUUID().toString()+".jpg";
         String fileUrl = "https://" + bucket + ".s3." + region +
                 ".amazonaws.com/"+fileName;
 
-        //url에서 이미지 추출
-        InputStream inputStream = null;
-
         //s3에 업로드
         try {
-            inputStream = new URL(tmp_url).openStream();
+            //url에서 이미지 추출
+            InputStream inputStream = new URL(tmp_url).openStream();
+            ObjectMetadata metadata = new ObjectMetadata();
+            log.info("inputstream 길이 {}", IOUtils.toByteArray(inputStream).length);
+            metadata.setContentLength(IOUtils.toByteArray(inputStream).length);
+            amazonS3Client.putObject(bucket, fileName, inputStream, metadata);
         } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            amazonS3Client.putObject(bucket, fileName, inputStream, null);
+            new ImageException(ErrorCode.IMAGE_NOT_FOUND, "이미지가 없습니다.");
         }
         return fileUrl;
     }

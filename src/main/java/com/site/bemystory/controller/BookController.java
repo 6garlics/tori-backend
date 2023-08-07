@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class BookController {
      */
     @ResponseBody
     @GetMapping("/books/{bookId}/cover")
-    public ResponseEntity<String> cover(@PathVariable Long bookId){
+    public ResponseEntity<String> cover(@PathVariable Long bookId) throws IOException {
         return ResponseEntity.ok(bookService.getCover(bookService.findOneForAI(bookId).get(), bookId));
     }
 
@@ -55,24 +56,24 @@ public class BookController {
      */
     @ResponseBody
     @GetMapping("/books/{bookId}/pages/{pageNum}")
-    public ResponseEntity<ImageDTO.Response> page(@PathVariable Long bookId, @PathVariable int pageNum){
+    public ResponseEntity<ImageDTO.Response> page(@PathVariable Long bookId, @PathVariable int pageNum) throws IOException {
         return ResponseEntity.ok(bookService.getIllust(bookId, pageNum).toDTO());
     }
 
+    /**
+     * 내 책장
+     */
     @ResponseBody
     @GetMapping("/users/{userId}/books")
     public ResponseEntity<List<BookDTO.BookShelf>> showBooks(@PathVariable Long userId){
-        //TODO: userID 구현, 현재 반영 안한 상태
         List<BookDTO.BookShelf> books = new ArrayList<>();
         int i = 0;
-        List<Book> fbooks = bookService.findBooks();
-        System.out.println(fbooks.size());
+        List<Book> fbooks = bookService.findBooks(userId);
+        log.info("총 {}권", fbooks.size());
         for(Book book : fbooks){
             BookDTO.BookShelf b = book.toDTO();
-            System.out.println(b.getTitle());
             books.add(book.toDTO());
             books.get(i++).setCoverUrl(bookService.findCover(book));
-            System.out.println(i);
         }
         return ResponseEntity.ok(books);
     }

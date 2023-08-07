@@ -58,8 +58,9 @@ public class BookRepository {
     }
 
 
-    public List<Book> findAll() {
-        return em.createQuery("select b from Book b", Book.class)
+    public List<Book> findAll(Long userId) {
+        return em.createQuery("select b from Book b where b.user.id = :userId", Book.class)
+                .setParameter("userId", userId)
                 .getResultList();
     }
 
