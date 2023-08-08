@@ -13,13 +13,18 @@ import com.site.bemystory.repository.BookRepository;
 import com.site.bemystory.repository.CoverRepository;
 import com.site.bemystory.repository.ImageRepository;
 import com.site.bemystory.repository.TextRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -28,6 +33,7 @@ import java.util.*;
 @Transactional
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class BookService {
     private final TextRepository textRepository;
 
@@ -36,15 +42,7 @@ public class BookService {
     private final BookRepository bookRepository;
     private final WebClient webClient;
     private final AmazonS3Client amazonS3Client;
-
-    public BookService(TextRepository textRepository, ImageRepository imageRepository, CoverRepository coverRepository, BookRepository bookRepository, WebClient webClient, AmazonS3Client amazonS3Client) {
-        this.textRepository = textRepository;
-        this.imageRepository = imageRepository;
-        this.coverRepository = coverRepository;
-        this.bookRepository = bookRepository;
-        this.webClient = webClient;
-        this.amazonS3Client = amazonS3Client;
-    }
+    private final RestTemplate restTemplate;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -166,17 +164,27 @@ public class BookService {
 
     public String uploadImage(String tmp_url){
         String fileName = UUID.randomUUID().toString()+".jpg";
+        log.info("temp url= {}", tmp_url);
         String fileUrl = "https://" + bucket + ".s3." + region +
                 ".amazonaws.com/"+fileName;
 
+
+        /*ResponseEntity<byte[]> image = restTemplate.getForEntity(tmp_url, byte[].class);
+        if(!image.getStatusCode().is2xxSuccessful()){
+            new ImageException(ErrorCode.IMAGE_NOT_FOUND, "이미지가 없습니다.");
+        }
+        byte[] imageBytes = image.getBody();
+        ObjectMetadata metadata = new ObjectMetadata();
+        log.info("이미지 길이 {}", imageBytes.length);
+        metadata.setContentLength(imageBytes.length);
         //s3에 업로드
+        amazonS3Client.putObject(bucket, fileName, new ByteArrayInputStream(imageBytes), metadata);*/
+
         try {
             //url에서 이미지 추출
             InputStream inputStream = new URL(tmp_url).openStream();
-            ObjectMetadata metadata = new ObjectMetadata();
-            log.info("inputstream 길이 {}", IOUtils.toByteArray(inputStream).length);
-            metadata.setContentLength(IOUtils.toByteArray(inputStream).length);
-            amazonS3Client.putObject(bucket, fileName, inputStream, metadata);
+
+            amazonS3Client.putObject(bucket, fileName, inputStream, null);
         } catch (IOException e) {
             new ImageException(ErrorCode.IMAGE_NOT_FOUND, "이미지가 없습니다.");
         }
