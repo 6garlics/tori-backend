@@ -60,6 +60,14 @@ public class UserController {
     }
 
     /**
+     * 다른 유저의 정보 조회
+     */
+    @GetMapping("/users")
+    public ResponseEntity<UserInfoRequest> otherInfo(@RequestParam("userName") String userName){
+        return ResponseEntity.ok().body(userService.findUser(userName).toDTO());
+    }
+
+    /**
      * 로그아웃
      */
     //TODO: Logout

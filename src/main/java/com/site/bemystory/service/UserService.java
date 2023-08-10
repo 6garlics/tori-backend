@@ -61,7 +61,6 @@ public class UserService {
     }
 
     public User findUser(String userName) {
-        //TODO: USER없음을 나타내는 예외처리
         return userRepository.findByUserName(userName)
                 .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND, "\"" + userName + "\"" + "은 존재하지 않는 사용자입니다."));
     }
