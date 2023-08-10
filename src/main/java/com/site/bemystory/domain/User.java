@@ -1,5 +1,6 @@
 package com.site.bemystory.domain;
 
+import com.site.bemystory.dto.UserInfoRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,5 +44,13 @@ public class User {
         this.userName = userName;
         this.password = password;
         this.email = email;
+    }
+
+
+    public UserInfoRequest toDTO(){
+        return UserInfoRequest.builder()
+                .userName(this.userName)
+                .profileImg(this.profile)
+                .build();
     }
 }

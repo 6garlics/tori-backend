@@ -38,7 +38,7 @@ public class BookController {
 
         //fastapi로 보내서 Text만 존재하는 동화책
         BookDTO.ForAI response = bookService.getText(diary.toDTO());
-        return ResponseEntity.ok(bookService.saveBook(response, diary));
+        return ResponseEntity.ok().body(bookService.saveBook(response, diary));
 
     }
 
@@ -48,7 +48,7 @@ public class BookController {
     @ResponseBody
     @GetMapping("/books/{bookId}/cover")
     public ResponseEntity<String> cover(@PathVariable Long bookId) throws IOException {
-        return ResponseEntity.ok(bookService.getCover(bookService.findOneForAI(bookId).get(), bookId));
+        return ResponseEntity.ok().body(bookService.getCover(bookService.findOneForAI(bookId).get(), bookId));
     }
 
     /**
@@ -57,7 +57,7 @@ public class BookController {
     @ResponseBody
     @GetMapping("/books/{bookId}/pages/{pageNum}")
     public ResponseEntity<ImageDTO.Response> page(@PathVariable Long bookId, @PathVariable int pageNum) throws IOException {
-        return ResponseEntity.ok(bookService.getIllust(bookId, pageNum).toDTO());
+        return ResponseEntity.ok().body(bookService.getIllust(bookId, pageNum).toDTO());
     }
 
     /**
@@ -75,7 +75,7 @@ public class BookController {
             books.add(book.toDTO());
             books.get(i++).setCoverUrl(bookService.findCover(book));
         }
-        return ResponseEntity.ok(books);
+        return ResponseEntity.ok().body(books);
     }
 
 
@@ -85,7 +85,7 @@ public class BookController {
     public ResponseEntity<Diary> test(@RequestParam("id") Long id){
         //diary id로 동화로 바꾸려는 일기 조회
         Diary diary = diaryService.findOne(id).get();
-        return ResponseEntity.ok(diary);
+        return ResponseEntity.ok().body(diary);
     }
 
 
