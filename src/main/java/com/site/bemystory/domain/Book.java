@@ -1,6 +1,7 @@
 package com.site.bemystory.domain;
 
 import com.site.bemystory.dto.BookDTO;
+import com.site.bemystory.dto.BookOneRequest;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -50,10 +51,24 @@ public class Book {
         this.title = title;
     }
 
-    public BookDTO.BookShelf toDTO(){
+    public BookDTO.BookShelf toDTO(String cover){
         return BookDTO.BookShelf.builder()
                 .bookId(this.bookId)
                 .title(this.title)
+                .coverUrl(cover)
+                .build();
+    }
+
+    public BookOneRequest toRequest(List<String> texts, List<String> images){
+        return BookOneRequest.builder()
+                .bookId(this.bookId)
+                .userName(this.user.getUserName())
+                .title(this.title)
+                .date(this.date)
+                .genre(this.genre)
+                .coverUrl(this.cover.getCoverUrl())
+                .texts(texts)
+                .images(images)
                 .build();
     }
 

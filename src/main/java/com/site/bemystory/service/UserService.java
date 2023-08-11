@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -63,5 +65,9 @@ public class UserService {
     public User findUser(String userName) {
         return userRepository.findByUserName(userName)
                 .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND, "\"" + userName + "\"" + "은 존재하지 않는 사용자입니다."));
+    }
+
+    public Optional<User> findById(Long userId){
+        return userRepository.findById(userId);
     }
 }

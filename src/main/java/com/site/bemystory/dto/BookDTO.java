@@ -45,15 +45,11 @@ public class BookDTO {
     }
 
     @Data
+    @AllArgsConstructor
+    @Builder
     public static class BookShelf{
         private Long bookId;
         private String title;
         private String coverUrl;
-
-        @Builder
-        public BookShelf(Long bookId, String title) {
-            this.bookId = bookId;
-            this.title = title;
-        }
     }
 }

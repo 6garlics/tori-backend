@@ -2,6 +2,7 @@ package com.site.bemystory.controller;
 
 import com.site.bemystory.domain.*;
 import com.site.bemystory.dto.BookDTO;
+import com.site.bemystory.dto.BookOneRequest;
 import com.site.bemystory.dto.ImageDTO;
 import com.site.bemystory.repository.BookRepository;
 import com.site.bemystory.service.DiaryService;
@@ -48,7 +49,7 @@ public class BookController {
     @ResponseBody
     @GetMapping("/books/{bookId}/cover")
     public ResponseEntity<String> cover(@PathVariable Long bookId) throws IOException {
-        return ResponseEntity.ok().body(bookService.getCover(bookService.findOneForAI(bookId).get(), bookId));
+        return ResponseEntity.ok().body(bookService.getCover(bookService.findOneForAI(bookId).orElseThrow(), bookId));
     }
 
     /**
@@ -69,13 +70,20 @@ public class BookController {
         List<BookDTO.BookShelf> books = new ArrayList<>();
         int i = 0;
         List<Book> fbooks = bookService.findBooks(userId);
-        log.info("총 {}권", fbooks.size());
-        for(Book book : fbooks){
-            BookDTO.BookShelf b = book.toDTO();
-            books.add(book.toDTO());
-            books.get(i++).setCoverUrl(bookService.findCover(book));
-        }
+        for(Book book : fbooks)
+            books.add(book.toDTO(bookService.findCover(book)));
+
         return ResponseEntity.ok().body(books);
+    }
+
+    /**
+     * 동화책 1개 조회
+     */
+    @GetMapping("/books/{bookId}")
+    public ResponseEntity<BookOneRequest> showBook(@PathVariable Long bookId){
+        Book book = bookService.findOne(bookId).orElseThrow();
+        return ResponseEntity.ok().body(
+                book.toRequest(bookService.findTexts(book), bookService.findImages(book)));
     }
 
 

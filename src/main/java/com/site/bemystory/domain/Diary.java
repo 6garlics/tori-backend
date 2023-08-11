@@ -2,6 +2,7 @@ package com.site.bemystory.domain;
 
 
 import com.site.bemystory.dto.DiaryDTO;
+import com.site.bemystory.dto.DiaryRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -46,6 +47,15 @@ public class Diary {
 
     public DiaryDTO.AIRequest toDTO(){
         return DiaryDTO.AIRequest.builder()
+                .title(this.title)
+                .contents(this.contents)
+                .genre(this.genre)
+                .build();
+    }
+
+    public DiaryRequest toRequest(){
+        return DiaryRequest.builder()
+                .date(this.date)
                 .title(this.title)
                 .contents(this.contents)
                 .genre(this.genre)

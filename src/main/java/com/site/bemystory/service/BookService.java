@@ -42,7 +42,7 @@ public class BookService {
     private final BookRepository bookRepository;
     private final WebClient webClient;
     private final AmazonS3Client amazonS3Client;
-    private final RestTemplate restTemplate;
+    private final UserService userService;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -118,7 +118,7 @@ public class BookService {
     /**
      * Cover fastapi에 요청하고 저장
      */
-    public String  getCover(BookDTO.ForAI request, Long bookId) throws IOException {
+    public String getCover(BookDTO.ForAI request, Long bookId) throws IOException {
         Cover cover = webClient.post()
                 .uri("/cover")
                 .bodyValue(request)
@@ -138,6 +138,20 @@ public class BookService {
     public String findCover(Book book){
         Cover cover = coverRepository.findByBook(book).get();
         return cover.getCoverUrl();
+    }
+
+    /**
+     * find texts
+     */
+    public List<String> findTexts(Book book){
+        return bookRepository.findTexts(book.getBookId());
+    }
+
+    /**
+     * find images
+     */
+    public List<String> findImages(Book book){
+        return bookRepository.findImages(book.getBookId());
     }
 
 
@@ -191,6 +205,14 @@ public class BookService {
         return fileUrl;
     }
 
+
+    /**
+     * 책 주인 찾기
+     */
+    public String findUser(Long bookId){
+        Book book = bookRepository.findById(bookId).orElseThrow();
+        return userService.findById(book.getUser().getUser_id()).orElseThrow().getUserName();
+    }
 
 
 

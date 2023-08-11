@@ -1,6 +1,8 @@
 package com.site.bemystory.repository;
 
 import com.site.bemystory.domain.Book;
+import com.site.bemystory.domain.Diary;
+import com.site.bemystory.domain.Image;
 import com.site.bemystory.domain.Text;
 import com.site.bemystory.dto.TextDTO;
 import jakarta.persistence.EntityManager;
@@ -28,6 +30,14 @@ public class BookRepository {
                 .getResultList();
         Collections.sort(texts, Comparator.comparingInt(Text::getIndex));
         return texts;
+    }
+
+    public List<Image> findImageList(Long bookId){
+        List<Image> images = em.createQuery("select i from Image i where i.book.bookId = :bookId", Image.class)
+                .setParameter("bookId", bookId)
+                .getResultList();
+        Collections.sort(images, Comparator.comparingInt(Image::getIndex));
+        return images;
     }
 
     public List<String> findTexts(Long bookId){
@@ -64,5 +74,11 @@ public class BookRepository {
                 .getResultList();
     }
 
-
+    public List<String> findImages(Long bookId) {
+        List<String> imageList = new ArrayList<>();
+        for(Image image : findImageList(bookId)){
+            imageList.add(image.getImgUrl());
+        }
+        return imageList;
+    }
 }
