@@ -17,6 +17,11 @@ public class JwtTokenUtil{
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
                         .getBody().getExpiration().before(new Date());
     }
+
+    public static Long getExpiration(String token, String secretKey){
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
+                .getBody().getExpiration().getTime();
+    }
     public static String createToken(String userName, String key, Long expireTimeMs){
         Claims claims = Jwts.claims();  //일종의 map
         claims.put("userName", userName);   //token 열면 username 들어있음
@@ -29,4 +34,5 @@ public class JwtTokenUtil{
                 .compact()
                 ;
     }
+
 }

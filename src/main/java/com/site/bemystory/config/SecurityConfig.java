@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final UserService userService;
+    private final RedisTemplate redisTemplate;
     @Value("${jwt.token.secret}")
     private String secretKey;
     @Bean
@@ -42,7 +44,7 @@ public class SecurityConfig {
                         .loginPage("/users/login")
                         .permitAll())*/
                 .sessionManagement((session)->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(new JwtFilter(userService, secretKey), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtFilter(redisTemplate,userService, secretKey), UsernamePasswordAuthenticationFilter.class)
                 .logout((logout)->logout.permitAll())
                 .build();
 

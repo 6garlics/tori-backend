@@ -1,5 +1,7 @@
 package com.site.bemystory.config;
 
+import com.site.bemystory.exception.ErrorCode;
+import com.site.bemystory.exception.LogoutException;
 import com.site.bemystory.service.UserService;
 import com.site.bemystory.utils.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
@@ -9,10 +11,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHeaders;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -24,6 +28,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
+    private final RedisTemplate redisTemplate;
     private final UserService userService;
     private final String secretKey;
     @Override
@@ -43,6 +48,15 @@ public class JwtFilter extends OncePerRequestFilter {
         //Token Expired되었는지 여부
         if(JwtTokenUtil.isExpired(token, secretKey)){
             log.error("Token이 만료되었습니다.");
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        //Redis에 해당 token의 logout 여부 확인
+        String isLogout = (String) redisTemplate.opsForValue().get(token);
+        if(!ObjectUtils.isEmpty(isLogout)){
+            log.error("로그아웃 된 토큰입니다.");
+            //throw new LogoutException(ErrorCode.INVALID_TOKEN, "이미 로그아웃 된 토큰입니다.");
             filterChain.doFilter(request, response);
             return;
         }

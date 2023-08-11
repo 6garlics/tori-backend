@@ -1,5 +1,6 @@
 package com.site.bemystory.controller;
 
+import com.site.bemystory.dto.TokenDTO;
 import com.site.bemystory.dto.UserInfoRequest;
 import com.site.bemystory.dto.UserJoinRequest;
 import com.site.bemystory.dto.UserLoginRequest;
@@ -33,8 +34,8 @@ public class UserController {
      * 로그인
      */
     @PostMapping("/users/login")
-    public ResponseEntity<String> login(@RequestBody UserLoginRequest dto){
-        String token = userService.login(dto.getUserName(), dto.getPassword());
+    public ResponseEntity<TokenDTO> login(@RequestBody UserLoginRequest dto){
+        TokenDTO token = userService.login(dto.getUserName(), dto.getPassword());
         log.info("{}님 로그인 성공", dto.getUserName());
         return ResponseEntity.ok().body(token);
     }
@@ -70,5 +71,11 @@ public class UserController {
     /**
      * 로그아웃
      */
-    //TODO: Logout
+    // TODO: Logout
+    @PostMapping("/users/logout")
+    public ResponseEntity logout(Authentication authentication, @RequestHeader(value = "Authorization") String token){
+        userService.logout(token, authentication.getName());
+        log.info("{}님 로그아웃",authentication.getName());
+        return ResponseEntity.ok().build();
+    }
 }

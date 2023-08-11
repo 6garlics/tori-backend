@@ -1,5 +1,6 @@
 package com.site.bemystory.exception;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -31,6 +32,17 @@ public class ExceptionManager {
                 .body(e.getErrorCode().name()+" "+e.getMessage());
     }
 
+    @ExceptionHandler(LogoutException.class)
+    public ResponseEntity<?> logoutExceptionHandler(LogoutException e){
+        return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+                .body(e.getErrorCode().name()+" "+e.getMessage());
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<?> expiredJwtExceptionHandler(ExpiredJwtException e){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(e.getMessage()+"토큰이 만료되었습니다.");
+    }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<?> runtimeExceptionHandler(RuntimeException e) {

@@ -12,7 +12,8 @@ public enum ErrorCode {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, ""),
     INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, ""),
     IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, ""),
-    INVALID_AUTHORIZATION(HttpStatus.UNAUTHORIZED, "")
+    INVALID_AUTHORIZATION(HttpStatus.UNAUTHORIZED, ""),
+    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "")
     ;
     private HttpStatus httpStatus;
     private String message;
