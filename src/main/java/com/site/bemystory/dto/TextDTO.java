@@ -1,14 +1,13 @@
 package com.site.bemystory.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
+@AllArgsConstructor
+@Builder
 public class TextDTO {
     String text;
-
-    @Builder
-    public TextDTO(String text) {
-        this.text = text;
-    }
 }

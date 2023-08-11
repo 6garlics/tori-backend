@@ -72,7 +72,7 @@ public class BookService {
                 .title(book.getTitle())
                 .genre(book.getGenre())
                 .date(book.getDate())
-                .textList(response.getTexts())
+                .texts(response.getTexts())
                 .build();
     }
 

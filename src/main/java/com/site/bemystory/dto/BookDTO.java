@@ -27,6 +27,8 @@ public class BookDTO {
     }
 
     @Data
+    @AllArgsConstructor
+    @Builder
     public static class OnlyText{
         private Long bookId;
         private String title;
@@ -34,14 +36,6 @@ public class BookDTO {
         private String date;
         private List<String> texts = new ArrayList<>();
 
-        @Builder
-        public OnlyText(Long bookId, String title, String genre, String date, List<String> textList) {
-            this.bookId = bookId;
-            this.title = title;
-            this.genre = genre;
-            this.date = date;
-            this.texts = textList;
-        }
     }
 
     @Data

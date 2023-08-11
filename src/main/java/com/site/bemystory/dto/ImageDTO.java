@@ -2,8 +2,10 @@ package com.site.bemystory.dto;
 
 
 import com.site.bemystory.domain.Image;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
 
 public class ImageDTO {
@@ -17,16 +19,12 @@ public class ImageDTO {
         }
     }
 
-    @Data
+    @Getter
+    @AllArgsConstructor
+    @Builder
     public static class Response{
         private String imgUrl;
         private int index;
-
-        @Builder
-        public Response(String imgUrl, int index) {
-            this.imgUrl = imgUrl;
-            this.index = index;
-        }
     }
 
 }

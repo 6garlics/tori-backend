@@ -2,9 +2,7 @@ package com.site.bemystory.dto;
 
 import com.site.bemystory.domain.Diary;
 import com.site.bemystory.domain.User;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Setter;
+import lombok.*;
 
 
 public class DiaryDTO {
@@ -22,7 +20,6 @@ public class DiaryDTO {
 
 
         public Diary toEntity(User user){
-            System.out.println("왜"+this.title);
             return Diary.builder()
                     .title(this.title)
                     .contents(this.contents)
@@ -33,18 +30,13 @@ public class DiaryDTO {
         }
     }
 
-    @Data
+    @Getter
+    @AllArgsConstructor
+    @Builder
     public static class AIRequest{
         private String title;
         private String contents;
         private String genre;
-
-        @Builder
-        public AIRequest(String title, String contents, String genre) {
-            this.title = title;
-            this.contents = contents;
-            this.genre = genre;
-        }
     }
 
 }
