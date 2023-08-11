@@ -6,18 +6,15 @@ import com.site.bemystory.domain.Image;
 import com.site.bemystory.domain.Text;
 import com.site.bemystory.dto.TextDTO;
 import jakarta.persistence.EntityManager;
+import lombok.AllArgsConstructor;
 
 
 import java.util.*;
 
+@AllArgsConstructor
 public class BookRepository {
 
     private final EntityManager em;
-
-    public BookRepository(EntityManager em) {
-        this.em = em;
-    }
-
 
     public Book save(Book book) {
         em.persist(book);

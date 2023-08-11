@@ -3,15 +3,14 @@ package com.site.bemystory.repository;
 import com.site.bemystory.domain.Book;
 import com.site.bemystory.domain.Cover;
 import jakarta.persistence.EntityManager;
+import lombok.AllArgsConstructor;
+
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 public class CoverRepository {
     private final EntityManager em;
-
-    public CoverRepository(EntityManager em) {
-        this.em = em;
-    }
 
     public Cover save(Cover cover){
         em.persist(cover);

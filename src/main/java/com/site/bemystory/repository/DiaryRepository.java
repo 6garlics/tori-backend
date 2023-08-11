@@ -2,17 +2,14 @@ package com.site.bemystory.repository;
 
 import com.site.bemystory.domain.Diary;
 import jakarta.persistence.EntityManager;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 public class DiaryRepository {
     private final EntityManager em;
-
-    public DiaryRepository(EntityManager em) {
-        this.em = em;
-    }
-
 
     public Diary save(Diary diary) {
         em.persist(diary);
