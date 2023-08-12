@@ -16,7 +16,10 @@ public class ImageRepository {
     }
 
     public Optional<Image> findById(Long id){
-        Image image = em.find(Image.class, id);
+        //Image image = em.find(Image.class, id);
+        Image image = em.createQuery("select i from Image i where i.isDeleted = :bool and i.id = :id", Image.class)
+                .setParameter("bool", false)
+                .getSingleResult();
         return Optional.ofNullable(image);
     }
 }

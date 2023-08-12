@@ -84,7 +84,8 @@ public class BookService {
     }
 
     public Optional<BookDTO.ForAI> findOneForAI(Long id){
-        Book book = bookRepository.findById(id).get();
+        Book book = bookRepository.findById(id).orElseThrow();
+        log.info("book은 찾음");
         List<String> texts = bookRepository.findTexts(id);
         return Optional.ofNullable(BookDTO.ForAI.builder()
                 .title(book.getTitle())

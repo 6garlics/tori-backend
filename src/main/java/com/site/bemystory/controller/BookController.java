@@ -1,17 +1,15 @@
 package com.site.bemystory.controller;
 
 import com.site.bemystory.domain.*;
-import com.site.bemystory.dto.BookDTO;
-import com.site.bemystory.dto.BookOneRequest;
-import com.site.bemystory.dto.ImageDTO;
-import com.site.bemystory.repository.BookRepository;
+import com.site.bemystory.dto.*;
+
 import com.site.bemystory.service.DiaryService;
 import com.site.bemystory.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+
 
 import org.springframework.web.bind.annotation.*;
 
@@ -31,8 +29,8 @@ public class BookController {
      * 동화 text 생성 - fastapi
      */
     @ResponseBody
-    @GetMapping ("/book")
-    public ResponseEntity<BookDTO.OnlyText> makeText(@RequestParam("id") Long id){
+    @GetMapping("/book")
+    public ResponseEntity<BookDTO.OnlyText> makeText(@RequestParam("id") Long id) {
         //diary id로 동화로 바꾸려는 일기 조회
         Diary diary = diaryService.findOne(id).get();
         log.info("diary id : {}", diary.getId());
@@ -48,8 +46,11 @@ public class BookController {
      */
     @ResponseBody
     @GetMapping("/books/{bookId}/cover")
-    public ResponseEntity<String> cover(@PathVariable Long bookId) throws IOException {
-        return ResponseEntity.ok().body(bookService.getCover(bookService.findOneForAI(bookId).orElseThrow(), bookId));
+    public ResponseEntity<CoverRequest> cover(@PathVariable Long bookId) throws IOException {
+        CoverRequest cover = CoverRequest.builder()
+                .coverUrl(bookService.getCover(bookService.findOneForAI(bookId).orElseThrow(), bookId))
+                .build();
+        return ResponseEntity.ok().body(cover);
     }
 
     /**
@@ -66,11 +67,11 @@ public class BookController {
      */
     @ResponseBody
     @GetMapping("/users/{userId}/books")
-    public ResponseEntity<List<BookDTO.BookShelf>> showBooks(@PathVariable Long userId){
+    public ResponseEntity<List<BookDTO.BookShelf>> showBooks(@PathVariable Long userId) {
         List<BookDTO.BookShelf> books = new ArrayList<>();
         int i = 0;
         List<Book> fbooks = bookService.findBooks(userId);
-        for(Book book : fbooks)
+        for (Book book : fbooks)
             books.add(book.toDTO(bookService.findCover(book)));
 
         return ResponseEntity.ok().body(books);
@@ -80,17 +81,16 @@ public class BookController {
      * 동화책 1개 조회
      */
     @GetMapping("/books/{bookId}")
-    public ResponseEntity<BookOneRequest> showBook(@PathVariable Long bookId){
+    public ResponseEntity<BookOneRequest> showBook(@PathVariable Long bookId) {
         Book book = bookService.findOne(bookId).orElseThrow();
         return ResponseEntity.ok().body(
                 book.toRequest(bookService.findTexts(book), bookService.findImages(book)));
     }
 
 
-
     @ResponseBody
     @GetMapping("/booktest")
-    public ResponseEntity<Diary> test(@RequestParam("id") Long id){
+    public ResponseEntity<Diary> test(@RequestParam("id") Long id) {
         //diary id로 동화로 바꾸려는 일기 조회
         Diary diary = diaryService.findOne(id).get();
         return ResponseEntity.ok().body(diary);

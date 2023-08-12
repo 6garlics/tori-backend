@@ -18,7 +18,8 @@ public class CoverRepository {
     }
 
     public Optional<Cover> findByBook(Book book){
-        List<Cover> result = em.createQuery("select c from Cover c where c.book.bookId = :bookId", Cover.class)
+        List<Cover> result = em.createQuery("select c from Cover c where c.isDeleted = :bool and c.book.bookId = :bookId", Cover.class)
+                .setParameter("bool", false)
                 .setParameter("bookId", book.getBookId())
                 .getResultList();
         return result.stream().findAny();

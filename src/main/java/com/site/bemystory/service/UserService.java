@@ -16,13 +16,17 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
@@ -69,6 +73,9 @@ public class UserService {
                 .build();
         //redis에 토큰 저장
         redisTemplate.opsForValue().set("AT:" + userName, token.getToken(), expireTimeMs, TimeUnit.MILLISECONDS);
+
+        //last login time update
+        selectedUser.setLastLogin(new Timestamp(new Date().getTime()));
         //error 없으면 token 발행
         return token;
     }

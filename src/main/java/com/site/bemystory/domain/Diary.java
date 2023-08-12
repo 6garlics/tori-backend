@@ -5,6 +5,10 @@ import com.site.bemystory.dto.DiaryDTO;
 import com.site.bemystory.dto.DiaryRequest;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Timestamp;
 
 
 @NoArgsConstructor
@@ -35,6 +39,19 @@ public class Diary {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private Timestamp createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private Timestamp updatedAt;
+
+    @Column(name = "deleted_at")
+    private Timestamp deletedAt;
+
+    @Column(name = "is_deleted", columnDefinition = "boolean default false")
+    private boolean isDeleted;
 
     @Builder
     public Diary(String title, String contents, String genre, String date, User user) {

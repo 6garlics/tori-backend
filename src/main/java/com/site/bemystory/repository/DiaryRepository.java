@@ -18,13 +18,18 @@ public class DiaryRepository {
 
 
     public Optional<Diary> findById(Long id) {
-        Diary diary = em.find(Diary.class, id);
+        Diary diary = em.createQuery("select d from Diary d where d.isDeleted = :bool and d.id = :id", Diary.class)
+                .setParameter("bool", false)
+                .setParameter("id", id)
+                .getSingleResult();
+        //Diary diary = em.find(Diary.class, id);
         return Optional.ofNullable(diary);
     }
 
 
     public Optional<Diary> findByTitle(String title) {
-        List<Diary> result = em.createQuery("select d from Diary d where d.title = :title", Diary.class)
+        List<Diary> result = em.createQuery("select d from Diary d where d.isDeleted = :bool and d.title = :title", Diary.class)
+                .setParameter("bool", false)
                 .setParameter("title", title)
                 .getResultList();
         return result.stream().findAny();
@@ -32,7 +37,7 @@ public class DiaryRepository {
 
 
     public List<Diary> findAll() {
-        return em.createQuery("select d from Diary d", Diary.class)
+        return em.createQuery("select d from Diary d where d.isDeleted = false", Diary.class)
                 .getResultList();
     }
 }
