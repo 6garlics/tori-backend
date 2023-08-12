@@ -1,9 +1,6 @@
 package com.site.bemystory.dto;
 
 import com.site.bemystory.domain.Cover;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 
 

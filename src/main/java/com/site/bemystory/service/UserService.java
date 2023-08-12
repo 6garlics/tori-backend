@@ -8,12 +8,12 @@ import com.site.bemystory.exception.LogoutException;
 import com.site.bemystory.exception.UserException;
 import com.site.bemystory.repository.UserRepository;
 import com.site.bemystory.utils.JwtTokenUtil;
-import io.jsonwebtoken.Jwt;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.core.Authentication;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

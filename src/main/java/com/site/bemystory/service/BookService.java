@@ -1,7 +1,6 @@
 package com.site.bemystory.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.site.bemystory.domain.*;
 import com.site.bemystory.dto.BookDTO;
 import com.site.bemystory.dto.CoverDTO;
@@ -15,16 +14,14 @@ import com.site.bemystory.repository.ImageRepository;
 import com.site.bemystory.repository.TextRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
+
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;

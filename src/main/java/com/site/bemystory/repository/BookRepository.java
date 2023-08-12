@@ -1,7 +1,6 @@
 package com.site.bemystory.repository;
 
 import com.site.bemystory.domain.Book;
-import com.site.bemystory.domain.Diary;
 import com.site.bemystory.domain.Image;
 import com.site.bemystory.domain.Text;
 import com.site.bemystory.dto.TextDTO;

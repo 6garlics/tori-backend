@@ -1,8 +1,6 @@
 package com.site.bemystory.dto;
 
 import com.site.bemystory.domain.Book;
-import com.site.bemystory.domain.Image;
-import com.site.bemystory.domain.Text;
 import lombok.*;
 
 import java.util.List;
