@@ -93,8 +93,9 @@ public class BookService {
     /**
      * 동화 조회 - 모두
      */
-    public List<Book> findBooks(Long userId){
-        return bookRepository.findAll(userId);
+    public List<Book> findBooks(String userName){
+        User user = userService.findUser(userName);
+        return bookRepository.findAll(user.getUser_id());
     }
 
     //TODO: 동화책 수정

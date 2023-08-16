@@ -63,14 +63,14 @@ public class BookController {
     }
 
     /**
-     * 내 책장
+     * 책장 조회
      */
     @ResponseBody
-    @GetMapping("/users/{userId}/books")
-    public ResponseEntity<List<BookDTO.BookShelf>> showBooks(@PathVariable Long userId) {
+    @GetMapping("/books")
+    public ResponseEntity<List<BookDTO.BookShelf>> showBooks(@RequestParam String userName) {
         List<BookDTO.BookShelf> books = new ArrayList<>();
         int i = 0;
-        List<Book> fbooks = bookService.findBooks(userId);
+        List<Book> fbooks = bookService.findBooks(userName);
         for (Book book : fbooks)
             books.add(book.toDTO(bookService.findCover(book)));
 
