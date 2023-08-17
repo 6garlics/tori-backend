@@ -48,6 +48,9 @@ public class UserService {
                     throw new AppException(ErrorCode.USERNAME_DUPLICATED, userName + "는 이미 있습니다");
                 });
          */
+        if(checkUserName(userName)){
+            throw new AppException(ErrorCode.USERNAME_DUPLICATED, "이미 존재하는 이름입니다.");
+        }
 
         // 저장
         User user = User.builder()
