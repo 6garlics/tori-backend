@@ -43,13 +43,13 @@ public class UserController {
     /**
      * 아이디 중복검사
      */
-    @GetMapping("/checkId")
-    public ResponseEntity checkUserName(@RequestParam("userName") String userName){
+    @GetMapping("/checkUserName")
+    public ResponseEntity<String> checkUserName(@RequestParam("userName") String userName){
         if(userService.checkUserName(userName)){
             // db에 존재하면 CONFLICT 409 ERROR
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 이름입니다.");
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("사용 가능한 이름입니다.");
     }
 
     /**

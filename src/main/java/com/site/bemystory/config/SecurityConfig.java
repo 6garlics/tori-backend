@@ -36,7 +36,7 @@ public class SecurityConfig {
                 .build();*/
         //spring 공식문서 읽고 만듦 위에 것은 deprecated 되어서
         return httpSecurity.authorizeHttpRequests((requests)->requests
-                .requestMatchers("/users/join", "/users/login", "/checkId").permitAll()
+                .requestMatchers("/users/join", "/users/login", "/checkUserName").permitAll()
                 .anyRequest().authenticated())
                 .httpBasic(httpBasic-> httpBasic.disable())
                 .csrf(csrf-> csrf.disable())
