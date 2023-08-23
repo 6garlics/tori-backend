@@ -43,7 +43,7 @@ public class UserService {
     public String join(String userName, String password, String email) {
         /*
          //username 중복 CHECK
-        userRepository.findByUserN ame(userName)
+        userRepository.findByUserName(userName)
                 .ifPresent(user -> {
                     throw new AppException(ErrorCode.USERNAME_DUPLICATED, userName + "는 이미 있습니다");
                 });
