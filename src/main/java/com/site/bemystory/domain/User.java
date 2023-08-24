@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.sql.Timestamp;
 
@@ -48,6 +49,13 @@ public class User {
     //프로필 사진
     private String profile;
 
+    //팔로우
+    @OneToMany(mappedBy = "from_user", fetch = FetchType.LAZY)
+    private List<Follow> followings;
+
+    @OneToMany(mappedBy = "to_user", fetch = FetchType.LAZY)
+    private List<Follow> followers;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Diary> diaries;
 
@@ -59,6 +67,7 @@ public class User {
         this.userName = userName;
         this.password = password;
         this.email = email;
+        this.profile="https://bemystory-s3-data.s3.ap-northeast-2.amazonaws.com/default_profile.png";
     }
 
 

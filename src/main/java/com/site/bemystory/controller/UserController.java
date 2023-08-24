@@ -1,9 +1,11 @@
 package com.site.bemystory.controller;
 
+import com.site.bemystory.domain.User;
 import com.site.bemystory.dto.TokenDTO;
 import com.site.bemystory.dto.UserInfoRequest;
 import com.site.bemystory.dto.UserJoinRequest;
 import com.site.bemystory.dto.UserLoginRequest;
+import com.site.bemystory.service.FollowService;
 import com.site.bemystory.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,12 +20,13 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final FollowService followService;
 
     /**
      * 회원가입
      */
     @PostMapping("/users/join")
-    public ResponseEntity<String> join(@RequestBody UserJoinRequest dto){
+    public ResponseEntity<String> join(@RequestBody UserJoinRequest dto) {
 
         userService.join(dto.getUserName(), dto.getPassword(), dto.getEmail());
         log.info("{}님 회원가입 성공", dto.getUserName());
@@ -34,7 +37,7 @@ public class UserController {
      * 로그인
      */
     @PostMapping("/users/login")
-    public ResponseEntity<TokenDTO> login(@RequestBody UserLoginRequest dto){
+    public ResponseEntity<TokenDTO> login(@RequestBody UserLoginRequest dto) {
         TokenDTO token = userService.login(dto.getUserName(), dto.getPassword());
         log.info("{}님 로그인 성공", dto.getUserName());
         return ResponseEntity.ok().body(token);
@@ -44,8 +47,8 @@ public class UserController {
      * 아이디 중복검사
      */
     @GetMapping("/checkUserName")
-    public ResponseEntity<String> checkUserName(@RequestParam("userName") String userName){
-        if(userService.checkUserName(userName)){
+    public ResponseEntity<String> checkUserName(@RequestParam("userName") String userName) {
+        if (userService.checkUserName(userName)) {
             // db에 존재하면 CONFLICT 409 ERROR
             return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 이름입니다.");
         }
@@ -56,7 +59,7 @@ public class UserController {
      * 내 정보 조회
      */
     @GetMapping("/users/me")
-    public ResponseEntity<UserInfoRequest> myInfo(Authentication authentication){
+    public ResponseEntity<UserInfoRequest> myInfo(Authentication authentication) {
         return ResponseEntity.ok().body(userService.findUser(authentication.getName()).toDTO());
     }
 
@@ -64,7 +67,7 @@ public class UserController {
      * 다른 유저의 정보 조회
      */
     @GetMapping("/users")
-    public ResponseEntity<UserInfoRequest> otherInfo(@RequestParam("userName") String userName){
+    public ResponseEntity<UserInfoRequest> otherInfo(@RequestParam("userName") String userName) {
         return ResponseEntity.ok().body(userService.findUser(userName).toDTO());
     }
 
@@ -73,9 +76,20 @@ public class UserController {
      */
     // TODO: Logout
     @PostMapping("/users/logout")
-    public ResponseEntity logout(Authentication authentication, @RequestHeader(value = "Authorization") String token){
+    public ResponseEntity logout(Authentication authentication, @RequestHeader(value = "Authorization") String token) {
         userService.logout(token, authentication.getName());
-        log.info("{}님 로그아웃",authentication.getName());
+        log.info("{}님 로그아웃", authentication.getName());
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 친구 추가
+     */
+    @PostMapping("/users/friends/{friendName}")
+    public ResponseEntity follow(Authentication authentication, @PathVariable("friendName") String friendName) {
+        User from_user = userService.findUser(authentication.getName());
+        User to_user = userService.findUser(friendName);
+        followService.follow(from_user, to_user);
         return ResponseEntity.ok().build();
     }
 }

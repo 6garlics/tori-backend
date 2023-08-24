@@ -73,6 +73,7 @@ public class Book {
                 .bookId(this.bookId)
                 .title(this.title)
                 .coverUrl(cover)
+                .date(this.date)
                 .build();
     }
 

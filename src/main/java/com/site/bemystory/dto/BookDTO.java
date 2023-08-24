@@ -43,5 +43,6 @@ public class BookDTO {
         private Long bookId;
         private String title;
         private String coverUrl;
+        private String date;
     }
 }
