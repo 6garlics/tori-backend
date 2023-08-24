@@ -34,7 +34,7 @@ public class UserService {
     private final BCryptPasswordEncoder encoder;
     @Value("${jwt.token.secret}")
     private String key;
-    private Long expireTimeMs = 1000 * 60 * 60L;
+    private Long expireTimeMs = 1000 * 60 * 600L;
 
     public boolean checkUserName(String userName) {
         return userRepository.findByUserName(userName).isPresent();
