@@ -1,10 +1,7 @@
 package com.site.bemystory.controller;
 
 import com.site.bemystory.domain.User;
-import com.site.bemystory.dto.TokenDTO;
-import com.site.bemystory.dto.UserInfoRequest;
-import com.site.bemystory.dto.UserJoinRequest;
-import com.site.bemystory.dto.UserLoginRequest;
+import com.site.bemystory.dto.*;
 import com.site.bemystory.service.FollowService;
 import com.site.bemystory.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-    private final FollowService followService;
 
     /**
      * 회원가입
@@ -82,14 +78,5 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    /**
-     * 친구 추가
-     */
-    @PostMapping("/users/friends/{friendName}")
-    public ResponseEntity follow(Authentication authentication, @PathVariable("friendName") String friendName) {
-        User from_user = userService.findUser(authentication.getName());
-        User to_user = userService.findUser(friendName);
-        followService.follow(from_user, to_user);
-        return ResponseEntity.ok().build();
-    }
+
 }

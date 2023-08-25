@@ -1,5 +1,6 @@
 package com.site.bemystory.domain;
 
+import com.site.bemystory.dto.FollowDTO;
 import com.site.bemystory.dto.UserInfoRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.sql.Timestamp;
 
@@ -50,10 +50,10 @@ public class User {
     private String profile;
 
     //팔로우
-    @OneToMany(mappedBy = "from_user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "fromUser", fetch = FetchType.LAZY)
     private List<Follow> followings;
 
-    @OneToMany(mappedBy = "to_user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "toUser", fetch = FetchType.LAZY)
     private List<Follow> followers;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
@@ -75,6 +75,14 @@ public class User {
         return UserInfoRequest.builder()
                 .userName(this.userName)
                 .profileImg(this.profile)
+                .build();
+    }
+
+    public FollowDTO toFollow(String friendStatus){
+        return FollowDTO.builder()
+                .userName(this.userName)
+                .profileImg(this.profile)
+                .friendStatus(friendStatus)
                 .build();
     }
 }

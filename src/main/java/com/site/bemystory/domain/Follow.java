@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.sql.Timestamp;
 
@@ -23,11 +22,11 @@ public class Follow {
 
     @ManyToOne
     @JoinColumn(name = "from_user")
-    private User from_user;
+    private User fromUser;
 
     @ManyToOne
     @JoinColumn(name = "to_user")
-    private User to_user;
+    private User toUser;
 
     @CreationTimestamp
     @Column(name = "create_date")
