@@ -44,6 +44,12 @@ public class ExceptionManager {
                 .body(e.getMessage()+"토큰이 만료되었습니다.");
     }
 
+    @ExceptionHandler(FollowException.class)
+    public ResponseEntity<?> followExceptionHandler(FollowException e){
+        return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+                .body(e.getErrorCode().name()+" "+e.getMessage());
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<?> runtimeExceptionHandler(RuntimeException e) {
         return ResponseEntity.status(HttpStatus.CONFLICT)

@@ -7,10 +7,7 @@ import com.site.bemystory.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,18 +31,28 @@ public class FollowController {
     /**
      * 팔로잉 조회
      */
-    @GetMapping("/users/following")
-    public ResponseEntity<List<FollowDTO>> getFollowingList(Authentication authentication) {
-        User from_user = userService.findUser(authentication.getName());
-        return ResponseEntity.ok().body(followService.followingList(from_user));
+    @GetMapping("/users/{userName}/following")
+    public ResponseEntity<List<FollowDTO>> getFollowingList(@PathVariable("userName") String userName, Authentication auth) {
+        User from_user = userService.findUser(userName);
+        User requestUser=userService.findUser(auth.getName());
+        return ResponseEntity.ok().body(followService.followingList(from_user, requestUser));
     }
 
     /**
      * 팔로워 조회
      */
-    @GetMapping("/users/follower")
-    public ResponseEntity<List<FollowDTO>> getFollowerList(Authentication authentication) {
-        User to_user = userService.findUser(authentication.getName());
-        return ResponseEntity.ok().body(followService.followerList(to_user));
+    @GetMapping("/users/{userName}/follower")
+    public ResponseEntity<List<FollowDTO>> getFollowerList(@PathVariable("userName") String userName, Authentication auth) {
+        User to_user = userService.findUser(userName);
+        User requestUser=userService.findUser(auth.getName());
+        return ResponseEntity.ok().body(followService.followerList(to_user, requestUser));
+    }
+
+    /**
+     * 팔로우 취소
+     */
+    @DeleteMapping("/users/follow/{friendName}")
+    public ResponseEntity<String> deleteFollow(Authentication authentication){
+        return ResponseEntity.ok().body(followService.cancelFollow(userService.findUser(authentication.getName())));
     }
 }
