@@ -6,10 +6,7 @@ import com.site.bemystory.dto.BookDTO;
 
 import com.site.bemystory.exception.ErrorCode;
 import com.site.bemystory.exception.ImageException;
-import com.site.bemystory.repository.BookRepository;
-import com.site.bemystory.repository.CoverRepository;
-import com.site.bemystory.repository.ImageRepository;
-import com.site.bemystory.repository.TextRepository;
+import com.site.bemystory.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,6 +31,7 @@ public class BookService {
 
     private final ImageRepository imageRepository;
     private final CoverRepository coverRepository;
+    private final DiaryRepository diaryRepository;
     private final BookRepository bookRepository;
     private final WebClient webClient;
     private final AmazonS3Client amazonS3Client;
@@ -47,12 +45,33 @@ public class BookService {
     /**
      * 동화책 저장
      */
-
+    public Long saveBook(String userName, BookDTO.Save dto) {
+        Book book = dto.toBook();
+        book.setUser(userService.findUser(userName));
+        book.setDiary(diaryRepository.findById(dto.getDiaryId()).orElseThrow());
+        bookRepository.save(book);
+        coverRepository.save(Cover.builder().coverUrl(dto.getCoverUrl()).book(book).build());
+        List<String> texts = dto.getTexts();
+        List<String> images = dto.getImages();
+        for (int i = 0; i < texts.size(); i++) {
+            textRepository.save(Text.builder()
+                    .text(texts.get(i))
+                    .book(book)
+                    .index(i)
+                    .build());
+            imageRepository.save(Image.builder()
+                    .imgUrl(images.get(i))
+                    .book(book)
+                    .index(i)
+                    .build());
+        }
+        return book.getBookId();
+    }
 
     /**
      * 동화 조회 - 1개
      */
-    public Optional<Book> findOne(Long id){
+    public Optional<Book> findOne(Long id) {
         return bookRepository.findById(id);
     }
 
@@ -60,7 +79,7 @@ public class BookService {
     /**
      * 동화 조회 - 모두
      */
-    public List<Book> findBooks(String userName){
+    public List<Book> findBooks(String userName) {
         User user = userService.findUser(userName);
         return bookRepository.findAll(user.getUser_id());
     }
@@ -71,7 +90,7 @@ public class BookService {
     /**
      * find cover
      */
-    public String findCover(Book book){
+    public String findCover(Book book) {
         Cover cover = coverRepository.findByBook(book).get();
         return cover.getCoverUrl();
     }
@@ -79,14 +98,14 @@ public class BookService {
     /**
      * find texts
      */
-    public List<String> findTexts(Book book){
+    public List<String> findTexts(Book book) {
         return bookRepository.findTexts(book.getBookId());
     }
 
     /**
      * find images
      */
-    public List<String> findImages(Book book){
+    public List<String> findImages(Book book) {
         return bookRepository.findImages(book.getBookId());
     }
 
@@ -95,12 +114,11 @@ public class BookService {
      * fastapi에게 받은 이미지 url S3에 업로드
      */
     //Todo : 나중에 이미지 upload함수들 private으로 바꾸기
-
-    public String uploadImage(String tmp_url){
-        String fileName = UUID.randomUUID().toString()+".jpg";
+    public String uploadImage(String tmp_url) {
+        String fileName = UUID.randomUUID().toString() + ".jpg";
         log.info("temp url= {}", tmp_url);
         String fileUrl = "https://" + bucket + ".s3." + region +
-                ".amazonaws.com/"+fileName;
+                ".amazonaws.com/" + fileName;
 
 
         /*ResponseEntity<byte[]> image = restTemplate.getForEntity(tmp_url, byte[].class);
@@ -129,11 +147,10 @@ public class BookService {
     /**
      * 책 주인 찾기
      */
-    public String findUser(Long bookId){
+    public String findUser(Long bookId) {
         Book book = bookRepository.findById(bookId).orElseThrow();
         return userService.findById(book.getUser().getUser_id()).orElseThrow().getUserName();
     }
-
 
 
 }

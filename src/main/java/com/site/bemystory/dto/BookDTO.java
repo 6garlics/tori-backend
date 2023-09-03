@@ -1,6 +1,7 @@
 package com.site.bemystory.dto;
 
 import com.site.bemystory.domain.Book;
+import com.site.bemystory.domain.Diary;
 import lombok.*;
 
 import java.util.List;
@@ -28,5 +29,13 @@ public class BookDTO {
         private String date;
         private List<String> texts;
         private List<String> images;
+
+        public Book toBook(){
+            return Book.builder()
+                    .title(this.title)
+                    .genre(this.genre)
+                    .date(date)
+                    .build();
+        }
     }
 }

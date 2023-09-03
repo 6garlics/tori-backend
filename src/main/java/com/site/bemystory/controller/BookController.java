@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -29,6 +30,10 @@ public class BookController {
     /**
      * 최초 동화책 저장
      */
+    @PostMapping("/books")
+    public ResponseEntity<Long> saveBook(Authentication auth, @RequestBody BookDTO.Save request) {
+        return ResponseEntity.ok().body(bookService.saveBook(auth.getName(), request));
+    }
 
     /**
      * 책장 조회

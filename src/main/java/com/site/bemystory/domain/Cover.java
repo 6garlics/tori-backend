@@ -39,7 +39,8 @@ public class Cover {
     private boolean isDeleted;
 
     @Builder
-    public Cover(String coverUrl) {
+    public Cover(String coverUrl, Book book) {
         this.coverUrl = coverUrl;
+        this.book = book;
     }
 }

@@ -45,8 +45,10 @@ public class Image {
     private boolean isDeleted;
 
     @Builder
-    public Image(String imgUrl) {
+    public Image(String imgUrl, int index, Book book) {
         this.imgUrl = imgUrl;
+        this.book = book;
+        this.index = index;
     }
 
     public ImageDTO.Response toDTO(){
