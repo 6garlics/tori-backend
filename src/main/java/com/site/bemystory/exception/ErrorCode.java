@@ -15,7 +15,8 @@ public enum ErrorCode {
     INVALID_AUTHORIZATION(HttpStatus.UNAUTHORIZED, ""),
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, ""),
     INVALID_REQUEST(HttpStatus.BAD_REQUEST, ""),
-    FOLLOW_DUPLICATED(HttpStatus.CONFLICT, "")
+    FOLLOW_DUPLICATED(HttpStatus.CONFLICT, ""),
+    BOOK_DUPLICATED(HttpStatus.CONFLICT, "")
     ;
     private HttpStatus httpStatus;
     private String message;

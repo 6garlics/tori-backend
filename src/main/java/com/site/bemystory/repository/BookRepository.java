@@ -20,6 +20,13 @@ public class BookRepository {
         return book;
     }
 
+    public Optional<Book> findByDiary(Long diaryId){
+        Book b= em.createQuery("select b from Book b where b.diary.id=:diaryId", Book.class)
+                .setParameter("diaryId", diaryId)
+                .getSingleResult();
+        return Optional.ofNullable(b);
+    }
+
     public List<Text> findTextList(Long bookId) {
         List<Text> texts = em.createQuery("select t from Text t where t.isDeleted = :bool and t.book.bookId = :bookId", Text.class)
                 .setParameter("bool", false)

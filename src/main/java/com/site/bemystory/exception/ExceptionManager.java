@@ -50,6 +50,12 @@ public class ExceptionManager {
                 .body(e.getErrorCode().name()+" "+e.getMessage());
     }
 
+    @ExceptionHandler(BookException.class)
+    public ResponseEntity<?> bookExceptionHandler(BookException e){
+        return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+                .body(e.getErrorCode().name()+" "+e.getMessage());
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<?> runtimeExceptionHandler(RuntimeException e) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
