@@ -24,7 +24,12 @@ public class BookController {
 
     private final BookService bookService;
     private final DiaryService diaryService;
-    
+
+
+    /**
+     * 최초 동화책 저장
+     */
+
     /**
      * 책장 조회
      */

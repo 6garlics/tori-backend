@@ -23,17 +23,14 @@ public class DiaryController {
     private final BookService bookService;
 
     /**
-     * 일기 저장하고 fastapi로 넘겨줌
+     * 일기 저장
      */
-    @PostMapping("/books")
-    public String create(Authentication authentication, @RequestBody DiaryDTO.Request request){
+    @PostMapping("/diary")
+    public ResponseEntity<Long> saveDiary(Authentication authentication, @RequestBody DiaryDTO.Request request){
         User user = userService.findUser(authentication.getName());
-        log.info("userName : {}",user.getUserName());
         //DB 저장
         Diary diary = request.toEntity(user);
-        diaryService.save(diary);
-        return "redirect:/book?id="+diary.getId();
-
+        return ResponseEntity.ok().body(diaryService.save(diary));
     }
 
     /**

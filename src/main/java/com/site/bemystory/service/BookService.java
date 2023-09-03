@@ -3,9 +3,7 @@ package com.site.bemystory.service;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.site.bemystory.domain.*;
 import com.site.bemystory.dto.BookDTO;
-import com.site.bemystory.dto.CoverDTO;
-import com.site.bemystory.dto.DiaryDTO;
-import com.site.bemystory.dto.ImageDTO;
+
 import com.site.bemystory.exception.ErrorCode;
 import com.site.bemystory.exception.ImageException;
 import com.site.bemystory.repository.BookRepository;
@@ -49,29 +47,7 @@ public class BookService {
     /**
      * 동화책 저장
      */
-    public BookDTO.OnlyText saveBook(BookDTO.ForAI response, Diary diary){
-        Book book = response.toEntity();
-        book.setDate(diary.getDate());
-        book.setGenre(diary.getGenre());
-        book.setDiary(diary);
-        book.setUser(diary.getUser());
-        bookRepository.save(book);
-        int i=0;
-        for(String text : response.getTexts()){
-            textRepository.save(Text.builder()
-                    .index(i++)
-                    .text(text)
-                    .book(book).build());
 
-        }
-        return BookDTO.OnlyText.builder()
-                .bookId(book.getBookId())
-                .title(book.getTitle())
-                .genre(book.getGenre())
-                .date(book.getDate())
-                .texts(response.getTexts())
-                .build();
-    }
 
     /**
      * 동화 조회 - 1개
@@ -80,15 +56,6 @@ public class BookService {
         return bookRepository.findById(id);
     }
 
-    public Optional<BookDTO.ForAI> findOneForAI(Long id){
-        Book book = bookRepository.findById(id).orElseThrow();
-        log.info("book은 찾음");
-        List<String> texts = bookRepository.findTexts(id);
-        return Optional.ofNullable(BookDTO.ForAI.builder()
-                .title(book.getTitle())
-                .texts(texts)
-                .build());
-    }
 
     /**
      * 동화 조회 - 모두
@@ -100,36 +67,6 @@ public class BookService {
 
     //TODO: 동화책 수정
 
-
-    /**
-     * 일기를 chatGPT에게 넘겨주고 Text 받아옴
-     */
-    public BookDTO.ForAI getText(DiaryDTO.AIRequest request){
-        // request api
-        return webClient.post()
-                .uri("/diaryToStory")
-                .bodyValue(request)
-                .retrieve()
-                .bodyToMono(BookDTO.ForAI.class)
-                .block();
-    }
-
-    /**
-     * Cover fastapi에 요청하고 저장
-     */
-    public String getCover(BookDTO.ForAI request, Long bookId) throws IOException {
-        Cover cover = webClient.post()
-                .uri("/cover")
-                .bodyValue(request)
-                .retrieve()
-                .bodyToMono(CoverDTO.class)
-                .block()
-                .toEntity();
-        cover.setCoverUrl(uploadImage(cover.getCoverUrl()));
-        cover.setBook(findOne(bookId).get());
-        coverRepository.save(cover);
-        return cover.getCoverUrl();
-    }
 
     /**
      * find cover
@@ -151,22 +88,6 @@ public class BookService {
      */
     public List<String> findImages(Book book){
         return bookRepository.findImages(book.getBookId());
-    }
-
-
-    public Image getIllust(Long bookId, int index) throws IOException {
-
-        Image image = webClient.post()
-                .uri("/textToImage")
-                .bodyValue(bookRepository.findText(bookId, index))
-                .retrieve()
-                .bodyToMono(ImageDTO.OnlyUrl.class)
-                .block()
-                .toEntity();
-        image.setIndex(index);
-        image.setBook(findOne(bookId).get());
-        image.setImgUrl(uploadImage(image.getImgUrl()));
-        return imageRepository.save(image);
     }
 
 
