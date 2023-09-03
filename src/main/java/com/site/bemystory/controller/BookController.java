@@ -24,44 +24,7 @@ public class BookController {
 
     private final BookService bookService;
     private final DiaryService diaryService;
-
-    /**
-     * 동화 text 생성 - fastapi
-     */
-    @ResponseBody
-    @GetMapping("/book")
-    public ResponseEntity<BookDTO.OnlyText> makeText(@RequestParam("id") Long id) {
-        //diary id로 동화로 바꾸려는 일기 조회
-        Diary diary = diaryService.findOne(id).get();
-        log.info("diary id : {}", diary.getId());
-
-        //fastapi로 보내서 Text만 존재하는 동화책
-        BookDTO.ForAI response = bookService.getText(diary.toDTO());
-        return ResponseEntity.ok().body(bookService.saveBook(response, diary));
-
-    }
-
-    /**
-     * Cover 생성
-     */
-    @ResponseBody
-    @GetMapping("/books/{bookId}/cover")
-    public ResponseEntity<CoverRequest> cover(@PathVariable Long bookId) throws IOException {
-        CoverRequest cover = CoverRequest.builder()
-                .coverUrl(bookService.getCover(bookService.findOneForAI(bookId).orElseThrow(), bookId))
-                .build();
-        return ResponseEntity.ok().body(cover);
-    }
-
-    /**
-     * 일러스트 1개 생성
-     */
-    @ResponseBody
-    @GetMapping("/books/{bookId}/pages/{pageNum}")
-    public ResponseEntity<ImageDTO.Response> page(@PathVariable Long bookId, @PathVariable int pageNum) throws IOException {
-        return ResponseEntity.ok().body(bookService.getIllust(bookId, pageNum).toDTO());
-    }
-
+    
     /**
      * 책장 조회
      */
@@ -86,15 +49,5 @@ public class BookController {
         return ResponseEntity.ok().body(
                 book.toRequest(bookService.findTexts(book), bookService.findImages(book)));
     }
-
-
-    @ResponseBody
-    @GetMapping("/booktest")
-    public ResponseEntity<Diary> test(@RequestParam("id") Long id) {
-        //diary id로 동화로 바꾸려는 일기 조회
-        Diary diary = diaryService.findOne(id).get();
-        return ResponseEntity.ok().body(diary);
-    }
-
 
 }
