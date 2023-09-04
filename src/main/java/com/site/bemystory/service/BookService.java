@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.site.bemystory.domain.*;
 import com.site.bemystory.dto.BookDTO;
 
+import com.site.bemystory.dto.BookUpdate;
 import com.site.bemystory.exception.BookException;
 import com.site.bemystory.exception.ErrorCode;
 import com.site.bemystory.exception.ImageException;
@@ -47,12 +48,13 @@ public class BookService {
      * 동화책 저장
      */
     public Long saveBook(String userName, BookDTO.Save dto) {
+        //이미 동화가 있는 일기에 대해 또 동화를 만들려고 하면 에러
         if(bookRepository.findByDiary(dto.getDiaryId()).isPresent()){
             throw new BookException(ErrorCode.BOOK_DUPLICATED, "이미 동화가 생성된 일기입니다.");
         }
         Book book = dto.toBook();
         book.setUser(userService.findUser(userName));
-        //이미 동화가 있는 일기에 대해 또 동화를 만들려고 하면 에러
+
         book.setDiary(diaryRepository.findById(dto.getDiaryId()).orElseThrow());
         bookRepository.save(book);
         coverRepository.save(Cover.builder().coverUrl(dto.getCoverUrl()).book(book).build());
@@ -71,6 +73,21 @@ public class BookService {
                     .build());
         }
         return book.getBookId();
+    }
+
+    /**
+     * 동화 수정
+     */
+    public void updateBook(Long bookId, BookUpdate dto){
+        Book selected = bookRepository.findById(bookId).orElseThrow();
+        selected.update(dto);
+        coverRepository.findByBook(selected).orElseThrow().update(dto);
+        List<Text> texts = bookRepository.findTextList(bookId);
+        List<Image> images = bookRepository.findImageList(bookId);
+        for(int i=0;i< texts.size();i++){
+            texts.get(i).update(dto.getTexts().get(i));
+            images.get(i).update(dto.getImages().get(i));
+        }
     }
 
     /**

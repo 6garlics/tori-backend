@@ -2,6 +2,7 @@ package com.site.bemystory.domain;
 
 import com.site.bemystory.dto.BookDTO;
 import com.site.bemystory.dto.BookOneRequest;
+import com.site.bemystory.dto.BookUpdate;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -89,4 +90,7 @@ public class Book {
                 .build();
     }
 
+    public void update(BookUpdate update){
+        this.title= update.getTitle();
+    }
 }

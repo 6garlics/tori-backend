@@ -54,4 +54,8 @@ public class Image {
     public ImageDTO.Response toDTO(){
         return ImageDTO.Response.builder().index(this.index).imgUrl(this.imgUrl).build();
     }
+
+    public void update(String imgUrl){
+        this.imgUrl=imgUrl;
+    }
 }

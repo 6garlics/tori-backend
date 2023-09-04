@@ -1,5 +1,6 @@
 package com.site.bemystory.domain;
 
+import com.site.bemystory.dto.BookUpdate;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,5 +43,9 @@ public class Cover {
     public Cover(String coverUrl, Book book) {
         this.coverUrl = coverUrl;
         this.book = book;
+    }
+
+    public void update(BookUpdate update){
+        this.coverUrl= update.getCoverUrl();
     }
 }

@@ -36,6 +36,15 @@ public class BookController {
     }
 
     /**
+     * 동화책 수정
+     */
+    @PutMapping("/books/{bookId}")
+    public ResponseEntity updateBook(@PathVariable Long bookId, @RequestBody BookUpdate update){
+        bookService.updateBook(bookId, update);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
      * 책장 조회
      */
     @ResponseBody
