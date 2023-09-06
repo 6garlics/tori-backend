@@ -39,8 +39,26 @@ public class BookController {
      * 동화책 수정
      */
     @PutMapping("/books/{bookId}")
-    public ResponseEntity updateBook(@PathVariable Long bookId, @RequestBody BookUpdate update){
+    public ResponseEntity updateBook(@PathVariable Long bookId, @RequestBody BookUpdate update) {
         bookService.updateBook(bookId, update);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 뒷이야기 이어쓰기
+     */
+    @PostMapping("/books/{bookId}")
+    public ResponseEntity addPage(@PathVariable Long bookId, @RequestBody AddStory add) {
+        bookService.addPage(bookId, add);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 동화책 삭제
+     */
+    @DeleteMapping("/books/{bookId}")
+    public ResponseEntity delete(@PathVariable Long bookId){
+        bookService.delete(bookId);
         return ResponseEntity.ok().build();
     }
 

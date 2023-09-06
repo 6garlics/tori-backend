@@ -49,4 +49,8 @@ public class Text {
     public void update(String text){
         this.text=text;
     }
+    public void delete(){
+        this.isDeleted=true;
+        this.deletedAt=new Timestamp(System.currentTimeMillis());
+    }
 }

@@ -93,4 +93,8 @@ public class Book {
     public void update(BookUpdate update){
         this.title= update.getTitle();
     }
+    public void delete(){
+        this.isDeleted=true;
+        this.deletedAt=new Timestamp(System.currentTimeMillis());
+    }
 }

@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
@@ -47,5 +48,10 @@ public class Cover {
 
     public void update(BookUpdate update){
         this.coverUrl= update.getCoverUrl();
+    }
+
+    public void delete(){
+        this.isDeleted=true;
+        this.deletedAt=new Timestamp(System.currentTimeMillis());
     }
 }

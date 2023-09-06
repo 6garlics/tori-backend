@@ -2,6 +2,7 @@ package com.site.bemystory.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.site.bemystory.domain.*;
+import com.site.bemystory.dto.AddStory;
 import com.site.bemystory.dto.BookDTO;
 
 import com.site.bemystory.dto.BookUpdate;
@@ -91,6 +92,38 @@ public class BookService {
     }
 
     /**
+     * 뒷이야기 저장
+     */
+    public void addPage(Long bookId, AddStory add){
+        Book selected = bookRepository.findById(bookId).orElseThrow();
+        List<Text> texts = bookRepository.findTextList(bookId);
+        int index = texts.size();
+        textRepository.save(Text.builder()
+                .text(add.getNewText())
+                .book(selected)
+                .index(index).build());
+        imageRepository.save(Image.builder()
+                        .imgUrl(add.getNewImage())
+                        .index(index)
+                        .book(selected).build());
+    }
+
+    /**
+     * 동화 삭제
+     */
+    public void delete(Long bookId){
+        Book selected=bookRepository.findById(bookId).orElseThrow();
+        List<Text> texts=bookRepository.findTextList(bookId);
+        List<Image> images=bookRepository.findImageList(bookId);
+        coverRepository.findByBook(selected).orElseThrow().delete();
+        for(int i=0;i< texts.size();i++){
+            texts.get(i).delete();
+            images.get(i).delete();
+        }
+        selected.delete();
+    }
+
+    /**
      * 동화 조회 - 1개
      */
     public Optional<Book> findOne(Long id) {
@@ -105,8 +138,6 @@ public class BookService {
         User user = userService.findUser(userName);
         return bookRepository.findAll(user.getUser_id());
     }
-
-    //TODO: 동화책 수정
 
 
     /**

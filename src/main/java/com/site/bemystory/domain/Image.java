@@ -58,4 +58,8 @@ public class Image {
     public void update(String imgUrl){
         this.imgUrl=imgUrl;
     }
+    public void delete(){
+        this.isDeleted=true;
+        this.deletedAt=new Timestamp(System.currentTimeMillis());
+    }
 }

@@ -78,4 +78,8 @@ public class Diary {
                 .genre(this.genre)
                 .build();
     }
+    public void delete(){
+        this.isDeleted=true;
+        this.deletedAt=new Timestamp(System.currentTimeMillis());
+    }
 }
