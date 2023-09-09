@@ -1,6 +1,7 @@
 package com.site.bemystory.service;
 
 import com.site.bemystory.domain.User;
+import com.site.bemystory.dto.FollowDTO;
 import com.site.bemystory.dto.TokenDTO;
 import com.site.bemystory.exception.AppException;
 import com.site.bemystory.exception.ErrorCode;
@@ -30,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final FollowService followService;
     private final RedisTemplate redisTemplate;
     private final BCryptPasswordEncoder encoder;
     @Value("${jwt.token.secret}")
@@ -100,6 +102,11 @@ public class UserService {
     public User findUser(String userName) {
         return userRepository.findByUserName(userName)
                 .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND, "\"" + userName + "\"" + "은 존재하지 않는 사용자입니다."));
+    }
+
+    //다른 유저 프로필 조회
+    public FollowDTO info(User selected, User request){
+        return selected.toFollow(followService.findStatus(selected, request));
     }
 
     public Optional<User> findById(Long userId) {

@@ -24,7 +24,7 @@ public class FollowService {
     private final UserRepository userRepository;
 
     //A와 B의 follow관계 찾기
-    private String findStatus(User selectedUser, User requestUser) {
+    protected String findStatus(User selectedUser, User requestUser) {
         if (selectedUser.getUserName() == requestUser.getUserName())
             return "self";
         if (followRepository.findFollow(requestUser, selectedUser).isEmpty())

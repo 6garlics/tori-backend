@@ -63,8 +63,10 @@ public class UserController {
      * 다른 유저의 정보 조회
      */
     @GetMapping("/users")
-    public ResponseEntity<UserInfoRequest> otherInfo(@RequestParam("userName") String userName) {
-        return ResponseEntity.ok().body(userService.findUser(userName).toDTO());
+    public ResponseEntity<FollowDTO> otherInfo(@RequestParam("userName") String userName, Authentication auth) {
+        User selected = userService.findUser(userName);
+        User request = userService.findUser(auth.getName());
+        return ResponseEntity.ok().body(userService.info(selected, request));
     }
 
     /**

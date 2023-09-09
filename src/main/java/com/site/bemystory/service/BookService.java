@@ -6,6 +6,7 @@ import com.site.bemystory.dto.AddStory;
 import com.site.bemystory.dto.BookDTO;
 
 import com.site.bemystory.dto.BookUpdate;
+import com.site.bemystory.dto.Page;
 import com.site.bemystory.exception.BookException;
 import com.site.bemystory.exception.ErrorCode;
 import com.site.bemystory.exception.ImageException;
@@ -54,24 +55,28 @@ public class BookService {
             throw new BookException(ErrorCode.BOOK_DUPLICATED, "이미 동화가 생성된 일기입니다.");
         }
         Book book = dto.toBook();
+        log.info("{}book", book.getGenre());
         book.setUser(userService.findUser(userName));
 
         book.setDiary(diaryRepository.findById(dto.getDiaryId()).orElseThrow());
         bookRepository.save(book);
+        log.info("{}book 저장", book.getBookId());
         coverRepository.save(Cover.builder().coverUrl(dto.getCoverUrl()).book(book).build());
-        List<String> texts = dto.getTexts();
-        List<String> images = dto.getImages();
-        for (int i = 0; i < texts.size(); i++) {
+        List<Page> pages = dto.getPages();
+        for(int i=0;i<pages.size();i++){
             textRepository.save(Text.builder()
-                    .text(texts.get(i))
-                    .book(book)
+                    .text(pages.get(i).getText())
                     .index(i)
+                    .book(book)
+                    .x(pages.get(i).getX())
+                    .y(pages.get(i).getY())
                     .build());
             imageRepository.save(Image.builder()
-                    .imgUrl(images.get(i))
                     .book(book)
+                    .imgUrl(pages.get(i).getImgUrl())
                     .index(i)
                     .build());
+
         }
         return book.getBookId();
     }

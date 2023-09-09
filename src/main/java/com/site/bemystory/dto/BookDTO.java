@@ -19,7 +19,7 @@ public class BookDTO {
         private String coverUrl;
         private String date;
     }
-
+    @NoArgsConstructor
     @Getter
     public static class Save{
         private Long diaryId;
@@ -27,8 +27,7 @@ public class BookDTO {
         private String genre;
         private String coverUrl;
         private String date;
-        private List<String> texts;
-        private List<String> images;
+        private List<Page> pages;
 
         public Book toBook(){
             return Book.builder()

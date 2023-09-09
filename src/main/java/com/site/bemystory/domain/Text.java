@@ -25,6 +25,12 @@ public class Text {
     @Column(name = "text")
     private String text;
 
+    @Column(name = "x")
+    private String x;
+
+    @Column(name = "y")
+    private String y;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private Timestamp createdAt;
@@ -40,10 +46,12 @@ public class Text {
     private boolean isDeleted;
 
     @Builder
-    public Text(int index, String text, Book book) {
+    public Text(int index, String text, Book book, String x, String y) {
         this.index = index;
         this.text = text;
         this.book = book;
+        this.x=x;
+        this.y=y;
     }
 
     public void update(String text){
