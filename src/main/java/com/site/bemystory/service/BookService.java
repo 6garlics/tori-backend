@@ -108,7 +108,9 @@ public class BookService {
         textRepository.save(Text.builder()
                 .text(add.getNewText())
                 .book(selected)
-                .index(index).build());
+                .index(index)
+                .x(add.getX())
+                .y(add.getY()).build());
         imageRepository.save(Image.builder()
                         .imgUrl(add.getNewImage())
                         .index(index)
