@@ -89,11 +89,12 @@ public class BookService {
         Book selected = bookRepository.findById(bookId).orElseThrow();
         selected.update(dto);
         coverRepository.findByBook(selected).orElseThrow().update(dto);
+        List<Page> pages=dto.getPages();
         List<Text> texts = bookRepository.findTextList(bookId);
         List<Image> images = bookRepository.findImageList(bookId);
         for(int i=0;i< texts.size();i++){
-            texts.get(i).update(dto.getTexts().get(i));
-            images.get(i).update(dto.getImages().get(i));
+            texts.get(i).update(pages.get(i).getText());
+            images.get(i).update(pages.get(i).getImgUrl());
         }
     }
 

@@ -8,6 +8,5 @@ import java.util.List;
 public class BookUpdate {
     private String title;
     private String coverUrl;
-    private List<String> texts;
-    private List<String> images;
+    private List<Page> pages;
 }
