@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 public class Page {
     private String text;
     private String imgUrl;
-    private String x;
-    private String y;
+    private int x;
+    private int y;
 }

@@ -26,10 +26,10 @@ public class Text {
     private String text;
 
     @Column(name = "x")
-    private String x;
+    private int x;
 
     @Column(name = "y")
-    private String y;
+    private int y;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -46,7 +46,7 @@ public class Text {
     private boolean isDeleted;
 
     @Builder
-    public Text(int index, String text, Book book, String x, String y) {
+    public Text(int index, String text, Book book, int x, int y) {
         this.index = index;
         this.text = text;
         this.book = book;

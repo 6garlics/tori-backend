@@ -51,9 +51,10 @@ public class BookService {
      */
     public Long saveBook(String userName, BookDTO.Save dto) {
         //이미 동화가 있는 일기에 대해 또 동화를 만들려고 하면 에러
-        if(bookRepository.findByDiary(dto.getDiaryId()).isPresent()){
+        bookRepository.findByDiary(dto.getDiaryId()).ifPresent(a->{
             throw new BookException(ErrorCode.BOOK_DUPLICATED, "이미 동화가 생성된 일기입니다.");
-        }
+        });
+
         Book book = dto.toBook();
         log.info("{}book", book.getGenre());
         book.setUser(userService.findUser(userName));

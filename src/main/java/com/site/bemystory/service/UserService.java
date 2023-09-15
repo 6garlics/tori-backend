@@ -2,6 +2,7 @@ package com.site.bemystory.service;
 
 import com.site.bemystory.domain.User;
 import com.site.bemystory.dto.FollowDTO;
+import com.site.bemystory.dto.Profile;
 import com.site.bemystory.dto.TokenDTO;
 import com.site.bemystory.exception.AppException;
 import com.site.bemystory.exception.ErrorCode;
@@ -18,6 +19,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -109,6 +111,15 @@ public class UserService {
         return selected.toFollow(followService.findStatus(selected, request));
     }
 
+    //프로필 변경
+    public void changeProfile(Profile profile, String userName){
+        User selected = findUser(userName);
+        if(!StringUtils.hasText(profile.getProfile())) selected.setUserName(profile.getUserName());
+        else{
+            selected.setProfile(profile.getProfile());
+            if(StringUtils.hasText(profile.getUserName())) selected.setUserName(profile.getUserName());
+        }
+    }
     public Optional<User> findById(Long userId) {
         return userRepository.findById(userId);
     }

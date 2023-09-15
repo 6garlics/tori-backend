@@ -70,6 +70,16 @@ public class UserController {
     }
 
     /**
+     * 프로필 수정
+     */
+    @PatchMapping("/profile")
+    public ResponseEntity fixProfile(@RequestBody Profile profile, Authentication auth){
+        userService.changeProfile(profile, auth.getName());
+        return ResponseEntity.ok().build();
+    }
+
+
+    /**
      * 로그아웃
      */
     // TODO: Logout

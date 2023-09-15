@@ -21,10 +21,10 @@ public class BookRepository {
     }
 
     public Optional<Book> findByDiary(Long diaryId){
-        Book b= em.createQuery("select b from Book b where b.diary.id=:diaryId", Book.class)
+        List<Book> b= em.createQuery("select b from Book b where b.diary.id=:diaryId", Book.class)
                 .setParameter("diaryId", diaryId)
-                .getSingleResult();
-        return Optional.ofNullable(b);
+                .getResultList();
+        return b.stream().findAny();
     }
 
     public List<Text> findTextList(Long bookId) {
