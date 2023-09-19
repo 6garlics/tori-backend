@@ -26,7 +26,7 @@ public class DiaryController {
      * 일기 저장
      */
     @PostMapping("/diary")
-    public ResponseEntity<Long> saveDiary(Authentication authentication, @RequestBody DiaryDTO.Request request){
+    public ResponseEntity<DiaryDTO.ResponseId> saveDiary(Authentication authentication, @RequestBody DiaryDTO.Request request){
         User user = userService.findUser(authentication.getName());
         //DB 저장
         Diary diary = request.toEntity(user);

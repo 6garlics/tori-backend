@@ -39,4 +39,11 @@ public class DiaryDTO {
         private String genre;
     }
 
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class ResponseId{
+        private Long diaryId;
+    }
+
 }

@@ -2,6 +2,7 @@ package com.site.bemystory.service;
 
 import com.site.bemystory.domain.Book;
 import com.site.bemystory.domain.Diary;
+import com.site.bemystory.dto.DiaryDTO;
 import com.site.bemystory.exception.AuthorizationException;
 import com.site.bemystory.exception.ErrorCode;
 import com.site.bemystory.repository.BookRepository;
@@ -28,15 +29,14 @@ public class DiaryService {
     /**
      * 일기 저장
      */
-    public Long save(Diary diary){
-        diaryRepository.save(diary);
-        return diary.getId();
+    public DiaryDTO.ResponseId save(Diary diary) {
+        return DiaryDTO.ResponseId.builder().diaryId(diaryRepository.save(diary).getId()).build();
     }
 
     /**
      * 일기 내부 조회 - 1개
      */
-    public Optional<Diary> findOne(Long diaryId){
+    public Optional<Diary> findOne(Long diaryId) {
         return diaryRepository.findById(diaryId);
     }
 
@@ -47,7 +47,7 @@ public class DiaryService {
         String bOwner = bookRepository.findById(bookId).orElseThrow().getUser().getUserName();
         //만약 요청시 보낸 토큰과 {bookId}의 주인이 다르면 권한 없다는 에러 띄우기
 
-        if(!authentication.getName().equals(bOwner)){
+        if (!authentication.getName().equals(bOwner)) {
             throw new AuthorizationException(ErrorCode.INVALID_AUTHORIZATION, "일기를 열람할 수 있는 권한이 없습니다.");
         }
         Book book = bookRepository.findById(bookId).orElseThrow();
@@ -57,7 +57,7 @@ public class DiaryService {
     /**
      * 일기 조회 - 모두
      */
-    public List<Diary> findDiaries(){
+    public List<Diary> findDiaries() {
         return diaryRepository.findAll();
     }
 
