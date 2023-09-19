@@ -49,9 +49,9 @@ public class BookService {
     /**
      * 동화책 저장
      */
-    public Long saveBook(String userName, BookDTO.Save dto) {
+    public BookDTO.ResponseId saveBook(String userName, BookDTO.Save dto) {
         //이미 동화가 있는 일기에 대해 또 동화를 만들려고 하면 에러
-        bookRepository.findByDiary(dto.getDiaryId()).ifPresent(a->{
+        bookRepository.findByDiary(dto.getDiaryId()).ifPresent(a -> {
             throw new BookException(ErrorCode.BOOK_DUPLICATED, "이미 동화가 생성된 일기입니다.");
         });
 
@@ -64,7 +64,7 @@ public class BookService {
         log.info("{}book 저장", book.getBookId());
         coverRepository.save(Cover.builder().coverUrl(dto.getCoverUrl()).book(book).build());
         List<Page> pages = dto.getPages();
-        for(int i=0;i<pages.size();i++){
+        for (int i = 0; i < pages.size(); i++) {
             textRepository.save(Text.builder()
                     .text(pages.get(i).getText())
                     .index(i)
@@ -79,20 +79,20 @@ public class BookService {
                     .build());
 
         }
-        return book.getBookId();
+        return BookDTO.ResponseId.builder().bookId(book.getBookId()).build();
     }
 
     /**
      * 동화 수정
      */
-    public void updateBook(Long bookId, BookUpdate dto){
+    public void updateBook(Long bookId, BookUpdate dto) {
         Book selected = bookRepository.findById(bookId).orElseThrow();
         selected.update(dto);
         coverRepository.findByBook(selected).orElseThrow().update(dto);
-        List<Page> pages=dto.getPages();
+        List<Page> pages = dto.getPages();
         List<Text> texts = bookRepository.findTextList(bookId);
         List<Image> images = bookRepository.findImageList(bookId);
-        for(int i=0;i< texts.size();i++){
+        for (int i = 0; i < texts.size(); i++) {
             texts.get(i).update(pages.get(i).getText());
             images.get(i).update(pages.get(i).getImgUrl());
         }
@@ -101,7 +101,7 @@ public class BookService {
     /**
      * 뒷이야기 저장
      */
-    public void addPage(Long bookId, AddStory add){
+    public void addPage(Long bookId, AddStory add) {
         Book selected = bookRepository.findById(bookId).orElseThrow();
         List<Text> texts = bookRepository.findTextList(bookId);
         int index = texts.size();
@@ -112,20 +112,20 @@ public class BookService {
                 .x(add.getX())
                 .y(add.getY()).build());
         imageRepository.save(Image.builder()
-                        .imgUrl(add.getNewImage())
-                        .index(index)
-                        .book(selected).build());
+                .imgUrl(add.getNewImage())
+                .index(index)
+                .book(selected).build());
     }
 
     /**
      * 동화 삭제
      */
-    public void delete(Long bookId){
-        Book selected=bookRepository.findById(bookId).orElseThrow();
-        List<Text> texts=bookRepository.findTextList(bookId);
-        List<Image> images=bookRepository.findImageList(bookId);
+    public void delete(Long bookId) {
+        Book selected = bookRepository.findById(bookId).orElseThrow();
+        List<Text> texts = bookRepository.findTextList(bookId);
+        List<Image> images = bookRepository.findImageList(bookId);
         coverRepository.findByBook(selected).orElseThrow().delete();
-        for(int i=0;i< texts.size();i++){
+        for (int i = 0; i < texts.size(); i++) {
             texts.get(i).delete();
             images.get(i).delete();
         }

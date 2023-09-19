@@ -43,4 +43,10 @@ public class BookDTO {
                     .build();
         }
     }
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class ResponseId{
+        private Long bookId;
+    }
 }

@@ -32,7 +32,7 @@ public class BookController {
      * 최초 동화책 저장
      */
     @PostMapping("/books")
-    public ResponseEntity<Long> saveBook(Authentication auth, @RequestBody BookDTO.Save request) throws JsonProcessingException {
+    public ResponseEntity<BookDTO.ResponseId> saveBook(Authentication auth, @RequestBody BookDTO.Save request) throws JsonProcessingException {
         return ResponseEntity.ok().body(bookService.saveBook(auth.getName(), request));
     }
 
