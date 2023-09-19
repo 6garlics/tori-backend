@@ -85,7 +85,8 @@ public class BookController {
     public ResponseEntity<BookOneRequest> showBook(@PathVariable Long bookId) {
         Book book = bookService.findOne(bookId).orElseThrow();
         return ResponseEntity.ok().body(
-                book.toRequest(bookService.findTexts(book), bookService.findImages(book)));
+                book.toRequest(bookService.makePage(bookId)));
     }
+
 
 }

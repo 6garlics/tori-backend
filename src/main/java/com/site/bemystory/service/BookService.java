@@ -214,5 +214,23 @@ public class BookService {
         return userService.findById(book.getUser().getUser_id()).orElseThrow().getUserName();
     }
 
+    /**
+     * Page dto 생성
+     */
+    public List<Page> makePage(Long bookId) {
+        Book book = findOne(bookId).orElseThrow();
+        List<Text> texts = bookRepository.findTextList(bookId);
+        List<String> images = findImages(book);
+        List<Page> pages = new ArrayList<>();
+        for(int i=0;i<texts.size();i++){
+            pages.add(Page.builder()
+                    .text(texts.get(i).getText())
+                    .imgUrl(images.get(i))
+                    .x(texts.get(i).getX())
+                    .y(texts.get(i).getY())
+                    .build());
+        }
+        return pages;
+    }
 
 }

@@ -3,6 +3,7 @@ package com.site.bemystory.domain;
 import com.site.bemystory.dto.BookDTO;
 import com.site.bemystory.dto.BookOneRequest;
 import com.site.bemystory.dto.BookUpdate;
+import com.site.bemystory.dto.Page;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -77,7 +78,7 @@ public class Book {
                 .build();
     }
 
-    public BookOneRequest toRequest(List<String> texts, List<String> images){
+    public BookOneRequest toRequest(List<Page> pages){
         return BookOneRequest.builder()
                 .bookId(this.bookId)
                 .userName(this.user.getUserName())
@@ -85,8 +86,7 @@ public class Book {
                 .date(this.date)
                 .genre(this.genre)
                 .coverUrl(this.cover.getCoverUrl())
-                .texts(texts)
-                .images(images)
+                .pages(pages)
                 .build();
     }
 

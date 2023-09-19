@@ -15,8 +15,7 @@ public class BookOneRequest {
     private String date;
     private String genre;
     private String coverUrl;
-    private List<String> texts;
-    private List<String> images;
+    private List<Page> pages;
 
 
 }
