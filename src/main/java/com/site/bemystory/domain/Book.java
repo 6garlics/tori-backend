@@ -69,8 +69,8 @@ public class Book {
         this.title = title;
     }
 
-    public BookDTO.BookShelf toDTO(String cover){
-        return BookDTO.BookShelf.builder()
+    public BookDTO.BookMeta toDTO(String cover){
+        return BookDTO.BookMeta.builder()
                 .bookId(this.bookId)
                 .title(this.title)
                 .coverUrl(cover)
