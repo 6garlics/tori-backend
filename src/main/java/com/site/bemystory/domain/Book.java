@@ -1,5 +1,6 @@
 package com.site.bemystory.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.site.bemystory.dto.BookDTO;
 import com.site.bemystory.dto.BookOneRequest;
 import com.site.bemystory.dto.BookUpdate;
@@ -33,19 +34,24 @@ public class Book {
     @Column(name = "date")
     private String date;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "diary_id")
     private Diary diary;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
     private List<Text> texts;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
     private List<Image> images = new ArrayList<>();
 
+    @JsonIgnore
     @OneToOne(mappedBy = "book", fetch = FetchType.LAZY)
     private Cover cover;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
