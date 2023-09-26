@@ -91,7 +91,7 @@ public class Book {
                 .title(this.title)
                 .date(this.date)
                 .genre(this.genre)
-                .coverUrl(this.cover.getCoverUrl())
+                .coverUrl(this.cover.getUrl())
                 .pages(pages)
                 .build();
     }

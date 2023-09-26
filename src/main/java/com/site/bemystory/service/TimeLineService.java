@@ -6,7 +6,6 @@ import com.site.bemystory.dto.BookDTO;
 import com.site.bemystory.repository.StoryBookRepository;
 import com.site.bemystory.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -28,17 +27,16 @@ public class TimeLineService {
                     .bookId(b.getBookId())
                     .title(b.getTitle())
                     .date(b.getDate())
-                    .coverUrl(b.getCover().getCoverUrl())
+                    .coverUrl(b.getCover().getUrl())
                     .build());
 
         }
         return books;
     }
-    public Slice<Book> processBookExceptNowUser(String userName, Pageable pageable){
+    public Slice<BookDTO.BookMeta> processBookExceptNowUser(String userName, Pageable pageable){
         User user = userRepository.findByUserName(userName).orElseThrow();
-        Slice<Book> slice = bookRepository.findAllByUserNotOrderByBookIdDesc
+        Slice<BookDTO.BookMeta> slice = bookRepository.findAllByUserNotOrderByBookIdDesc
                 (user, pageable);
-        List<BookDTO.BookMeta> books = transform(slice.getContent());
         return slice;
 
     }
