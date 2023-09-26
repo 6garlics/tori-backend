@@ -6,6 +6,9 @@ import com.site.bemystory.domain.Text;
 import com.site.bemystory.dto.TextDTO;
 import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 
 import java.util.*;
@@ -91,4 +94,5 @@ public class BookRepository {
         }
         return imageList;
     }
+
 }
