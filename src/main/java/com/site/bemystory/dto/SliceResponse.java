@@ -1,10 +1,12 @@
 package com.site.bemystory.dto;
 
 import com.site.bemystory.domain.Book;
+import lombok.Getter;
 import org.springframework.data.domain.Slice;
 
 import java.util.ArrayList;
 import java.util.List;
+@Getter
 public class SliceResponse<T> {
     private final List<T> content;
     private final SortResponse sort;
@@ -12,7 +14,6 @@ public class SliceResponse<T> {
     private final int size;
     private final boolean first;
     private final boolean last;
-
 
     public SliceResponse(Slice<T> sliceContent){
         this.content=sliceContent.getContent();

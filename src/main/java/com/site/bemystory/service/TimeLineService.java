@@ -3,6 +3,7 @@ package com.site.bemystory.service;
 import com.site.bemystory.domain.Book;
 import com.site.bemystory.domain.User;
 import com.site.bemystory.dto.BookDTO;
+import com.site.bemystory.dto.SliceResponse;
 import com.site.bemystory.repository.StoryBookRepository;
 import com.site.bemystory.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,11 +34,12 @@ public class TimeLineService {
         }
         return books;
     }
-    public Slice<BookDTO.BookMeta> processBookExceptNowUser(String userName, Pageable pageable){
+    public SliceResponse processBookExceptNowUser(String userName, Pageable pageable){
         User user = userRepository.findByUserName(userName).orElseThrow();
         Slice<BookDTO.BookMeta> slice = bookRepository.findAllByUserNotOrderByBookIdDesc
                 (user, pageable);
-        return slice;
+        SliceResponse response = new SliceResponse(slice);
+        return response;
 
     }
 }

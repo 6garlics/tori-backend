@@ -2,6 +2,7 @@ package com.site.bemystory.controller;
 
 import com.site.bemystory.domain.Book;
 import com.site.bemystory.dto.BookDTO;
+import com.site.bemystory.dto.SliceResponse;
 import com.site.bemystory.service.TimeLineService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +18,7 @@ public class TimeLineController {
     private final TimeLineService timeLineService;
 
     @GetMapping("/timeline")
-    public ResponseEntity<Slice<BookDTO.BookMeta>> timeline(Authentication auth, Pageable pageable){
+    public ResponseEntity<SliceResponse> timeline(Authentication auth, Pageable pageable){
         return ResponseEntity.ok().body(timeLineService.processBookExceptNowUser(auth.getName(), pageable));
     }
 }
