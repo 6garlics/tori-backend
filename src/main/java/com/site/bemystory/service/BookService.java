@@ -62,7 +62,7 @@ public class BookService {
         book.setDiary(diaryRepository.findById(dto.getDiaryId()).orElseThrow());
         bookRepository.save(book);
         log.info("{}book 저장", book.getBookId());
-        coverRepository.save(Cover.builder().coverUrl(dto.getCoverUrl()).book(book).build());
+        coverRepository.save(Cover.builder().url(dto.getCoverUrl()).book(book).build());
         List<Page> pages = dto.getPages();
         for (int i = 0; i < pages.size(); i++) {
             textRepository.save(Text.builder()
@@ -154,7 +154,7 @@ public class BookService {
      */
     public String findCover(Book book) {
         Cover cover = coverRepository.findByBook(book).get();
-        return cover.getCoverUrl();
+        return cover.getUrl();
     }
 
     /**

@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,8 +67,8 @@ public class BookController {
      */
     @ResponseBody
     @GetMapping("/books")
-    public ResponseEntity<List<BookDTO.BookShelf>> showBooks(@RequestParam String userName) {
-        List<BookDTO.BookShelf> books = new ArrayList<>();
+    public ResponseEntity<List<BookDTO.BookMeta>> showBooks(@RequestParam String userName) {
+        List<BookDTO.BookMeta> books = new ArrayList<>();
         int i = 0;
         List<Book> fbooks = bookService.findBooks(userName);
         for (Book book : fbooks)

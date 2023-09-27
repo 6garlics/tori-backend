@@ -9,7 +9,6 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
@@ -21,7 +20,7 @@ public class Cover {
     @Column(name = "cover_id")
     private Long id;
     @Column(name = "cover_url")
-    private String coverUrl;
+    private String url;
     @OneToOne
     @JoinColumn(name = "book_id")
     private Book book;
@@ -41,13 +40,13 @@ public class Cover {
     private boolean isDeleted;
 
     @Builder
-    public Cover(String coverUrl, Book book) {
-        this.coverUrl = coverUrl;
+    public Cover(String url, Book book) {
+        this.url = url;
         this.book = book;
     }
 
     public void update(BookUpdate update){
-        this.coverUrl= update.getCoverUrl();
+        this.url = update.getCoverUrl();
     }
 
     public void delete(){

@@ -1,17 +1,9 @@
 package com.site.bemystory.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.site.bemystory.domain.Book;
-import com.site.bemystory.domain.Diary;
 import lombok.*;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.ArrayList;
 
 
 public class BookDTO {
@@ -19,7 +11,7 @@ public class BookDTO {
     @Data
     @AllArgsConstructor
     @Builder
-    public static class BookShelf{
+    public static class BookMeta {
         private Long bookId;
         private String title;
         private String coverUrl;
