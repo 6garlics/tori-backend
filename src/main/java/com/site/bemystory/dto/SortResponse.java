@@ -7,7 +7,7 @@ public class SortResponse {
     public String direction;
     public String orderProperty;
     public SortResponse(Sort sort){
-        this.sorted=sort.isSorted();
+        this.sorted=true;
         this.direction="DESC";
         this.orderProperty="BookId";
     }
