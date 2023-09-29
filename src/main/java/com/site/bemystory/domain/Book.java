@@ -28,6 +28,12 @@ public class Book {
     @Column(name = "title")
     private String title;
 
+    @Column(name = "book_x")
+    private int bookX;
+
+    @Column(name = "book_y")
+    private int bookY;
+
     @Column(name = "genre")
     private String genre;
 
@@ -79,6 +85,8 @@ public class Book {
         return BookDTO.BookMeta.builder()
                 .bookId(this.bookId)
                 .title(this.title)
+                .bookX(this.bookX)
+                .bookY(this.bookY)
                 .coverUrl(cover)
                 .date(this.date)
                 .build();

@@ -1,5 +1,7 @@
 package com.site.bemystory.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.site.bemystory.domain.Book;
 import lombok.*;
 
@@ -14,6 +16,10 @@ public class BookDTO {
     public static class BookMeta {
         private Long bookId;
         private String title;
+        @JsonProperty("titleX")
+        private int bookX;
+        @JsonProperty("titleY")
+        private int bookY;
         private String coverUrl;
         private String date;
     }

@@ -21,25 +21,12 @@ import java.util.List;
 public class TimeLineService {
     private final StoryBookRepository bookRepository;
     private final UserRepository userRepository;
-    private List<BookDTO.BookMeta> transform(List<Book> original){
-        List<BookDTO.BookMeta> books = new ArrayList<>();
-        for(Book b : original){
-            books.add(BookDTO.BookMeta.builder()
-                    .bookId(b.getBookId())
-                    .title(b.getTitle())
-                    .date(b.getDate())
-                    .coverUrl(b.getCover().getUrl())
-                    .build());
 
-        }
-        return books;
-    }
     public SliceResponse processBookExceptNowUser(String userName, Pageable pageable){
         User user = userRepository.findByUserName(userName).orElseThrow();
         Slice<BookDTO.BookMeta> slice = bookRepository.findAllByUserNotOrderByBookIdDesc
                 (user, pageable);
-        SliceResponse response = new SliceResponse(slice);
-        return response;
+        return new SliceResponse(slice);
 
     }
 }
