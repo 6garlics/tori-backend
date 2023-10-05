@@ -28,6 +28,8 @@ public class BookDTO {
     public static class Save{
         private Long diaryId;
         private String title;
+        private int titleX;
+        private int titleY;
         private String genre;
         private String coverUrl;
         private String date;
@@ -37,6 +39,8 @@ public class BookDTO {
             return Book.builder()
                     .title(this.title)
                     .genre(this.genre)
+                    .bookX(titleX)
+                    .bookY(titleY)
                     .date(date)
                     .build();
         }

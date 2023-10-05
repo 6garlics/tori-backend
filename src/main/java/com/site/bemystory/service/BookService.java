@@ -56,12 +56,11 @@ public class BookService {
         });
 
         Book book = dto.toBook();
-        log.info("{}book", book.getGenre());
         book.setUser(userService.findUser(userName));
 
         book.setDiary(diaryRepository.findById(dto.getDiaryId()).orElseThrow());
         bookRepository.save(book);
-        log.info("{}book 저장", book.getBookId());
+        log.info("ID{} book 저장", book.getBookId());
         coverRepository.save(Cover.builder().url(dto.getCoverUrl()).book(book).build());
         List<Page> pages = dto.getPages();
         for (int i = 0; i < pages.size(); i++) {
