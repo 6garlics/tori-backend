@@ -108,6 +108,8 @@ public class Book {
 
     public void update(BookUpdate update){
         this.title= update.getTitle();
+        this.bookX=update.getTitleX();
+        this.bookY=update.getTitleY();
     }
     public void delete(){
         this.isDeleted=true;
