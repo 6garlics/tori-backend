@@ -97,6 +97,8 @@ public class Book {
                 .bookId(this.bookId)
                 .userName(this.user.getUserName())
                 .title(this.title)
+                .titleX(this.bookX)
+                .titleY(this.bookY)
                 .date(this.date)
                 .genre(this.genre)
                 .coverUrl(this.cover.getUrl())

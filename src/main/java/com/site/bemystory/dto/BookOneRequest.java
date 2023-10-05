@@ -12,6 +12,8 @@ public class BookOneRequest {
     private Long bookId;
     private String userName;
     private String title;
+    private int titleX;
+    private int titleY;
     private String date;
     private String genre;
     private String coverUrl;
