@@ -54,8 +54,10 @@ public class Text {
         this.y=y;
     }
 
-    public void update(String text){
+    public void update(String text, int x, int y){
         this.text=text;
+        this.x=x;
+        this.y=y;
     }
     public void delete(){
         this.isDeleted=true;

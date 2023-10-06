@@ -92,7 +92,7 @@ public class BookService {
         List<Text> texts = bookRepository.findTextList(bookId);
         List<Image> images = bookRepository.findImageList(bookId);
         for (int i = 0; i < texts.size(); i++) {
-            texts.get(i).update(pages.get(i).getText());
+            texts.get(i).update(pages.get(i).getText(), pages.get(i).getX(), pages.get(i).getY());
             images.get(i).update(pages.get(i).getImgUrl());
         }
     }
