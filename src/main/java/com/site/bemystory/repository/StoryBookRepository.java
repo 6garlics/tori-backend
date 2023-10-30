@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StoryBookRepository extends JpaRepository<Book, Long> {
-    Slice<BookDTO.BookMeta> findAllByUserNotOrderByBookIdDesc(User user, Pageable page);
+    Slice<BookDTO.Timeline> findAllByUserNotOrderByBookIdDesc(User user, Pageable page);
 }

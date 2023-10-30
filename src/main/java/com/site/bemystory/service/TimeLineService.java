@@ -24,7 +24,7 @@ public class TimeLineService {
 
     public SliceResponse processBookExceptNowUser(String userName, Pageable pageable){
         User user = userRepository.findByUserName(userName).orElseThrow();
-        Slice<BookDTO.BookMeta> slice = bookRepository.findAllByUserNotOrderByBookIdDesc
+        Slice<BookDTO.Timeline> slice = bookRepository.findAllByUserNotOrderByBookIdDesc
                 (user, pageable);
         return new SliceResponse(slice);
 
