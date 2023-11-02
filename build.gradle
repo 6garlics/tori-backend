@@ -28,7 +28,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
     implementation group: 'commons-io', name: 'commons-io', version: '2.4'
-    implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.1.4'
+    implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.7.0'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.0'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     implementation "org.springframework.boot:spring-boot-starter-security"
@@ -41,6 +41,7 @@ dependencies {
     implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation group: 'org.javassist', name: 'javassist', version: '3.15.0-GA'
 }
 
 tasks.named('test') {

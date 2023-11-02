@@ -2,11 +2,8 @@ package com.site.bemystory.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.site.bemystory.domain.*;
-import com.site.bemystory.dto.AddStory;
-import com.site.bemystory.dto.BookDTO;
+import com.site.bemystory.dto.*;
 
-import com.site.bemystory.dto.BookUpdate;
-import com.site.bemystory.dto.Page;
 import com.site.bemystory.exception.BookException;
 import com.site.bemystory.exception.ErrorCode;
 import com.site.bemystory.exception.ImageException;
@@ -37,7 +34,6 @@ public class BookService {
     private final CoverRepository coverRepository;
     private final DiaryRepository diaryRepository;
     private final BookRepository bookRepository;
-    private final WebClient webClient;
     private final AmazonS3Client amazonS3Client;
     private final UserService userService;
 
@@ -103,17 +99,25 @@ public class BookService {
     public void addPage(Long bookId, AddStory add) {
         Book selected = bookRepository.findById(bookId).orElseThrow();
         List<Text> texts = bookRepository.findTextList(bookId);
-        int index = texts.size();
-        textRepository.save(Text.builder()
-                .text(add.getNewText())
-                .book(selected)
-                .index(index)
-                .x(add.getX())
-                .y(add.getY()).build());
-        imageRepository.save(Image.builder()
-                .imgUrl(add.getNewImage())
-                .index(index)
-                .book(selected).build());
+        int idx = texts.size();
+        int size = add.getNextPages().size();
+        List<NextPage> np = add.getNextPages();
+        for(int i=0;i<size;i++){
+            textRepository.save(Text.builder()
+                    .text(np.get(i).getNewText())
+                    .book(selected)
+                    .index(idx)
+                    .x(np.get(i).getX())
+                    .y(np.get(i).getY())
+                    .build());
+            imageRepository.save(Image.builder()
+                    .imgUrl(np.get(i).getNewImage())
+                    .index(idx)
+                    .book(selected)
+                    .build());
+            idx++;
+        }
+
     }
 
     /**
@@ -221,7 +225,7 @@ public class BookService {
         List<Text> texts = bookRepository.findTextList(bookId);
         List<String> images = findImages(book);
         List<Page> pages = new ArrayList<>();
-        for(int i=0;i<texts.size();i++){
+        for (int i = 0; i < texts.size(); i++) {
             pages.add(Page.builder()
                     .text(texts.get(i).getText())
                     .imgUrl(images.get(i))

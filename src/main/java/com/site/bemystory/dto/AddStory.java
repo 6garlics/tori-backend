@@ -1,11 +1,14 @@
 package com.site.bemystory.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class AddStory {
-    private String newText;
-    private String newImage;
-    private int x;
-    private int y;
+    private List<NextPage> nextPages;
 }
