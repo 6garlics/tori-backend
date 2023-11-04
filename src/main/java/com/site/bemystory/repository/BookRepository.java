@@ -93,4 +93,7 @@ public class BookRepository {
         return imageList;
     }
 
+    public void deleteBook(Book book){
+        em.remove(book);
+    }
 }

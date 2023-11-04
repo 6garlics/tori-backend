@@ -1,28 +1,35 @@
 package com.site.bemystory.controller;
 
 import com.site.bemystory.dto.ReplyDTO;
+import com.site.bemystory.dto.ReplyRequest;
 import com.site.bemystory.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 public class ReplyController {
     private final ReplyService replyService;
+
+    /**
+     * 모댓글 등록
+     */
     @PostMapping("/reply")
-    public ResponseEntity saveReply(Authentication auth, @RequestParam("bId") Long bId,
-                                    @RequestParam("grpl") Integer grpl, @RequestBody ReplyDTO reply){
+    public ResponseEntity<ReplyRequest> saveReply(Authentication auth, @RequestParam("bId") Long bId,
+                                                  @RequestParam("grpl") Integer grpl, @RequestBody ReplyDTO reply){
         String writer = auth.getName();
-        if(grpl==0){
-            replyService.writeReply(bId,writer, reply);
-        }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(replyService.writeReply(bId,writer, reply));
+    }
+
+    /**
+     * 모댓글 삭제
+     */
+    @DeleteMapping("/reply/{replyId}")
+    public ResponseEntity<ReplyRequest> deleteReply(Authentication auth, @PathVariable Long replyId){
+        return ResponseEntity.ok(replyService.deleteReply(auth.getName(),replyId));
     }
 }

@@ -17,7 +17,7 @@ public class Reply {
     @Column(name = "reply_id")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)    //동화가 삭제되면 그에 달린 댓글도 삭제됨
+    @ManyToOne    //동화가 삭제되면 그에 달린 댓글도 삭제됨
     @JoinColumn(name = "book_id")
     @NotNull
     private Book book;

@@ -41,24 +41,24 @@ public class Book {
     private String date;
 
     @JsonIgnore
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "diary_id")
     private Diary diary;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Text> texts;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Image> images = new ArrayList<>();
 
     @JsonIgnore
-    @OneToOne(mappedBy = "book", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Cover cover;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Reply> replies;
 
     @JsonIgnore
