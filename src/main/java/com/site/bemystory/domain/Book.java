@@ -58,6 +58,10 @@ public class Book {
     private Cover cover;
 
     @JsonIgnore
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+    private List<Reply> replies;
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
