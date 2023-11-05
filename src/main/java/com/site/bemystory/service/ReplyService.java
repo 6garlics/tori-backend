@@ -51,6 +51,30 @@ public class ReplyService {
         return new ReplyRequest(r.getId());
     }
 
+    /**
+     * 대댓글 달기
+     */
+    public ReplyRequest writeRereply(Long bId, String writer, ReplyDTO reply){
+        User wuser =  userRepository.findByUserName(writer).orElseThrow();
+        log.info("writer: {}", wuser.getUser_id());
+        Book book = bookRepository.findById(bId).orElseThrow();
+        log.info("book: {}", book.getTitle());
+        Reply r = Reply.builder()
+                .grp(reply.getGrp())
+                .grps(reply.getGrps())
+                .writer(wuser)
+                .grpl(1)
+                .book(book)
+                .build();
+        r.setDate(reply.getDate());
+        r.setContent(reply.getContent());
+        replyRepository.save(r);
+        return new ReplyRequest(r.getId());
+    }
+
+    /**
+     * 댓글 삭제
+     */
     @Transactional
     public ReplyRequest deleteReply(String writer, Long replyId){
         Reply r = replyRepository.findById(replyId).orElseThrow();
@@ -63,10 +87,13 @@ public class ReplyService {
         return request;
     }
 
+    /**
+     * 댓글 리스트
+     */
     @Transactional
     public ReplyListRequest listReply(Long bookId){
         Book target = bookRepository.findById(bookId).orElseThrow();
-        List<Reply> list = replyRepository.findByBook(target);
+        List<Reply> list = replyRepository.findByBookOrderByGrpAscGrpsAsc(target);
         List<ReplyOne> response = new ArrayList<>();
         for(int i=0;i<list.size();i++){
             response.add(list.get(i).toDTO());

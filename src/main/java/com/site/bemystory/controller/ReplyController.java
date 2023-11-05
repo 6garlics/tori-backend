@@ -2,6 +2,7 @@ package com.site.bemystory.controller;
 
 import com.site.bemystory.dto.ReplyDTO;
 import com.site.bemystory.dto.ReplyListRequest;
+import com.site.bemystory.dto.ReplyOne;
 import com.site.bemystory.dto.ReplyRequest;
 import com.site.bemystory.service.ReplyService;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,19 @@ public class ReplyController {
      */
     @PostMapping("/reply")
     public ResponseEntity<ReplyRequest> saveReply(Authentication auth, @RequestParam("bId") Long bId,
-                                                  @RequestParam("grpl") Integer grpl, @RequestBody ReplyDTO reply){
+                                                  @RequestBody ReplyDTO reply){
         String writer = auth.getName();
         return ResponseEntity.ok(replyService.writeReply(bId,writer, reply));
+    }
+
+    /**
+     * 대댓글 달기
+     */
+    @PostMapping("/reply/{replyId}")
+    public ResponseEntity<ReplyRequest> saveRereply(Authentication auth, @RequestParam("bId") Long bId,
+                                                    @RequestBody ReplyDTO reply){
+        String writer = auth.getName();
+        return ResponseEntity.ok(replyService.writeRereply(bId,writer,reply));
     }
 
     /**
