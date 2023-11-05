@@ -1,5 +1,6 @@
 package com.site.bemystory.domain;
 
+import com.site.bemystory.dto.ReplyOne;
 import com.sun.istack.NotNull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -56,4 +57,15 @@ public class Reply {
         this.book=book;
     }
 
+    public ReplyOne toDTO(){
+        return ReplyOne.builder()
+                .replyId(this.id)
+                .rwriter(writer.toDTO())
+                .content(this.content)
+                .date(this.date)
+                .grp(this.grp)
+                .grpl(this.grpl)
+                .grps(this.grps)
+                .build();
+    }
 }

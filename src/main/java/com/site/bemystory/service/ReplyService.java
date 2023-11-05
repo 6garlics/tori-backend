@@ -4,6 +4,8 @@ import com.site.bemystory.domain.Book;
 import com.site.bemystory.domain.Reply;
 import com.site.bemystory.domain.User;
 import com.site.bemystory.dto.ReplyDTO;
+import com.site.bemystory.dto.ReplyListRequest;
+import com.site.bemystory.dto.ReplyOne;
 import com.site.bemystory.dto.ReplyRequest;
 import com.site.bemystory.exception.AuthorizationException;
 import com.site.bemystory.exception.ErrorCode;
@@ -15,7 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -34,8 +38,8 @@ public class ReplyService {
         Book book = bookRepository.findById(bId).orElseThrow();
         log.info("book: {}", book.getTitle());
         Reply r = Reply.builder()
-                .grp(1l)
-                .grps(0l)
+                .grp(1L)
+                .grps(0L)
                 .writer(wuser)
                 .grpl(0)
                 .book(book)
@@ -57,5 +61,16 @@ public class ReplyService {
         ReplyRequest request = new ReplyRequest(r.getId());
         replyRepository.delete(r);
         return request;
+    }
+
+    @Transactional
+    public ReplyListRequest listReply(Long bookId){
+        Book target = bookRepository.findById(bookId).orElseThrow();
+        List<Reply> list = replyRepository.findByBook(target);
+        List<ReplyOne> response = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            response.add(list.get(i).toDTO());
+        }
+        return ReplyListRequest.builder().replies(response).build();
     }
 }
