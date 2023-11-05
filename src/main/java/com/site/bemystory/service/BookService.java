@@ -123,6 +123,10 @@ public class BookService {
     /**
      * 동화 삭제
      */
+    public void delete(Long bookId){
+        bookRepository.deleteBook(bookRepository.findById(bookId).orElseThrow());
+    }
+    /*
     public void delete(Long bookId) {
         Book selected = bookRepository.findById(bookId).orElseThrow();
         List<Text> texts = bookRepository.findTextList(bookId);
@@ -134,6 +138,8 @@ public class BookService {
         }
         selected.delete();
     }
+    */
+
 
     /**
      * 동화 조회 - 1개
