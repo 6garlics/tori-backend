@@ -44,7 +44,6 @@ public class ReplyService {
                 .grpl(0)
                 .book(book)
                 .build();
-        r.setCreatedAt(reply.getCreatedAt());
         r.setContent(reply.getContent());
         replyRepository.save(r);
         r.setGrp(r.getId());
@@ -66,7 +65,6 @@ public class ReplyService {
                 .grpl(1)
                 .book(book)
                 .build();
-        r.setCreatedAt(reply.getCreatedAt());
         r.setContent(reply.getContent());
         replyRepository.save(r);
         return new ReplyRequest(r.getId());

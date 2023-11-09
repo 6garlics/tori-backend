@@ -11,5 +11,4 @@ public class ReplyDTO {
     private Long grp;
     private Long grps;
     private String content;
-    private Timestamp createdAt;
 }
