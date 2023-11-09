@@ -8,6 +8,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.sql.Timestamp;
 
 @NoArgsConstructor
 @Getter
@@ -45,8 +48,9 @@ public class Reply {
     @Column(name = "content")
     private String content;
 
-    @Column(name = "date", nullable = false)
-    private String date;
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private Timestamp createdAt;
 
     @Builder
     public Reply(Long grp, Long grps, Integer grpl, User writer, Book book){
@@ -62,7 +66,7 @@ public class Reply {
                 .replyId(this.id)
                 .rwriter(writer.toDTO())
                 .content(this.content)
-                .date(this.date)
+                .createdAt(this.createdAt)
                 .grp(this.grp)
                 .grpl(this.grpl)
                 .grps(this.grps)
