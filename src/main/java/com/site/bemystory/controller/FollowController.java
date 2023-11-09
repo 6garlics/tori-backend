@@ -52,7 +52,7 @@ public class FollowController {
      * 팔로우 취소
      */
     @DeleteMapping("/users/follow/{friendName}")
-    public ResponseEntity<String> deleteFollow(Authentication authentication){
-        return ResponseEntity.ok().body(followService.cancelFollow(userService.findUser(authentication.getName())));
+    public ResponseEntity deleteFollow(Authentication authentication, @PathVariable("friendName") String friendName){
+        return ResponseEntity.ok(followService.cancelFollow(authentication.getName(), friendName));
     }
 }

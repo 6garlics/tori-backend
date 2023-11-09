@@ -72,8 +72,10 @@ public class FollowService {
     }
 
     //TODO: follow 취소
-    public String cancelFollow(User user) {
-        followRepository.deleteFollowByFromUser(user);
+    public String cancelFollow(String from_user, String to_user) {
+        User from = userRepository.findByUserName(from_user).orElseThrow();
+        User to = userRepository.findByUserName(to_user).orElseThrow();
+        followRepository.deleteFollowByFromUserAndToUser(from, to);
         return "Success";
     }
 }
