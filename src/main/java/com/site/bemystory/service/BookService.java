@@ -163,6 +163,7 @@ public class BookService {
      */
     public String findCover(Book book) {
         Cover cover = coverRepository.findByBook(book).get();
+        log.info("{} cover 찾음", book.getBookId());
         return cover.getUrl();
     }
 
