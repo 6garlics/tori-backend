@@ -71,10 +71,8 @@ public class BookController {
         List<BookDTO.BookMeta> books = new ArrayList<>();
         int i = 0;
         List<Book> fbooks = bookService.findBooks(userName);
-        log.info("{}은 총 {}권 존재",userName,fbooks.size());
         for (Book book : fbooks)
             books.add(book.toDTO(bookService.findCover(book)));
-        log.info("success");
         return ResponseEntity.ok().body(books);
     }
 
