@@ -34,9 +34,7 @@ public class ReplyService {
     @Transactional
     public ReplyRequest writeReply(Long bId, String writer, ReplyDTO reply){
         User wuser =  userRepository.findByUserName(writer).orElseThrow();
-        log.info("writer: {}", wuser.getUser_id());
         Book book = bookRepository.findById(bId).orElseThrow();
-        log.info("book: {}", book.getTitle());
         Reply r = Reply.builder()
                 .grp(1L)
                 .grps(0L)
@@ -56,9 +54,7 @@ public class ReplyService {
      */
     public ReplyRequest writeRereply(Long bId, String writer, ReplyDTO reply){
         User wuser =  userRepository.findByUserName(writer).orElseThrow();
-        log.info("writer: {}", wuser.getUser_id());
         Book book = bookRepository.findById(bId).orElseThrow();
-        log.info("book: {}", book.getTitle());
         Reply r = Reply.builder()
                 .grp(reply.getGrp())
                 .grps(reply.getGrps())
