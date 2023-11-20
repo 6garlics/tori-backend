@@ -62,6 +62,10 @@ public class Book {
     private List<Reply> replies;
 
     @JsonIgnore
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Letter> letters;
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
