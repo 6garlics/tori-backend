@@ -44,10 +44,17 @@ public class LetterService {
         if(fromUser==toUser){
             throw new AppException(ErrorCode.INVALID_REQUEST, "본인에게 편지를 쓸 수 없습니다.");
         }
+
         User from = userRepository.findByUserName(fromUser).orElseThrow();
         User to = userRepository.findByUserName(toUser).orElseThrow();
         Book book = bookRepository.findById(request.getBookId()).orElseThrow();
         Letter letter = new Letter(from,to, request.getContent(), book);
+
+        //책 주인이랑 toUser가 일치하지 않음
+        if(book.getUser()!=to){
+            throw new AppException(ErrorCode.INVALID_REQUEST, "책 주인과 수신인이 일치하지 않습니다.");
+        }
+
         letterRepository.save(letter);
         return "Success";
     }
