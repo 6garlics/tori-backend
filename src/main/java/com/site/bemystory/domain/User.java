@@ -1,6 +1,7 @@
 package com.site.bemystory.domain;
 
 import com.site.bemystory.dto.FollowDTO;
+import com.site.bemystory.dto.Profile;
 import com.site.bemystory.dto.UserInfoRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -81,6 +82,13 @@ public class User {
         return UserInfoRequest.builder()
                 .userName(this.userName)
                 .profileImg(this.profile)
+                .build();
+    }
+
+    public Profile toProfile(){
+        return Profile.builder()
+                .userName(this.userName)
+                .profile(this.profile)
                 .build();
     }
 

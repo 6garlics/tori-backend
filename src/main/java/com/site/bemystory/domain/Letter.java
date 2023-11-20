@@ -2,13 +2,17 @@ package com.site.bemystory.domain;
 
 import com.site.bemystory.dto.LetterRequest;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
 @RequiredArgsConstructor
+@Getter
+@Setter
 public class Letter {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "letter_id")
