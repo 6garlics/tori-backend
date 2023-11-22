@@ -26,18 +26,18 @@ public class LetterController {
     /**
      * 편지 리스트 - 동화별
      */
-    /*
-    @GetMapping("/letter/{bookId}")
+
+    @GetMapping("/letter/book/{bookId}")
     public ResponseEntity<LetterList<LetterResponseByBook>> listByBook(Authentication auth, @PathVariable("bookId") Long bookId){
         String target = auth.getName();
-        ResponseEntity.ok(letterService.listByBook())
+        return ResponseEntity.ok(letterService.listByBook(target, bookId));
     }
-    */
+
 
     /**
      * 편지 리스트 - 유저별
      */
-    @GetMapping("/letter/{userName}")
+    @GetMapping("/letter/user/{userName}")
     public ResponseEntity<LetterList<LetterResponseByUser>> listByUser(@PathVariable("userName") String userName){
         return ResponseEntity.ok(letterService.listByUser(userName));
     }

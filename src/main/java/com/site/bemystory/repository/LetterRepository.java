@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface LetterRepository extends JpaRepository<Letter, Long> {
-    List<LetterResponseByBook> findAllByBook(Book book);
+    List<Letter> findAllByBook(Book book);
     List<Letter> findAllByToUser(User user);
 }
