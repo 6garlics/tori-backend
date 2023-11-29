@@ -40,6 +40,9 @@ public class Book {
     @Column(name = "date")
     private String date;
 
+    @Column(name = "music_url")
+    private String musicUrl;
+
     @JsonIgnore
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "diary_id")
@@ -109,6 +112,7 @@ public class Book {
                 .titleY(this.bookY)
                 .date(this.date)
                 .genre(this.genre)
+                .musicUrl(this.musicUrl)
                 .coverUrl(this.cover.getUrl())
                 .pages(pages)
                 .build();

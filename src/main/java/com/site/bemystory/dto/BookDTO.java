@@ -52,6 +52,7 @@ public class BookDTO {
         private String genre;
         private String coverUrl;
         private String date;
+        private String musicUrl;
         private List<Page> pages;
 
         public Book toBook(){
@@ -61,6 +62,7 @@ public class BookDTO {
                     .bookX(titleX)
                     .bookY(titleY)
                     .date(date)
+                    .musicUrl(this.musicUrl)
                     .build();
         }
     }

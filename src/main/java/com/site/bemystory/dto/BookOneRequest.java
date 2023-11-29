@@ -16,6 +16,7 @@ public class BookOneRequest {
     private int titleY;
     private String date;
     private String genre;
+    private String musicUrl;
     private String coverUrl;
     private List<Page> pages;
 
