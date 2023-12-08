@@ -1,30 +1,24 @@
 # 토리-Backend
-***
 세상에 없던 나만의 동화책, 토리의 백엔드 개발 레포지토리입니다.</br>
 > 이화여자대학교 2023 캡스톤디자인과창업프로젝트</br> 
 > 개발기간: 2023.06.09 - 2023.12
 ### 배포 주소
-***
 > 개발 버전: https://tori-fairytale.vercel.app/ </br>
 > 백엔드: www.bemystory.store
 
 ## 시스템
-***
 ![img.png](img.png)
 > web server와 Amazon RDS, Amazon S3를 맡아 개발 진행
 ### 데이터베이스
-***
 AWS RDS의 MariaDB
 </br>
 ### Open sources
-***
 - Spring Framework
 - Redis
 - MariaDB
 - nginx
 
 ## 시작 가이드
-***
 ### Requirements
 For building and running the application you need:
 - AWS EC2 배포
