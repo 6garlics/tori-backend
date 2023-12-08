@@ -2,21 +2,33 @@
 세상에 없던 나만의 동화책, 토리의 백엔드 개발 레포지토리입니다.</br>
 > 이화여자대학교 2023 캡스톤디자인과창업프로젝트</br> 
 > 개발기간: 2023.06.09 - 2023.12
+
+</br>
+
 ### 배포 주소
 > 개발 버전: https://tori-fairytale.vercel.app/ </br>
 > 백엔드: www.bemystory.store
 
+</br>
+
 ## 시스템
 ![img.png](img.png)
 > web server와 Amazon RDS, Amazon S3를 맡아 개발 진행
+
+</br>
+
 ### 데이터베이스
 AWS RDS의 MariaDB
+
 </br>
+
 ### Open sources
 - Spring Framework
 - Redis
 - MariaDB
 - nginx
+
+</br>
 
 ## 시작 가이드
 ### Requirements
@@ -27,7 +39,9 @@ For building and running the application you need:
     ```
     $ cd /
     $ mkdir deploy
+    $ vi application.yml
     ```
+  - `application.yml` 파일에 database, jpa, redis, s3, jwt 설정
   - nginx 설치
     - [certbot으로 ssl 적용](https://z1-colab.tistory.com/entry/Nginx-Amazon-Linux-Certbot%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-https-%EC%9D%B8%EC%A6%9D%EB%B0%9B%EA%B8%B0)
   - deploy.sh 스크립트를 통해 clone repository 및 빌드
@@ -77,3 +91,12 @@ For building and running the application you need:
     nohup java -jar *-SNAPSHOT.jar > /deploy/nohup.out 2>&1 &
     ```
 
+## About Code
+`/controller` : Presentation Layer </br>
+`/service` : Application Layer </br>
+`/repository` :  Data Access Layer </br>
+`/config` : 환경 설정 </br>
+`/domain` : Entities of Database </br>
+`/dto` : Data Transfer Object </br>
+`/exception` : 예외처리 </br>
+`/utils` : JWT utilization </br>
